@@ -1,0 +1,63 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %} {% endblock %}</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static',filename='favicon.ico')}}">
+    <!-- CSS
+  ============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/vendor/bootstrap.min.css')}}">
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/vendor/material-design-iconic-font.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/vendor/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/vendor/themify-icons.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/vendor/cryptocurrency-icons.css')}}">
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/plugins/plugins.css')}}">
+    <!-- Helper CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/helper.css')}}">
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="{{url_for('static',filename='assets/css/style.css')}}">
+
+    {% block headstyles %} {% endblock %}
+
+  </head>
+
+  <body class="skin-dark">
+    <main>
+      <div class="main-wrapper">
+            {% include 'includes/header_admin.html' %}
+            {% include 'includes/sidebar_admin.html' %}
+                <!-- Content Body Start -->
+                <div class="content-body">
+                    {% block main %}{% endblock %}
+                </div><!-- Content Body End -->
+            {% block footer %}
+              {% include 'includes/footer_admin.html' %}
+            {% endblock %}
+        </div>
+     </main>
+     <!-- JS
+ ============================================ -->
+     <!-- Global Vendor, plugins & Activation JS -->
+     <script src="{{url_for('static',filename='assets/js/vendor/modernizr-3.6.0.min.js')}}"></script>
+     <script src="{{url_for('static',filename='assets/js/vendor/jquery-3.3.1.min.js')}}"></script>
+     <script src="{{url_for('static',filename='assets/js/vendor/popper.min.js')}}"></script>
+     <script src="{{url_for('static',filename='assets/js/vendor/bootstrap.min.js')}}"></script>
+     <!--Plugins JS-->
+     <script src="{{url_for('static',filename='assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
+     <script src="{{url_for('static',filename='assets/js/plugins/tippy4.min.js.js')}}"></script>
+     <!--Main JS-->
+     <script src="{{url_for('static',filename='assets/js/main.js')}}"></script>
+
+    {% block bodyscripts %} {% endblock %}
+    </body>
+</html>

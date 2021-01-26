@@ -1,0 +1,257 @@
+{% extends "layouts/base_admin.html" %}
+    <!-- CSS
+	============================================ -->
+  {% block title %}{{title}} - {{ current_user.store.store_name }}{% endblock %}
+
+    {% block headstyles %} {% endblock %}
+
+    {% block main %}
+    <!-- Page Headings Start -->
+    <div class="row justify-content-between align-items-center mb-10">
+
+      <!-- Page Heading Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-heading">
+              <h3>Dashboard <span>/ {{ current_user.store.store_name }}</span></h3>
+          </div>
+      </div><!-- Page Heading End -->
+
+      <!-- Page Button Group Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-date-range">
+              <input type="text" class="form-control input-date-predefined">
+          </div>
+      </div><!-- Page Button Group End -->
+
+    </div><!-- Page Headings End -->
+      <!-- Alert message start -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category , message in messages%}
+          <div class="alert alert-outline-{{ category }}" role="alert">
+                          {{ message }}
+                          <button class="close" data-dismiss="alert"><i class="zmdi zmdi-close"></i></button>
+            </div>
+            {% endfor %}
+          {% endif %}
+      {% endwith %}
+        <!-- Alert message end -->
+
+            <!-- Add or Edit Product Start -->
+          <div class="add-edit-product-wrap col-12">
+
+              <div class="add-edit-product-form">
+                  <form action="{{ url_for('admin.add_products') }}" enctype="multipart/form-data" id="product-form" method="post">
+                    {{ form.hidden_tag() }}
+                      <h4 class="title">Supplier Dealing - Gold Given</h4>
+
+                      <div class="row">
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.weight.label(class='control-label') }}
+                            {% if form.weight.errors %}
+                              {{ form.weight(class='form-control danger') }}
+                                {% for error in form.weight.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.weight(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.supplier_id.label(class='control-label') }}
+                            {% if form.supplier_id.errors %}
+                              {{ form.supplier_id(class='form-control danger') }}
+                                {% for error in form.supplier_id.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.supplier_id(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.care_of_id.label(class='control-label') }}
+                            {% if form.care_of_id.errors %}
+                              {{ form.care_of_id(class='form-control danger') }}
+                                {% for error in form.care_of_id.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.care_of_id(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-12 mb-30">
+                            {{ form.desc.label(class='control-label') }}
+                            {% if form.desc.errors %}
+                              {{ form.desc(class='form-control danger') }}
+                                {% for error in form.desc.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.desc(class='form-control') }}
+                            {% endif %}
+                          </div>
+                      </div>
+
+                      <!-- Button Group Start -->
+                      <div class="row">
+                          <div class="d-flex flex-wrap justify-content-end col mbn-10">
+                              <button class="button button-outline button-primary mb-10 ml-10 mr-0">Save & Publish</button>
+                              <button class="button button-outline button-info mb-10 ml-10 mr-0">Save to Draft</button>
+                              <button class="button button-outline button-danger mb-10 ml-10 mr-0">Delete Product</button>
+                          </div>
+                      </div><!-- Button Group End -->
+
+                  </form>
+              </div>
+
+          </div><!-- Add or Edit Product End -->
+
+    {% endblock %}
+    {% block bodyscripts %}
+    <!-- Plugins & Activation JS For Only This Page -->
+    <script src="{{url_for('static',filename='assets/js/plugins/nice-select/jquery.nice-select.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/nice-select/niceSelect.active.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond-plugin-image-preview.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond-plugin-file-encode.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond.active.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.active.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/toastr/toastr.min.js')}}"></script>
+    <script>
+        //$('#resetButton').click(function () {
+          //    console.log('Reset clicked!')
+
+      //  })
+        $('#confirmDialogue').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var cid = button.data('integeration') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            //modal.find('.modal-title').text('New message to ' + recipient)
+            //modal.find('.modal-body input').val(recipient)
+            modal.find('#delete_form').attr("action","{{ url_for('admin.gold_rate') }}?id=" + cid + "&method=delete")
+        })
+        function invalidDataToast(){
+          toastr['error']('Cannot connect to server. Please make sure you are connected to internet', 'Invalid request')
+        }
+        //var table = $('#category_table').DataTable()
+        //$('#category_table tbody').on('click','tr', function(){ console.log(table.row(this).data())})
+        let _ctx = ''
+        function cl_rt(){
+          let weight = parseFloat($('#weight').val())
+          let ratti = parseFloat($('#ratti').val())
+          if (weight !== 0 && weight && ratti !== 0 && ratti) {
+             if ($('#ratti_method').val()) {
+               let v = eval(_ctx)
+              $('#pure_weight').val(v.toFixed(3))
+            } else {
+              toastr['error']('Please select a ratti method first.', 'Error')
+              }
+            }
+        }
+        function cl_tw(){
+          var weight = parseFloat($('#weight').val())
+          var waste = parseFloat($('#waste').val())
+          if (weight !== 0 && weight) {
+             if (waste !== 0 && waste) {
+               let gm_weight = (weight * waste / 100)
+               let t_w = gm_weight + weight
+               if (t_w) {
+                 $('#total_weight').val(t_w.toFixed(3))
+               }
+               if (gm_weight) {
+                 $('#gm_weight').text('Gm waste: ' + gm_weight.toFixed(3))
+               } else {
+                 $('#gm_weight').text('')
+               }
+             } else {
+              $('#total_weight').val(weight.toFixed(3))
+
+             }
+          }
+        }
+        $('#weight,#ratti').keyup(function (e) {
+          try {
+            cl_rt()
+          } catch (e) {
+            console.log(e)
+          }
+        })
+        $('#weight,#waste').keyup(function(e){
+          try {
+            cl_tw()
+          } catch (e) {
+            console.log(e)
+          }
+        })
+        $('#category').change(function (e){
+          var v = e.currentTarget.value
+
+          if (!$('#category').val()) {
+            return;
+          }
+          fetch("{{ url_for('admin.get_code', _external=True) }}",{
+            credentials : 'include',
+            method : 'POST',
+            headers : {
+              'content-Type': 'application/json'
+            },
+            body: JSON.stringify({'cat_id': v})
+          })
+          .then(resp => Promise.all([resp.ok ,resp.json()]))
+          .then(([status, data]) => {
+            if (status) {
+              $('#product_code').val(data['code'])
+            }else {
+               toastr['error'](data['message'], 'Error')
+            }
+          })
+          .catch(e => invalidDataToast())
+        })
+        $('#ratti_method').change(function (e){
+          var v = e.currentTarget.value
+          fetch("{{ url_for('admin.get_formula', _external=True) }}",{
+            credentials: 'include',
+            method : 'POST',
+            headers: {
+              'content-Type': 'application/json'
+            }, // headers
+            body: JSON.stringify({'method_id': v})
+          })
+          .then(resp => Promise.all([resp.ok, resp.json()]))
+          .then(([status,data]) => {
+            if (status) {
+            _ctx = (data['formula'])
+              cl_rt()
+            } else {
+              toastr['error'](data['message'], 'Error')
+            }
+          })
+          .catch(e => invalidDataToast())
+        })
+        $('#product-form').submit(function (e){
+          e.preventDefault()
+          let form = $('#product-form')[0]
+          let data = new FormData(form)
+          fetch("{{ url_for('admin.add_products', _external=True) }}",{
+            credentials: 'include',
+            method : 'POST',
+            body: data
+          })
+          .then(resp => Promise.all([resp.ok, resp.json()]))
+          .then(([status,data]) => {
+            if (status) {
+            toastr['success'](data['message'], 'Error')
+            $('#weight').focus()
+            } else {
+              toastr['error'](data['message'], 'Error')
+            }
+          })
+          .catch(e => invalidDataToast())
+        })
+        toastr.clear()
+    </script>
+    {% endblock %}

@@ -1,0 +1,152 @@
+{% extends "layouts/base_admin.html" %}
+    <!-- CSS
+	============================================ -->
+  {% block title %}{{title}} - {{ current_user.store.store_name }}{% endblock %}
+
+    {% block headstyles %} {% endblock %}
+
+    {% block main %}
+    <!-- Page Headings Start -->
+    <div class="row justify-content-between align-items-center mb-10">
+
+      <!-- Page Heading Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-heading">
+              <h3>Dashboard <span>/ {{ current_user.store.store_name }}</span></h3>
+          </div>
+      </div><!-- Page Heading End -->
+
+      <!-- Page Button Group Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-date-range">
+              <input type="text" class="form-control input-date-predefined">
+          </div>
+      </div><!-- Page Button Group End -->
+
+    </div><!-- Page Headings End -->
+      <!-- Alert message start -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category , message in messages%}
+          <div class="alert alert-outline-{{ category }}" role="alert">
+                          {{ message }}
+                          <button class="close" data-dismiss="alert"><i class="zmdi zmdi-close"></i></button>
+            </div>
+            {% endfor %}
+          {% endif %}
+      {% endwith %}
+        <!-- Alert message end -->
+        <div class="row">
+
+              <!--Default Data Table Start 8-->
+              <div class="col-12 mb-50">
+                    <div class="box">
+                      <div class="box-head">
+                          <h3 class="title">{{ title }}</h3>
+                      </div>
+                      <div class="box-body">
+                          <table id="category_table" class="table table-vertical-middle data-table data-table-default">
+                              <thead>
+                                  <tr>
+                                      <th>Serial</th>
+                                      <th>Code</th>
+                                      <th>Weight</th>
+                                      <th>Ratti</th>
+                                      <th>Supplier</th>
+                                      <th>Description</th>
+                                      <th>Qty</th>
+                                      <th>Data</th>
+                                      <th>Status</th>
+                                      <th>Actions</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              {% for p in products %}
+                                  <tr>
+                                      <td>{{ loop.index }}</td>
+                                      <td>{{ p.product_code }}</td>
+                                      <td>{{ p.weight }}</td>
+                                      <td>{{ p.ratti }}</td>
+                                      <td>{{ p.supplier.username }}</td>
+                                      <td>{{ p.description }}</td>
+                                      <td>{{ p.qty }}</td>
+                                      <td>{{ p.created_date.strftime('%d %b %Y') }}</td>
+                                      <td><span class="badge badge-{{'success' if p.published else 'danger'}}">{{'Published' if p.published else 'Drafted'}}</span></td>
+                                      <td>
+                                          <div class="table-action-buttons">
+                                                    <a class="view button button-box button-xs button-primary" href="#"><i class="zmdi zmdi-more"></i></a>
+                                                    <a class="edit button button-box button-xs button-info" href="{{url_for('admin.view_products',id=p.uuid)}}"><i class="zmdi zmdi-edit"></i></a>
+                                                    <a class="delete button button-box button-xs button-danger" data-toggle="modal" data-target="#confirmDialogue" data-integeration='{{ p.uuid }}' href="#"><i class="zmdi zmdi-delete"></i></a>
+                                           </div>
+                                       </td>
+                                    </tr>
+                                {% endfor %}
+                              </tbody>
+                              <tfoot>
+                                  <tr>
+                                    <th>Serial</th>
+                                    <th>Code</th>
+                                    <th>Weight</th>
+                                    <th>Ratti</th>
+                                    <th>Supplier</th>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                    <th>Data</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                  </tr>
+                              </tfoot>
+                          </table>
+                          <!-- Modal -->
+                          <div class="modal fade" id="confirmDialogue">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title">Delete category</h5>
+                                          <button class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <p>Are you sure you want delete this category?.</p>
+                                          <input type="hidden" name="id" id="delete_input">
+                                      </div>
+                                      <div class="modal-footer">
+
+                                          <form id="delete_form" action="index.html" method="post">
+                                              <button class="button button-primary" data-dismiss="modal">Close</button>
+                                              <input type="submit" name="submit" value="Delete" class="button button-danger">
+                                          </form>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              <!--Default Data Table End 8-->
+
+            </div>
+    {% endblock %}
+    {% block bodyscripts %}
+    <!-- Plugins & Activation JS For Only This Page -->
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.active.js')}}"></script>
+    <script>
+        //$('#resetButton').click(function () {
+          //    console.log('Reset clicked!')
+
+      //  })
+        $('#confirmDialogue').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var cid = button.data('integeration') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            //modal.find('.modal-title').text('New message to ' + recipient)
+            //modal.find('.modal-body input').val(recipient)
+            modal.find('#delete_form').attr("action","{{ url_for('admin.view_products') }}?id=" + cid + "&method=delete")
+        })
+        //var table = $('#category_table').DataTable()
+        //$('#category_table tbody').on('click','tr', function(){ console.log(table.row(this).data())})
+    </script>
+    {% endblock %}

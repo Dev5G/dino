@@ -1,0 +1,375 @@
+{% extends "layouts/base_admin.html" %}
+    <!-- CSS
+	============================================ -->
+  {% block title %}{{title}} :: {{ current_user.store.store_name }}{% endblock %}
+
+    {% block headstyles %} {% endblock %}
+
+    {% block main %}
+    <!-- Page Headings Start -->
+    <div class="row justify-content-between align-items-center mb-10">
+
+      <!-- Page Heading Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-heading">
+              <h3>Dashboard <span>/ {{ current_user.store.store_name }}</span></h3>
+          </div>
+      </div><!-- Page Heading End -->
+
+      <!-- Page Button Group Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-date-range">
+              <input type="text" class="form-control input-date-predefined">
+          </div>
+      </div><!-- Page Button Group End -->
+
+    </div><!-- Page Headings End -->
+      <!-- Alert message start -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category , message in messages%}
+          <div class="alert alert-outline-{{ category }}" role="alert">
+                          {{ message }}
+                          <button class="close" data-dismiss="alert"><i class="zmdi zmdi-close"></i></button>
+            </div>
+            {% endfor %}
+          {% endif %}
+      {% endwith %}
+        <!-- Alert message end -->
+
+            <!-- Add or Edit Product Start -->
+          <div class="add-edit-product-wrap col-12">
+
+              <div class="add-edit-product-form">
+                  <form action="{{ url_for('admin.add_products') }}" enctype="multipart/form-data" id="product-form" method="post">
+                    {{ form.hidden_tag() }}
+                      <h4 class="title">About Product</h4>
+
+                      <div class="row">
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.category.label(class='control-label') }}
+                            {% if form.category.errors %}
+                              {{ form.category(class='form-control danger') }}
+                                {% for error in form.category.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.category(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.carat.label(class='control-label') }}
+                            {% if form.carat.errors %}
+                              {{ form.carat(class='form-control danger') }}
+                                {% for error in form.carat.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.carat(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.supplier.label(class='control-label') }}
+                            {% if form.supplier.errors %}
+                              {{ form.supplier(class='form-control danger') }}
+                                {% for error in form.supplier.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.supplier(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.metal.label(class='control-label') }}
+                            {% if form.metal.errors %}
+                              {{ form.metal(class='form-control danger') }}
+                                {% for error in form.carat.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.metal(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-6 col-12 mr-80 mb-30">
+                            {{ form.ratti_method.label(class='control-label') }}
+                            {% if form.ratti_method.errors %}
+                              {{ form.ratti_method(class='form-control danger') }}
+                                {% for error in form.ratti_method.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.ratti_method(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-6 col-12 mb-30">
+                            {{ form.product_code.label(class='control-label') }}
+                            {% if form.product_code.errors %}
+                              {{ form.product_code(class='form-control danger') }}
+                                {% for error in form.product_code.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.product_code(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-12 mb-30">
+                            {{ form.desc.label(class='control-label') }}
+                            {% if form.desc.errors %}
+                              {{ form.desc(class='form-control danger') }}
+                                {% for error in form.desc.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.desc(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.weight.label(class='control-label') }}
+                            {% if form.weight.errors %}
+                              {{ form.weight(class='form-control danger') }}
+                                {% for error in form.weight.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.weight(class='form-control') }}
+                                <span class="form-help-text" id="gm_weight"></span>
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.waste.label(class='control-label') }}
+                            {% if form.waste.errors %}
+                              {{ form.waste(class='form-control danger') }}
+                                {% for error in form.waste.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.waste(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.ratti.label(class='control-label') }}
+                            {% if form.ratti.errors %}
+                              {{ form.ratti(class='form-control danger') }}
+                                {% for error in form.ratti.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.ratti(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.total_weight.label(class='control-label') }}
+                            {% if form.total_weight.errors %}
+                              {{ form.total_weight(class='form-control danger') }}
+                                {% for error in form.total_weight.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.total_weight(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.pure_weight.label(class='control-label') }}
+                            {% if form.pure_weight.errors %}
+                              {{ form.pure_weight(class='form-control danger') }}
+                                {% for error in form.pure_weight.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.pure_weight(class='form-control') }}
+                            {% endif %}
+                          </div>
+                      </div>
+
+                      <h4 class="title">Product Gallery</h4>
+
+                      <div class="product-upload-gallery row flex-wrap">
+                          <div class="col-12 mb-30">
+                              <p class="form-help-text mt-0">Upload Maximum 800 x 800 px & Max size 2mb.</p>
+                              {{ form.images(class='form-control') }}
+                              {% if form.images.errors %}
+                                  {% for error in form.images.errors %}
+                                        <span class="form-help-text">{{ error }} </span>
+                                  {% endfor %}
+                              {% endif %}
+                          </div>
+                      </div>
+
+                      <h4 class="title">Weight Information</h4>
+
+                      <div class="row">
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.design_no.label(class='control-label') }}
+                            {% if form.design_no.errors %}
+                              {{ form.design_no(class='form-control danger') }}
+                                {% for error in form.design_no.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.design_no(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.size.label(class='control-label') }}
+                            {% if form.size.errors %}
+                              {{ form.size(class='form-control danger') }}
+                                {% for error in form.size.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.size(class='form-control') }}
+                            {% endif %}
+                          </div>
+                          <div class="col-lg-4 col-12 mb-30">
+                            {{ form.qty.label(class='control-label') }}
+                            {% if form.qty.errors %}
+                              {{ form.qty(class='form-control danger') }}
+                                {% for error in form.qty.errors %}
+                                      <span class="form-help-text">{{ error }} </span>
+                                {% endfor %}
+                            {% else %}
+                                {{ form.qty(class='form-control') }}
+                            {% endif %}
+                          </div>
+                      </div>
+
+                      <!-- Button Group Start -->
+                      <div class="row">
+                          <div class="d-flex flex-wrap justify-content-end col mbn-10">
+                              <button class="button button-outline button-primary mb-10 ml-10 mr-0">Save & Publish</button>
+                              <button class="button button-outline button-info mb-10 ml-10 mr-0">Save to Draft</button>
+                              <button class="button button-outline button-danger mb-10 ml-10 mr-0">Delete Product</button>
+                          </div>
+                      </div><!-- Button Group End -->
+
+                  </form>
+              </div>
+
+          </div><!-- Add or Edit Product End -->
+
+    {% endblock %}
+    {% block bodyscripts %}
+    <!-- Plugins & Activation JS For Only This Page -->
+    <script src="{{url_for('static',filename='assets/js/plugins/nice-select/jquery.nice-select.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/nice-select/niceSelect.active.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond-plugin-image-exif-orientation.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond-plugin-image-preview.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond-plugin-file-encode.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/filepond/filepond.active.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.active.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/toastr/toastr.min.js')}}"></script>
+    <script>
+        //$('#resetButton').click(function () {
+          //    console.log('Reset clicked!')
+
+      //  })
+        $('#confirmDialogue').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var cid = button.data('integeration') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            //modal.find('.modal-title').text('New message to ' + recipient)
+            //modal.find('.modal-body input').val(recipient)
+            modal.find('#delete_form').attr("action","{{ url_for('admin.gold_rate') }}?id=" + cid + "&method=delete")
+        })
+        function invalidDataToast(){
+          toastr['error']('Cannot connect to server. Please make sure you are connected to internet', 'Invalid request')
+        }
+        //var table = $('#category_table').DataTable()
+        //$('#category_table tbody').on('click','tr', function(){ console.log(table.row(this).data())})
+        let _ctx = ''
+        function cl_rt(){
+          let weight = parseFloat($('#weight').val())
+          let ratti = parseFloat($('#ratti').val())
+          if (weight !== 0 && weight && ratti !== 0 && ratti) {
+             if ($('#ratti_method').val()) {
+               let v = eval(_ctx)
+              $('#pure_weight').val(v.toFixed(3))
+            } else {
+              toastr['error']('Please select a ratti method first.', 'Error')
+              }
+            }
+        }
+        function cl_tw(){
+          var weight = parseFloat($('#weight').val())
+          var waste = parseFloat($('#waste').val())
+          if (weight !== 0 && weight) {
+             if (waste !== 0 && waste) {
+               var gm_weight = (weight * waste / 100)
+               var t_w = gm_weight + weight
+               if (t_w) {
+                 $('#total_weight').val(t_w.toFixed(3))
+               }
+               if (gm_weight) {
+                 $('#gm_weight').text('Gm waste: ' + gm_weight.toFixed(3))
+               } else {
+                 $('#gm_weight').text('')
+               }
+             } else {
+              $('#total_weight').val(weight.toFixed(3))
+
+             }
+          }
+        }
+        $('#weight,#ratti').keyup(function (e) {
+          try {
+            cl_rt()
+          } catch (e) {
+            console.log(e)
+          }
+        })
+        $('#weight,#waste').keyup(function(e){
+          try {
+            cl_tw()
+          } catch (e) {
+            console.log(e)
+          }
+        })
+
+        $('#ratti_method').change(function (e){
+          var v = e.currentTarget.value
+          fetch("{{ url_for('admin.get_formula', _external=True) }}",{
+            credentials: 'include',
+            method : 'POST',
+            headers: {
+              'content-Type': 'application/json'
+            }, // headers
+            body: JSON.stringify({'method_id': v})
+          })
+          .then(resp => Promise.all([resp.ok, resp.json()]))
+          .then(([status,data]) => {
+            if (status) {
+            _ctx = (data['formula'])
+              cl_rt()
+            } else {
+              toastr['error'](data['message'], 'Error')
+            }
+          })
+          .catch(e => invalidDataToast())
+        })
+        $('#product-form').submit(function (e){
+          e.preventDefault()
+          let form = $('#product-form')[0]
+          let data = new FormData(form)
+          fetch("{{ url_for('admin.add_products', _external=True) }}",{
+            credentials: 'include',
+            method : 'POST',
+            body: data
+          })
+          .then(resp => Promise.all([resp.ok, resp.json()]))
+          .then(([status,data]) => {
+            if (status) {
+            toastr['success'](data['message'], 'Error')
+            $('#weight').focus()
+            } else {
+              toastr['error'](data['message'], 'Error')
+            }
+          })
+          .catch(e => invalidDataToast())
+        })
+        toastr.clear()
+    </script>
+    {% endblock %}

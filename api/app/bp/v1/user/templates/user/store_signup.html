@@ -1,0 +1,61 @@
+{% extends 'layouts/base_alt.html' %}
+{% block title %} {{title}} {% endblock %}
+{% block main %}
+
+<!-- section -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <form method="post" action="{{ url_for('user.store_signup') }}" id="login-form" class="clearfix">
+        <div class="col-md-6">
+          <div class="account-details">
+            <div class="section-title">
+              <h3 class="title">{{ title }}</h3>
+            </div>
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+              {{ form.store_name(placeholder='Store name*', class='input')}}
+            </div>
+            <div class="form-group">
+              {{ form.email(placeholder='Email*', class='input')}}
+            </div>
+            <div class="form-group">
+              {{ form.phone(placeholder='Phone*', class='input')}}
+            </div>
+            <div class="form-group">
+              {{ form.address(placeholder='address', class='input')}}
+            </div>
+            <div class="form-group">
+              {{ form.country(placeholder='Country', class='input')}}
+            </div>
+            <div class="form-group">
+              {{ form.city(placeholder='City', class='input') }}
+            </div>
+            <div class="form-group">
+              {{ form.bio(placeholder='Enter your store bio, and let others know what your business provides', class='input') }}
+            </div>
+            <div class="form-group">
+              {{ form.submit(class='primary-btn')}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="updates-info">
+            <div class="section-title">
+              <h4 class="title">News Updates</h4>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /section -->
+{% endblock main %}

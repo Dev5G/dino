@@ -1,0 +1,123 @@
+<!-- Side Header Start -->
+
+<div class="side-header show">
+    <button class="side-header-close"><i class="zmdi zmdi-close"></i></button>
+    <!-- Side Header Inner Start -->
+    <div class="side-header-inner custom-scroll">
+
+        <nav class="side-header-menu" id="side-header-menu">
+            <ul>
+              <!--
+                <li class="has-sub-menu"><a href="#"><i class="ti-home"></i> <span>Dashboard</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{ url_for('admin.dashboard') }}"><span>E-commerce (Default)</span></a></li>
+                        <li><a href="index-crypto.html"><span>Cryptocurrency</span></a></li>
+                    </ul>
+                </li>
+              -->
+                <li><a href="{{ url_for('admin.dashboard') }}"><i class="ti-home"></i> <span>Home</span></a></li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-package"></i> <span>Database</span></a>
+                    <ul class="side-header-sub-menu">
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.gold_rate')}}"><span>Gold rates</span></a></li>{% endif %}
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.carats')}}"><span>Carats</span></a></li>{% endif %}
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.categories')}}"><span>Categories</span></a></li>{% endif %}
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.stone_types')}}"><span>Stone types</span></a></li>{% endif %}
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.stones')}}"><span>Stones</span></a></li>{% endif %}
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.add_products')}}"><span>Add Product</span></a></li>{% endif %}
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.view_products')}}"><span>View products</span></a></li>{% endif %}
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-crown"></i> <span>Supplier Dealing</span></a>
+                    <ul class="side-header-sub-menu">
+                        {% if current_user.store.can(StorePermission.t1) %}<li><a href="{{url_for('admin.supplier_gg')}}"><span>Gold Given</span></a></li>{% endif %}
+                    </ul>
+                </li>
+
+                <li class="has-sub-menu"><a href="#"><i class="ti-stamp"></i> <span>Accounts</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="{{ url_for('admin.add_cash_account') }}"><span>Add Cash Account</span></a></li>
+                    </ul>
+                </li>
+                  <!--
+                <li class="has-sub-menu"><a href="#"><i class="ti-notepad"></i> <span>Forms</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="form-basic-elements.html"><span>Basic Elements</span></a></li>
+                        <li><a href="form-checkbox.html"><span>Checkbox</span></a></li>
+                        <li><a href="form-date-mask.html"><span>Date & Mask</span></a></li>
+                        <li><a href="form-editor.html"><span>Editor</span></a></li>
+                        <li><a href="form-file-upload.html"><span>File Upload</span></a></li>
+                        <li><a href="form-layout.html"><span>Layout</span></a></li>
+                        <li><a href="form-radio.html"><span>Radio</span></a></li>
+                        <li><a href="form-range-slider.html"><span>Range Slider</span></a></li>
+                        <li><a href="form-selects.html"><span>Selects</span></a></li>
+                        <li><a href="form-switchers.html"><span>Switchers</span></a></li>
+                        <li><a href="form-wizard.html"><span>Wizard</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-layout"></i> <span>Table</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="table-basic.html"><span>Basic</span></a></li>
+                        <li><a href="table-data-table.html"><span>Data Table</span></a></li>
+                        <li><a href="table-footable.html"><span>Footable</span></a></li>
+                        <li><a href="table-jsgrid.html"><span>Jsgrid</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-pie-chart"></i> <span>Charts</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="chart-chartjs.html"><span>ChartJs</span></a></li>
+                        <li><a href="chart-echarts.html"><span>Echarts</span></a></li>
+                        <li><a href="chart-google.html"><span>Google Chart</span></a></li>
+                        <li><a href="chart-morris.html"><span>Morris  Chart</span></a></li>
+                        <li><a href="chart-sparkline.html"><span>Sparkline  Chart</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-map"></i> <span>Maps</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="map-vector.html"><span>Vector Map</span></a></li>
+                        <li><a href="map-google.html"><span>Google Map</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-shopping-cart"></i> <span>E-commerce</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="add-product.html"><span>Add Product</span></a></li>
+                        <li><a href="edit-product.html"><span>Edit Product</span></a></li>
+                        <li><a href="invoice-list.html"><span>Invoice List</span></a></li>
+                        <li><a href="invoice-details.html"><span>Invoice Details</span></a></li>
+                        <li><a href="order-list.html"><span>Order List</span></a></li>
+                        <li><a href="order-details.html"><span>Order Details</span></a></li>
+                        <li><a href="manage-products.html"><span>Manage Products</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-gift"></i> <span>Apps</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="chat.html"><span>Chat</span></a></li>
+                        <li><a href="mail.html"><span>Mail</span></a></li>
+                        <li><a href="single-mail.html"><span>Single Mail</span></a></li>
+                        <li><a href="todo-list.html"><span>Todo List</span></a></li>
+                    </ul>
+                </li>
+                <li class="has-sub-menu"><a href="#"><i class="ti-lock"></i> <span>Authentication</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="login.html"><span>login</span></a></li>
+                        <li><a href="register.html"><span>register</span></a></li>
+                        <li><a href="author-profile.html"><span>Profile</span></a></li>
+                    </ul>
+                </li>
+              -->
+                <li class="has-sub-menu"><a href="#"><i class="ti-settings"></i> <span>Settings</span></a>
+                    <ul class="side-header-sub-menu">
+                        <li><a href="#"><span>Users</span></a></li>
+                        <!--
+                        <li><a href="timeline.html"><span>Timeline</span></a></li>
+                        <li><a href="pricing.html"><span>Pricing</span></a></li>
+                        <li><a href="error-1.html"><span>error-1</span></a></li>
+                        <li><a href="error-2.html"><span>error-2</span></a></li>
+                      -->
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+
+    </div><!-- Side Header Inner End -->
+</div><!-- Side Header End -->

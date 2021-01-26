@@ -1,0 +1,25 @@
+{% extends 'layouts/base_alt.html' %}
+{% block title %} {{ title }} {% endblock %}
+{% block main %}
+<!-- section -->
+<section class="singal-page section">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+						<!-- Error Inner -->
+						<div class="singal-inner">
+							<h1>Hello {{ current_user.username if current_user.username else 'Stranger' }}</h1>
+              <h3>You have not confirmed your account yet.</h3>
+							<p>You need to confirm your account before proceeding.<br>Check your email inbox for a confirmation link.</p>
+
+              <p>Token expired? <a href="{{url_for('auth.resend_confirmation')}}" >Click here</a></p>
+						</div>
+						<!--/ End Error Inner -->
+					</div>
+				</div>
+        <!-- /row -->
+			</div>
+      <!-- /container -->
+</section>
+<!-- /section -->
+{% endblock main %}

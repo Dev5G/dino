@@ -1,0 +1,56 @@
+{% extends 'layouts/base_alt.html' %}
+
+{% block main %}
+
+<!-- section -->
+<div class="section">
+  <!-- container -->
+  <div class="container">
+    <!-- row -->
+    <div class="row">
+      <form  method="post" action="{{ url_for('auth.login') }}" id="login-form" class="clearfix">
+        <div class="col-md-6">
+          <div class="account-details">
+            <p>Don't have an account ? <a href="{{ url_for('auth.register') }}">Register</a></p>
+            <div class="section-title">
+              <h3 class="title">{{ title }}</h3>
+            </div>
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+              {{ form.email(placeholder='Email*', class='input')}}
+            </div>
+            <div class="form-group">
+              {{ form.password(placeholder='Password*', class='input')}}
+            </div>
+            <div class="form-group">
+              <div class="input-checkbox">
+                {{ form.remember_me }}
+                {{ form.remember_me.label(class='font-weak')}}
+                <div class="caption">
+                  <p>Your account will be logged in, the next time you visit us.</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              {{ form.submit(class='primary-btn')}}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="updates-info">
+            <div class="section-title">
+              <h4 class="title">News Updates</h4>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</div>
+<!-- /section -->
+{% endblock main %}

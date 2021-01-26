@@ -1,0 +1,195 @@
+{% extends "layouts/base_admin.html" %}
+    <!-- CSS
+	============================================ -->
+  {% block title %}{{title}} - {{ current_user.store.store_name }}{% endblock %}
+
+    {% block headstyles %} {% endblock %}
+
+    {% block main %}
+    <!-- Page Headings Start -->
+    <div class="row justify-content-between align-items-center mb-10">
+
+      <!-- Page Heading Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-heading">
+              <h3>Dashboard <span>/ {{ current_user.store.store_name }}</span></h3>
+          </div>
+      </div><!-- Page Heading End -->
+
+      <!-- Page Button Group Start -->
+      <div class="col-12 col-lg-auto mb-20">
+          <div class="page-date-range">
+              <input type="text" class="form-control input-date-predefined">
+          </div>
+      </div><!-- Page Button Group End -->
+
+    </div><!-- Page Headings End -->
+      <!-- Alert message start -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category , message in messages%}
+          <div class="alert alert-outline-{{ category }}" role="alert">
+                          {{ message }}
+                          <button class="close" data-dismiss="alert"><i class="zmdi zmdi-close"></i></button>
+            </div>
+            {% endfor %}
+          {% endif %}
+      {% endwith %}
+        <!-- Alert message end -->
+        <div class="row">
+
+              <!--Default Data Table Start 8-->
+              <div class="col-xlg-8 col-12 mb-50">
+                    <div class="box">
+                      <div class="box-head">
+                          <h3 class="title">{{ title }}</h3>
+                      </div>
+                      <div class="box-body">
+                          <table id="category_table" class="table table-vertical-middle data-table data-table-default">
+                              <thead>
+                                  <tr>
+                                      <th>Serial</th>
+                                      <th>Name</th>
+                                      <th>Abbreviation</th>
+                                      <th>Created Date</th>
+                                      <th>Status</th>
+                                      <th>Action</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              {% for cat in categories %}
+                                  <tr>
+                                      <td>{{ loop.index }}</td>
+                                      <td>{{ cat.name }}</td>
+                                      <td>{{ cat.abr }}</td>
+                                      <td>{{ cat.created_date.strftime('%d %b %Y') }}</td>
+                                      <td><span class="badge badge-{{'success' if cat.published else 'danger'}}">{{'Published' if cat.published else 'Drafted'}}</span></td>
+                                      <td>
+                                          <div class="table-action-buttons">
+                                                    <a class="view button button-box button-xs button-primary" href="#"><i class="zmdi zmdi-more"></i></a>
+                                                    <a class="edit button button-box button-xs button-info" href="{{url_for('admin.categories',id=cat.uuid)}}"><i class="zmdi zmdi-edit"></i></a>
+                                                    <a class="delete button button-box button-xs button-danger" data-toggle="modal" data-target="#confirmDialogue" data-integeration='{{ cat.uuid }}' href="#"><i class="zmdi zmdi-delete"></i></a>
+                                           </div>
+                                       </td>
+                                    </tr>
+                                {% endfor %}
+                              </tbody>
+                              <tfoot>
+                                  <tr>
+                                      <th>Serial</th>
+                                      <th>Name</th>
+                                      <th>Abbreviation</th>
+                                      <th>Created Date</th>
+                                      <th>Status</th>
+                                      <th>Action</th>
+                                  </tr>
+                              </tfoot>
+                          </table>
+                          <!-- Modal -->
+                          <div class="modal fade" id="confirmDialogue">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title">Delete category</h5>
+                                          <button class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <p>Are you sure you want delete this category?.</p>
+                                          <input type="hidden" name="id" id="delete_input">
+                                      </div>
+                                      <div class="modal-footer">
+
+                                          <form id="delete_form" action="index.html" method="post">
+                                              <button class="button button-primary" data-dismiss="modal">Close</button>
+                                              <input type="submit" name="submit" value="Delete" class="button button-danger">
+                                          </form>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                </div>
+              <!--Default Data Table End 8-->
+
+              <div class="col-xlg-4 col-12 mb-50">
+                    <div class="row mbn-30">
+                        <!--Add/Edit Category Start-->
+                        <div class="col-xlg-12 col-lg-6 col-12 mb-30">
+                            <div class="box">
+                                <div class="box-head">
+                                    <h3 class="title">Add/Edit Category</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form">
+                                      {% if request.args.get('id')  %}
+                                        <form action="{{ url_for('admin.categories', id=request.args.get('id'), method='update') }}" method="post">
+                                      {% else %}
+                                      <form action="{{ url_for('admin.categories', method='save') }}" method="post">
+                                      {% endif %}
+                                        {{ form.hidden_tag() }}
+                                            <div class="row row-10 mbn-20">
+                                                <div class="col-12 mb-20">
+                                                  {% if form.name.errors %}
+                                                    {{ form.name(class='form-control danger',placeholder='Category*') }}
+                                                      {% for error in form.name.errors %}
+                                                            <span class="form-help-text">{{ error }} </span>
+                                                      {% endfor %}
+                                                  {% else %}
+                                                      {{ form.name(class='form-control',placeholder='Category*') }}
+                                                  {% endif %}
+                                                 </div>
+                                                 <div class="col-12 mb-20">
+                                                   {% if form.abr.errors %}
+                                                     {{ form.abr(class='form-control danger',placeholder='Abbreviation*') }}
+                                                       {% for error in form.abr.errors %}
+                                                             <span class="form-help-text">{{ error }} </span>
+                                                       {% endfor %}
+                                                   {% else %}
+                                                       {{ form.abr(class='form-control',placeholder='Abbreviation*') }}
+                                                   {% endif %}
+                                                  </div>
+                                                <div class="col-12 mb-20"><label for="published" class="adomx-checkbox success">{{ form.published }}<i class="icon"></i>Published</label></div>
+                                                <div class="col-12 mt-10 mb-20">
+                                                    {{ form.submit(class='button button-primary button-outline') }}
+                                                    <input type="reset" name="reset" value="Reset" class="button button-danger button-outline" id="resetButton">
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--Author Information End-->
+
+                    </div>
+                </div>
+
+            </div>
+    {% endblock %}
+    {% block bodyscripts %}
+    <!-- Plugins & Activation JS For Only This Page -->
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/js/plugins/datatables/datatables.active.js')}}"></script>
+    <script>
+        //$('#resetButton').click(function () {
+          //    console.log('Reset clicked!')
+
+      //  })
+        $('#confirmDialogue').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var cid = button.data('integeration') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            //modal.find('.modal-title').text('New message to ' + recipient)
+            //modal.find('.modal-body input').val(recipient)
+            modal.find('#delete_form').attr("action","{{ url_for('admin.categories') }}?id=" + cid + "&method=delete")
+        })
+        //var table = $('#category_table').DataTable()
+        //$('#category_table tbody').on('click','tr', function(){ console.log(table.row(this).data())})
+    </script>
+    {% endblock %}

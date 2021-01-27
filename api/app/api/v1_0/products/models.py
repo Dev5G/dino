@@ -25,7 +25,9 @@ class Product(Base):
 	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'),nullable=False)
 
+
 	#Relationships
+	deleted_products = db.relationship('DeletedProducts', backref='product', cascade='all, delete-orphan')
 	#images  = db.relationship('ProductImages', backref='product')
 	#stones  = db.relationship('ProductStones', backref='product')
 
@@ -85,11 +87,14 @@ class Product(Base):
 		# 	print(str(e))
 		# 	raise ImportError('SalesDetails class not found! Perhaps it has been moved!')
 		"""Returns the status of the product 
-		`Sold` = 0 , `Damaged`  = 1 , `Missing` = 2 or `Available` = 3
+		`Sold` = 0 ,`Deleted` = 1, `Damaged`  = 2 , `Missing` = 3 or `Available` = 4
 		"""
 		status,_ = SalesDetails.find_by_product(id)
 		if status:
 			return 'Sold'
+		status,_ = DeletedProducts.find_by_product(id)
+		if status:
+			return 'Deleted'
 		return 'Available'
 	#@classmethod
 	#def find_by_uuid(cls, uuid):
@@ -97,7 +102,10 @@ class Product(Base):
 	#		return cls.query.filter_by(uuid=uuid).first()
 	#	except Exception as e:
 	#		return None
-
+	@classmethod
+	def delete_old_records(cls,days = 2):
+		 	pass
+		
 	@classmethod
 	def find_by_code_and_nest(cls, code,nest_id):
 		try:
@@ -142,3 +150,21 @@ class Product(Base):
 		except Exception as e:
 			print(str(e))
 			return None
+
+
+class DeletedProducts(Base):
+	__tablename__ = 'tbl_deleted_products'
+
+	product_id = db.Column(db.Integer,db.ForeignKey('tbl_products.id'),nullable=False)
+
+
+	@classmethod
+	def find_by_product(cls, id):
+		try:
+			o= cls.query.filter_by(product_id=id).first()
+			if o:
+				return True, o
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False,str(e)

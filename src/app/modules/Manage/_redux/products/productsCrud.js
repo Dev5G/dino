@@ -37,7 +37,7 @@ export function updateStatusForProducts(ids, status) {
 
 // DELETE => delete the product from the server
 export function deleteProduct(productId) {
-  return axios.delete(`${PRODUCTS_URL}/${productId}`);
+  return axios.delete(`${url}/${productId}`);
 }
 
 // DELETE Products by ids

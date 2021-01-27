@@ -1,2 +1,2 @@
 export {EssentialsMenu} from './essentialsMenu'
-export {ProductsMenu} from './produtcsMenu'
+export {ProductsMenu} from './productsMenu'

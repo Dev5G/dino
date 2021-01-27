@@ -11,6 +11,8 @@ export const ActionsColumnFormatter = (
   { openEditProductPage, openDeleteProductDialog }
 ) => (
   <>
+  {row.status !== "Deleted" && (
+    <>
     <OverlayTrigger
       overlay={<Tooltip id="products-edit-tooltip">Edit product</Tooltip>}
     >
@@ -26,12 +28,12 @@ export const ActionsColumnFormatter = (
       </a>
     </OverlayTrigger>
 
-    <> </>
-    <OverlayTrigger
+      <OverlayTrigger
       overlay={<Tooltip id="products-delete-tooltip">Delete product</Tooltip>}
     >
       <a
         className="btn btn-icon btn-light btn-hover-danger btn-sm"
+        aria-disabled={true}
         onClick={() => openDeleteProductDialog(row.id)}
       >
         <span className="svg-icon svg-icon-md svg-icon-danger">
@@ -39,5 +41,7 @@ export const ActionsColumnFormatter = (
         </span>
       </a>
     </OverlayTrigger>
+    </>
+    )}
   </>
 );

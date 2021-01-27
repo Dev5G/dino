@@ -1,5 +1,5 @@
-export const ProductStatusCssClasses = ["info", "", "", "success"];
-export const ProductStatusTitles = ["Sold", "Damaged", "Missing", "Available"];
+export const ProductStatusCssClasses = ["info", "","", "", "success"];
+export const ProductStatusTitles = ["Sold", "Deleted","Damaged", "Missing", "Available"];
 export const ProductConditionCssClasses = ["success", "danger", ""];
 export const ProductConditionTitles = ["New", "Used"];
 export const defaultSorted = [{ dataField: "id", order: "desc" }];

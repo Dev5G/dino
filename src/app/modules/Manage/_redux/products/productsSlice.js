@@ -83,6 +83,20 @@ export const productsSlice = createSlice({
         productDeleted: (state, action) => {
             state.error = null;
             state.actionsLoading = false;
+            const { id, status } = action.payload;
+            console.log(status)
+            state.entities = state.entities.map(entity => {
+                if (entity.id === id) {
+                    entity.status= status;
+                }
+                return entity;
+            });
+            state.products = state.products.map(entity => {
+                if (entity.id === id) {
+                    entity.status= status;
+                }
+                return entity;
+            });
             state.entities = state.entities.filter(el => el.id !== action.payload.id);
             state.products = state.products.filter(el => el.id !== action.payload.id);
         },

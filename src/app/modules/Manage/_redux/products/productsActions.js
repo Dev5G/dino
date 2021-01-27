@@ -62,7 +62,7 @@ export const deleteProduct = id => dispatch => {
     return requestFromServer
         .deleteProduct(id)
         .then(response => {
-            dispatch(actions.productDeleted({ id }));
+            dispatch(actions.productDeleted({ id,status:'Deleted' }));
         })
         .catch(error => {
             error.clientMessage = "Can't delete product";

@@ -1,9 +1,11 @@
 from ..user.provider import Provider as User
-from .models import Product
+from .models import Product, DeletedProducts
 from ....utils import jsonList
 class Provider():
+	
+
 	@staticmethod
-	def find_product_by_code(identity,code):
+	def find_product_by_code(gid,code):
 		"""Find product by id"""
 		user = User.find_by_gid(identity)
 		if user:
@@ -77,3 +79,20 @@ class Provider():
 				print(str(e))
 				return False, str(e)
 		return False, None
+
+	@staticmethod
+	def delete_product(gid,id):
+		status,u = User.find_by_gid(gid)
+		"""Adds product to trash temporarily before deleting product after 90 days 
+		returns [bool, value]"""
+		if status:
+			status,p = Provider.find_product(u.gid,id)
+			if status:
+				try:
+					dp = DeletedProducts(product_id=p.id)
+					if dp.add_to_nest():
+						return True, p.product_code
+				except Exception as e:
+					print(str(e))
+					return False, None
+			return False, None

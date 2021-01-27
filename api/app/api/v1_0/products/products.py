@@ -40,6 +40,14 @@ products_api.add_url_rule('/new', view_func=create_product.as_view('create_produ
 
 class edit_product(MethodView):
 	@jwt_required
+	def delete(self,id):
+		gid = get_jwt_identity()
+		status,product_code = Provider.delete_product(gid,id)
+		if not status:
+			return response_error('Product couldn\'t be deleted','Either the product wasn\'t found or you don\'t have enough permissinos'), 400
+		return jsonify({'title':'Product trashed','msg':f'Product {product_code} has been moved to trash and will be removed after 3 months!'})
+
+	@jwt_required
 	def put(self, id):
 		if not request.is_json:
 			return no_json_error(), 400
@@ -52,7 +60,6 @@ class edit_product(MethodView):
 
 	@jwt_required
 	def get(self, id):
-		#add validations 
 		gid = get_jwt_identity()
 		status,p = Provider.find_product(gid=gid,id=id)
 		if not status:

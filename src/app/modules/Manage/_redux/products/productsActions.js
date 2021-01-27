@@ -64,9 +64,8 @@ export const deleteProduct = id => dispatch => {
         .then(response => {
             dispatch(actions.productDeleted({ id,status:'Deleted' }));
         })
-        .catch(error => {
-            error.clientMessage = "Can't delete product";
-            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        .catch(({data}) => {
+            dispatch(actions.catchError({ error:data, callType: callTypes.action }));
         });
 };
 
@@ -81,9 +80,8 @@ export const createProduct = productForCreation => dispatch => {
                     dispatch(actions.productCreated({ product }));
                 });
         })
-        .catch(error => {
-            error.clientMessage = "Can't create product";
-            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        .catch(({data}) => {
+            dispatch(actions.catchError({ error:data, callType: callTypes.action }));
         });
 };
 

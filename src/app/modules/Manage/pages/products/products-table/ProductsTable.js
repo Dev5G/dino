@@ -46,16 +46,17 @@ export function ProductsTable() {
 	 }
 	 
 	// Getting curret state of products list from store (Redux)
-	const { currentState } = useSelector(
+	const { currentState:{ totalCount, products, entities, listLoading} } = useSelector(
 		(state) => ({ currentState: state.products }),
 		shallowEqual
 	);
-	const { totalCount, products, entities, listLoading, error } = currentState;
 	useEffect(()=> {
 		if (error !== null && error !== undefined){
 			setAlertMsg('warning',error.title,error.msg)
 		}
 	},[error])
+	const {  error } = useSelector((state) => ({ error: state.products.error }));
+	
 	// Products Redux state
 	const dispatch = useDispatch();
 	useEffect(() => {

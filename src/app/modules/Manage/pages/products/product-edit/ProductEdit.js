@@ -16,6 +16,7 @@ import { useSubheader } from "../../../../../../_metronic/layout";
 import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
 import { RemarksUIProvider } from "../product-remarks/RemarksUIContext";
 import { Remarks } from "../product-remarks/Remarks";
+import { Alert } from "react-bootstrap";
 
 const initProduct = {
 	id: undefined,
@@ -45,7 +46,16 @@ export function ProductEdit({
 }) {
 	// Subheader
 	const suhbeader = useSubheader();
-
+	const alertStart = { show: false, header: '', msg: '', variant: 'success' }
+	const [alert, setAlert] = useState(alertStart);
+	const setAlertMsg = (variant = 'success', header, msg) => {
+		let al = { ...alert }
+		al.msg = msg
+		al.header = header
+		al.variant = variant
+		al.show = true
+		setAlert(al)
+	 }
 	// Tabs
 	const [tab, setTab] = useState("basic");
 	const [title, setTitle] = useState("");
@@ -58,7 +68,14 @@ export function ProductEdit({
 		}),
 		shallowEqual
 	);
-
+	const {  error } = useSelector((state) => ({ error: state.products.error }));
+	useEffect(()=> {
+		if (error !== null && error !== undefined){
+			setAlertMsg('warning',error.title,error.msg)
+		}
+		console.log('usereffect')
+	},[error])
+	console.log('Error',error)
 	useEffect(() => {
 		dispatch(actions.fetchProduct(id));
 	}, [id, dispatch]);
@@ -78,7 +95,9 @@ export function ProductEdit({
 		if (!id) {
 			dispatch(actions.createProduct(values)).then(() => {
 				//backToProductsList()
+				setAlertMsg('success','Success!',`Product created successfully! ${values.product_code}`)
 			editFormRef.current.callbackOnProductCreated()
+
 			});
 		} else {
 			dispatch(actions.updateProduct(values)).then(() => backToProductsList());
@@ -162,6 +181,16 @@ export function ProductEdit({
 						</>
 					)}
 				</ul>
+				{alert.show && (
+					<div className="mt-5">
+						<Alert variant={alert.variant} onClose={() => setAlert(alertStart)} dismissible>
+							<Alert.Heading>{alert.header}</Alert.Heading>
+							<p>
+								{alert.msg}
+							</p>
+						</Alert>
+					</div>
+				)}
 				<div className="mt-5">
 					{tab === "basic" && (
 						<ProductEditForm

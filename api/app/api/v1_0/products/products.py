@@ -41,6 +41,7 @@ products_api.add_url_rule('/new', view_func=create_product.as_view('create_produ
 class edit_product(MethodView):
 	@jwt_required
 	def delete(self,id):
+		return jsonify({'title':'Shut up!','msg':'ANNNNNNNNNNND it worked!'}),400
 		gid = get_jwt_identity()
 		status,product_code = Provider.delete_product(gid,id)
 		if not status:

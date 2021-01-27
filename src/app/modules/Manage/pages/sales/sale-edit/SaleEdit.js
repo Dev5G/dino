@@ -207,7 +207,8 @@ export function SaleEdit({
 							</li>
 						</>
 					)}
-				</ul>{alert.show && (
+				</ul>
+				{alert.show && (
 					<div className="mt-5">
 						<Alert variant={alert.variant} onClose={() => setAlert(alertStart)} dismissible>
 							<Alert.Heading>{alert.header}</Alert.Heading>

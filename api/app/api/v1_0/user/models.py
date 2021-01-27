@@ -24,7 +24,7 @@ salesman_table=db.Table('tbl_salesman',
 class User(Base):
 	__tablename__ = 'tbl_users'
 
-	gid = db.Column(db.String(32), unique=True, index=True)
+	gid = db.Column(db.BigInteger, unique=True, index=True)
 	last_seen = db.Column(db.DateTime, default=datetime.utcnow)
 	password_hash = db.Column(db.String(128))
 	confirmed = db.Column(db.Boolean, default=False)

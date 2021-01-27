@@ -4,22 +4,18 @@ from .... import db
 class Sales(Base):
 	__tablename__	= 'tbl_sales'
 
-	invoiceNo = db.Column(db.String(30))
 	voucherType_id = db.Column(db.Integer, db.ForeignKey('tbl_voucherType.id'), nullable=False)
 	customer_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
-	gold_rate_id = db.Column(db.Integer, db.ForeignKey('tbl_gold_rates.id'))
 	salesman_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
 	cash_account_id = db.Column(db.Integer, db.ForeignKey('tbl_account_cash.id'), nullable=False)
 	care_of_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
-	counter_id = db.Column(db.Integer, db.ForeignKey('tbl_counters.id'), nullable=False)
+	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
 	description = db.Column(db.String(120))#add an automated desc to keep track of to whom the gold was sold , record the tags, name and gid
 	total_amount = db.Column(db.Float(precision=3))
 	grand_amount = db.Column(db.Float(precision=3))
 	discount_amount = db.Column(db.Float(precision=3))
 	balance_amount = db.Column(db.Float(precision=3))
-	user_id = db.Column(db.Integer, db.ForeignKey('tbl_metals.id'), nullable=False)
-	store_id = db.Column(db.Integer, db.ForeignKey('tbl_stores.id'), nullable=False)
-	
+	user_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
 
 	sale_details = db.relationship('SalesDetails', backref='sale',cascade='all, delete',passive_deletes=True)
 
@@ -177,10 +173,13 @@ class SalesDetails(Base):
 	@classmethod
 	def find_by_product(cls, id):
 		try:
-			return cls.query.filter_by(product_id=id).first()
+			o= cls.query.filter_by(product_id=id).first()
+			if o:
+				return True, o
+			return False, None
 		except Exception as e:
 			print(str(e))
-			return None
+			return False,str(e)
 
 	@classmethod
 	def find_by_sale(cls, sale_id):

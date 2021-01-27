@@ -1,83 +1,9 @@
 from ....models import (Role,
-							Nest, Carat, Metal, RattiMethod, Product, GoldRate)
+							Nest, Carat, Metal, RattiMethod,  GoldRate)
 from ....utils import generate_gid, jsonList
 from ..accounts.models import AccountCash, AccountGold
 from ..categories.models import Category
 from ..user.provider import Provider as User
-
-class ProductProvider():
-	@staticmethod
-	def find_product_by_code(identity,code):
-		"""Find product by id"""
-		user = User.find_by_gid(identity)
-		if user:
-			p = Product.find_by_code_and_nest(code,user.nest.id)
-			if p:
-				return p
-		return None
-
-	@staticmethod
-	def find_product(identity,id):
-		"""Find product by id"""
-		user = User.find_by_gid(identity)
-		if user:
-			p = Product.find_by_id_and_nest(id,user.nest.id)
-			if p:
-				return p
-		return None
-
-	@staticmethod
-	def get_products(gid) -> list:
-		u = User.find_by_gid(gid)
-		if u:
-			p = Product.find_all(u.nest.id)
-			if p:
-				p = jsonList(p)
-				return p
-		return None
-
-	@staticmethod
-	def save_product(gid,**kwargs) -> Product:
-		u = User.find_by_gid(gid)
-		if u:
-			p = Product(**kwargs)
-			p.nest_id=u.nest.id
-			p.user_id=u.id
-			try:
-				p.save_to_db()
-				return p
-			except Exception as e:
-				return None
-		return None
-
-	@staticmethod
-	def update_product(gid,id,**kwargs) -> Product:
-		u = User.find_by_gid(gid)
-		if u:
-			p = Product.find_by_id_and_nest(id,u.nest.id)
-			try:
-				if p:
-					x = {**kwargs}
-					p.carat_id			= x['carat_id']
-					p.category_id		= x['category_id']
-					p.description		= x['description']
-					p.design_no			= x['design_no']
-					p.metal_id			= x['metal_id']
-					p.qty				= x['qty']
-					p.ratti				= x['ratti']
-					p.ratti_method_id	= x['ratti_method_id']
-					p.size				= x['size']
-					p.supplier_id		= x['supplier_id']
-					p.waste				= x['waste']
-					p.weight			= x['weight']
-					p.pure_weight		= x['pure_weight']
-					p.weight_gm			= x['weight_gm']
-					p.save_to_db()
-					return p
-			except Exception as e:
-				print(str(e))
-				return None
-		return None
 
 
 class UserProvider():

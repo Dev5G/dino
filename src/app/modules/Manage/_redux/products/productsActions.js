@@ -12,7 +12,8 @@ export const fetchProducts = queryParams => dispatch => {
     return requestFromServer
         .findProducts(queryParams)
         .then(r => {
-            const { totalCount, entities, } = r.data;
+            const { entities, } = r.data;
+            const totalCount = entities.length
             let totalWeight = 0
             if (entities) {
                 const getTotalWeight = () => entities.reduce((acc, cur) => acc + cur.weight, 0)
@@ -20,10 +21,9 @@ export const fetchProducts = queryParams => dispatch => {
             }
             dispatch(actions.productsFetched({ totalCount, entities, totalWeight }));
         })
-    //.catch(error => {
-    //    error.clientMessage = "Can't find products";
-    //    dispatch(actions.catchError({ error, callType: callTypes.list }));
-    //});
+    .catch(({data}) => {
+       dispatch(actions.catchError({ error:data, callType: callTypes.list }));
+    });
 };
 
 export const filterProducts = (entities, queryParams) => dispatch => {

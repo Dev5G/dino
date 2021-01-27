@@ -7,7 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token,
 from ..user.provider import Provider as User
 from ....utils import jsonList
 from ..accounts.models import AccountCash, AccountGold
-
+from ....models import RattiMethod,Carat,Metal
 class Provider():
 	"""
 		DB helper class to facilitate easy adding and deletion of objects from db
@@ -41,8 +41,15 @@ class Provider():
 								'expiresIn':expiresIn.seconds,\
 								'user':user.json()
 				}
-		if user.nest is not None:
-			r['nest'] = user.nest.json()
+		if user.nest:
+			print('user got nest')
+			r['store'] = user.nest.json()
+			r['store']['metals'] = jsonList(Metal.find_all())
+			_,c = Carat.find_all()
+			r['store']['carats'] = jsonList(c)
+			_,rm = RattiMethod.find_all()
+			r['store']['rattiMethods'] = jsonList(rm)
+			print(r['store'])
 		return True , r
 
 	@staticmethod

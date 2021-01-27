@@ -5,6 +5,11 @@ from .models import Category
 
 class Provider:
 	@staticmethod
+	def find_by_id(id):
+		"""return [bool, val]"""
+		return Category.find_by_id(id)
+
+	@staticmethod
 	def find_all(gid):
 		"""Return [bool, value]"""
 		status,u = User.find_by_gid(gid)

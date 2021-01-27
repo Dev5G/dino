@@ -1,12 +1,10 @@
 import axios from "axios";
-import { apiUrl } from '../../../../config'
-const url = {
-    productsUrl: apiUrl.BASE_URL + apiUrl.apiPath + apiUrl.version + apiUrl.productsPath,
-}
+
+const url = '/api/v1.0/products'
 const PRODUCTS_URL = ''
 // CREATE =>  POST: add a new product to the server
 export function createProduct(product) {
-    return axios.post(`${url.productsUrl}/new`,  product );
+    return axios.post(`${url}/new`,  product );
 }
 
 // READ
@@ -15,18 +13,18 @@ export function getAllProducts() {
 }
 
 export function getProductById(productId) {
-  return axios.get(`${url.productsUrl}/${productId}`);
+  return axios.get(`${url}/${productId}`);
 }
 
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result
 export function findProducts(queryParams) {
-    return axios.post(`${url.productsUrl}/find`, { queryParams });
+    return axios.post(`${url}/find`, { queryParams });
 }
 
 // UPDATE => PUT: update the procuct on the server
 export function updateProduct(product) {
-  return axios.put(`${url.productsUrl}/${product.id}`,  product );
+  return axios.put(`${url}/${product.id}`,  product );
 }
 
 // UPDATE Status

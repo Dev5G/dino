@@ -9,7 +9,7 @@ user_phone_table = db.Table('tbl_user_phone',
 class Phone(Base):
 	__tablename__ = 'tbl_phones'
 
-	national_number = db.Column(db.String(12), nullable=False)
+	national_number = db.Column(db.BigInteger, nullable=False)
 	cc = db.Column(db.String(12), nullable=False)
 	is_landline = db.Column(db.Boolean, default=False)
 	primary = db.Column(db.Boolean, default=False)

@@ -8,7 +8,7 @@ const initialProductsState = {
     totalWeight: 0,
     products: null,
     productForEdit: undefined,
-    lastError: null
+    error: null
 };
 export const callTypes = {
     list: "list",
@@ -20,7 +20,7 @@ export const productsSlice = createSlice({
     initialState: initialProductsState,
     reducers: {
         catchError: (state, action) => {
-            state.error = `${action.type}: ${action.payload.error}`;
+            state.error = action.payload.error;
             if (action.payload.callType === callTypes.list) {
                 state.listLoading = false;
             } else {

@@ -1,6 +1,8 @@
 from .models import (AccountCash, AccountGold,
 							SupplierCashAccounts,
-							SupplierGoldAccounts)
+							SupplierGoldAccounts,
+							CustomerCashAccounts,
+							CustomerGoldAccounts)
 
 class Accounts:
 	@staticmethod
@@ -53,3 +55,32 @@ class Accounts:
 			return False, 'Accounts could not be added'
 		except Exception as e:
 			return False, 'Supplier accounts could not be added!'+ str(e)
+
+	@staticmethod
+	def add_customer_accounts(customer,hen_id,opening_cash=0,opening_gold=0,opening_gold24=0):
+		try:
+			cash, gold, gold24 = Accounts.create_cash_and_gold(opening_cash=opening_cash,
+													   opening_gold=opening_gold,
+													   opening_gold24=opening_gold24)
+			cashA = CustomerCashAccounts(account_id=cash.id,customer_id=customer.id,hen_id=hen_id)
+			goldA = CustomerGoldAccounts(account_id=gold.id,customer_id=customer.id,hen_id=hen_id)
+			gold24A = CustomerGoldAccounts(account_id=gold24.id,customer_id=customer.id,hen_id=hen_id)
+			if	cashA.add_to_nest():
+				if goldA.add_to_nest():
+					if gold24A.add_to_nest():
+						return True, 'Customers accounts added'
+			if cash:
+				cash.delete_from_db()
+				if gold:
+					gold.delete_from_db()
+					if gold24:
+						gold24.delete_from_db()
+						if cashA:
+							cashA.delete_from_db()
+							if goldA:
+								goldA.delete_from_db()
+								if gold24A:
+									gold24A.delete_from_db()
+			return False, 'Accounts could not be added'
+		except Exception as e:
+			return False, 'Customer accounts could not be added!'+ str(e)

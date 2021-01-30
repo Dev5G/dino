@@ -2,7 +2,7 @@
 import { combineReducers } from "redux";
 
 //import * as auth from "../app/modules/Auth/_redux/authRedux";
-import { customersSlice } from "../app/modules/ECommerce/_redux/customers/customersSlice";
+import { customersSlice } from "../app/modules/Manage/_redux/customers/customersSlice";
 import { countersSlice } from "../app/modules/Manage/_redux/counters/countersSlice";
 import { categoriesSlice } from "../app/modules/Manage/_redux/categories/categoriesSlice";
 import { gpsSlice } from "../app/modules/ECommerce/_redux/gps/gpsSlice";

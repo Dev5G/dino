@@ -43,12 +43,12 @@ export function SuppliersTable() {
     // Suppliers Redux state
     const dispatch = useDispatch();
     useEffect(() => {
+        suppliersUIProps.setIds([]);
         // clear selections list
         if (suppliers) {
             //console.log(productsUIProps.queryParams)
             dispatch(actions.filterSuppliers(suppliers, suppliersUIProps.queryParams));
         } else {
-            suppliersUIProps.setIds([]);
             // server call by queryParams
             dispatch(actions.fetchSuppliers(suppliersUIProps.queryParams));
         }
@@ -86,14 +86,9 @@ export function SuppliersTable() {
             sort: true,
             sortCaret: sortCaret,
         },
-        {
-            dataField: "status",
-            text: "Status",
-            sort: true,
-            sortCaret: sortCaret,
-            formatter: columnFormatters.StatusColumnFormatter,
-        },
-        {
+        
+    ];
+    {/*{
             dataField: "action",
             text: "Actions",
             formatter: columnFormatters.ActionsColumnFormatter,
@@ -106,8 +101,7 @@ export function SuppliersTable() {
             style: {
                 minWidth: "100px",
             },
-        },
-    ];
+        },*/}
     // Table pagination properties
     const paginationOptions = {
         custom: true,

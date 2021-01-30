@@ -12,9 +12,8 @@ export const fetchSuppliersAll = () => dispatch => {
 			const {  entities } = r.data;
 			dispatch(actions.suppliersFetched({ totalCount: entities.length, entities }));
 		})
-		.catch(error => {
-			error.clientMessage = "Can't find suppliers";
-			dispatch(actions.catchError({ error, callType: callTypes.list }));
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.list }));
 		});
 };
 
@@ -24,9 +23,8 @@ export const filterSuppliers = (entities, queryParams) => dispatch => {
 		.then(({ totalCount, entities }) => {
 			dispatch(actions.suppliersFetched({ totalCount, entities }));
 		})
-		.catch(error => {
-			error.clientMessage = "Can't find products";
-			dispatch(actions.catchError({ error, callType: callTypes.list }));
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.list }));
 		});
 }
 export const fetchSuppliers = queryParams => dispatch => {
@@ -37,9 +35,8 @@ export const fetchSuppliers = queryParams => dispatch => {
 			const { totalCount, entities } = r.data;
 			dispatch(actions.suppliersFetched({ totalCount, entities }));
 		})
-		.catch(error => {
-			dispatch(actions.catchError({ error, callType: callTypes.list }));
-			error.clientMessage = "Can't find suppliers";
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.list }));
 		});
 };
 export const fetchSupplier = id => dispatch => {
@@ -82,11 +79,9 @@ export const createSupplier = supplierForCreation => dispatch => {
 			console.log('Supplier',supplier)
 			dispatch(actions.supplierCreated({ supplier }));
 		})
-		//.catch(error => {
-		//	error.clientMessage = "Can't create supplier";
-		//	console.log(error.data)
-		//	dispatch(actions.catchError({ error, callType: callTypes.action }));
-		//});
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.action }));
+		});
 };
 
 export const updateSupplier = supplier => dispatch => {

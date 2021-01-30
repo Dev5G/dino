@@ -20,7 +20,11 @@ salesman_table=db.Table('tbl_salesman',
 						db.Column('user_id',db.Integer,db.ForeignKey('tbl_users.id'), nullable=False),
 						db.Column('hen_id',db.Integer,db.ForeignKey('tbl_hens.id'), nullable=False),
 						)
-
+#-------Customer relationship-----
+customers_table=db.Table('tbl_customers',
+						db.Column('user_id',db.Integer,db.ForeignKey('tbl_users.id'), nullable=False),
+						db.Column('nest_id',db.Integer,db.ForeignKey('tbl_nests.id'), nullable=False),
+						)
 class User(Base):
 	__tablename__ = 'tbl_users'
 
@@ -41,8 +45,8 @@ class User(Base):
 	#gg_care_of = db.relationship('GoldGiven', backref='care_of', foreign_keys='GoldGiven.care_of_id')
 	#gg_supplier = db.relationship('GoldGiven', backref='supplier', foreign_keys='GoldGiven.supplier_id')
 	#gg_user = db.relationship('GoldGiven', backref='user', foreign_keys='GoldGiven.user_id')
-	#cust_nests = db.relationship('Nest',secondary=customers_table, backref=db.backref('customers',lazy='dynamic'))
 	nest = db.relationship('Nest',secondary=nest_keeper_table, backref=db.backref('keepers',lazy='dynamic'),uselist=False)
+	nests_as_customer = db.relationship('Nest',secondary=customers_table, backref=db.backref('customers',lazy='dynamic'))
 	nests_as_supplier = db.relationship('Nest',secondary=suppliers_table, backref=db.backref('suppliers',lazy='dynamic'))
 	hens_as_salesman = db.relationship('Hens',secondary=salesman_table, backref=db.backref('salesmen',lazy='dynamic'))
 	#salesman_nests = db.relationship('Nest',secondary=salesman_table, backref=db.backref('salesmen',lazy='dynamic'))
@@ -66,6 +70,10 @@ class User(Base):
 		#	user['nest'] = self.nest.json()
 		if self.details:
 			user.update(self.details.json())
+		if self.phones:
+			phone = self.phones.filter_by(primary=True).first()
+			if phone:
+				user.update({'number':phone.number})
 		return user
 
 	@property

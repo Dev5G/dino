@@ -11,7 +11,7 @@
 
 # redactor
 /.idea
-
+elementsMenu.js
 # assets
 #/public/media
 #/src/_metronic/_assets/js

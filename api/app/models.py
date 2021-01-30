@@ -168,11 +168,7 @@ class Base(db.Model):
 #     nest_id = db.Column(GUID(), db.ForeignKey('tbl_nests.uuid'), nullable=False)
 
 
-#-------Customer relationship-----
-customers_table=db.Table('tbl_customers',
-						db.Column('user_id',db.Integer,db.ForeignKey('tbl_users.id'), nullable=False),
-						db.Column('nest_id',db.Integer,db.ForeignKey('tbl_nests.id'), nullable=False),
-						)
+
 
 
 #user_cash_accounts_table=db.Table('tbl_user_cash_accounts',

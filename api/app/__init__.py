@@ -48,6 +48,7 @@ def create_app(config_name:str):
 		from .api.v1_0.hens import hens_api
 		from .api.v1_0.categories import categories_api
 		from .api.v1_0.suppliers import suppliers_api
+		from .api.v1_0.customers import customers_api
 		from .api.v1_0.products import products_api
 
 		app.register_blueprint(auth_api, url_prefix='/api/v1.0/auth')
@@ -57,6 +58,7 @@ def create_app(config_name:str):
 		app.register_blueprint(hens_api, url_prefix='/api/v1.0/hens')
 		app.register_blueprint(categories_api, url_prefix='/api/v1.0/categories')
 		app.register_blueprint(suppliers_api, url_prefix='/api/v1.0/suppliers')
+		app.register_blueprint(customers_api, url_prefix='/api/v1.0/customers')
 		app.register_blueprint(products_api, url_prefix='/api/v1.0/products')
 
 	return app

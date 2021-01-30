@@ -10,7 +10,7 @@ import { ProductsPage } from "./products/ProductsPage";
 import { ProductEdit } from "./products/product-edit/ProductEdit";
 import { SalesPage } from "./sales/SalesPage";
 import { SaleEdit } from "./sales/sale-edit/SaleEdit";
-
+import { CustomersPage } from "./customers/CustomersPage";
 import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
 
 export default function managementPage() {
@@ -43,6 +43,7 @@ export default function managementPage() {
 				}
 				<ContentRoute path="/manage/e/counters" component={CountersPage} />
 				<ContentRoute path="/manage/e/categories" component={CategoriesPage} />
+				<ContentRoute path="/manage/e/customers" component={CustomersPage} />
 				<ContentRoute path="/manage/e/suppliers/new" component={SupplierEdit} />
 				<ContentRoute path="/manage/p/products/new" component={ProductEdit} />
 				<ContentRoute

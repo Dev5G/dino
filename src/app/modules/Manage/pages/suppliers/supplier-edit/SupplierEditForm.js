@@ -45,7 +45,7 @@ export function SupplierEditForm({
             >
 
                 {({ handleSubmit }) => (
-                    <>
+                    <> 
                         <Form className="form form-label-right">
                             <div className="form-group row">
                                 {/* First Name */}
@@ -107,7 +107,6 @@ export function SupplierEditForm({
                                         <option value="1">Male</option>
                                     </Select>
                                 </div>
-                                {/* Type */}
                                 <div className="col-lg-4">
                                     <Select name="hen_id" label="Counter">
                                         <option value="0">Please select</option>

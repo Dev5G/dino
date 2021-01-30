@@ -93,7 +93,7 @@ export function SubHeader() {
                     <a href="#" className="btn btn-light btn-sm font-weight-bold" id="kt_dashboard_daterangepicker"
                         data-toggle="tooltip" title="Select dashboard daterange" data-placement="left">
                         <span className="text-muted font-weight-bold mr-2" id="kt_dashboard_daterangepicker_title">Today</span>
-                        <span className="text-primary font-weight-bold" id="kt_dashboard_daterangepicker_date">{new Date().getDate() + " - " + new Date().getMonth() + " - " + new Date().getFullYear()}</span>
+                        <span className="text-primary font-weight-bold" id="kt_dashboard_daterangepicker_date">{new Date().getDate() + " - " + (parseInt(new Date().getMonth(),0) +1) + " - " + new Date().getFullYear()}</span>
                     </a>
                     <a href={goldrateToday ? "#goldrate-update" : "#goldrate-add-new"} onClick={() => setShowGoldrateModel(!showGoldrateModel)} className="btn btn-light btn-sm font-weight-bold"
                         data-toggle="tooltip" title="Gold rate today" data-placement="left">

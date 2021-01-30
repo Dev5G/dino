@@ -1,6 +1,7 @@
 /* eslint-disable no-script-url,jsx-a11y/anchor-is-valid,no-undef */
 import React from "react";
 import SVG from "react-inlinesvg";
+import { shallowEqual, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../_helpers";
 
@@ -14,12 +15,14 @@ export function QuickUser() {
         }
         history.push("/logout");
     };
-
+    const {store} = useSelector(({store}) => ({
+        store:store
+    }), shallowEqual)
     return (
         <div id="kt_quick_user" className="offcanvas offcanvas-right offcanvas p-10">
             <div className="offcanvas-header d-flex align-items-center justify-content-between pb-5">
                 <h3 className="font-weight-bold m-0">
-                    User Profile
+                    Store Profile
             <small className="text-muted font-size-sm ml-2">0 messages</small>
                 </h3>
                 <a
@@ -50,9 +53,9 @@ export function QuickUser() {
                             href="#"
                             className="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"
                         >
-                            {} Jones
+                            {} {store.name}
               </a>
-                        <div className="text-muted mt-1">Application Developer</div>
+                        <div className="text-muted mt-1">{/*Application Developer*/}</div>
                         <div className="navi mt-2">
                             <a href="#" className="navi-item">
                                 <span className="navi-link p-0 pb-2">
@@ -66,7 +69,7 @@ export function QuickUser() {
                                         </span>
                                     </span>
                                     <span className="navi-text text-muted text-hover-primary">
-                                        jm@softplus.com
+                                       {/* jm@softplus.com*/}
                   </span>
                                 </span>
                             </a>
@@ -77,7 +80,7 @@ export function QuickUser() {
                         <button className="btn btn-light-primary btn-bold" onClick={logoutClick}>Sign out</button>
                     </div>
                 </div>
-
+{/*
                 <div className="separator separator-dashed mt-8 mb-5" />
 
                 <div className="navi navi-spacer-x-0 p-0">
@@ -170,7 +173,7 @@ export function QuickUser() {
 
                 <div className="separator separator-dashed my-7"></div>
 
-                <div>
+                <div>   
                     <h5 className="mb-5">Recent Notifications</h5>
 
                     <div className="d-flex align-items-center bg-light-warning rounded p-5 gutter-b">
@@ -265,6 +268,7 @@ export function QuickUser() {
             </span>
                     </div>
                 </div>
+            */}
             </div>
         </div>
     );

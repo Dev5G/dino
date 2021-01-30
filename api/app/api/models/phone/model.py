@@ -34,16 +34,15 @@ class Phone(Base):
 		try:
 			val = str(number)
 			x= Ph.parse(val)
-			print('Value in 1',x)
-			if Ph.is_valid_number(x):
-				print('correct 1x')
-				self.national_number = x.national_number
-				self.cc = x.country_code
+			if not Ph.is_valid_number(x):
+				raise ValueError()
+			self.cc = x.country_code
+			self.national_number = x.national_number
 		except Exception as exp:
 			try:
 				x = Ph.parse(f'+{val}')
 				if not Ph.is_valid_number(x):
-					raise ValueError('Format is not international (1).' + str(exp))
+					raise ValueError(' Format is not international (1).' + str(exp))
 				self.national_number = x.national_number
 				self.cc = x.country_code
 			except Exception as e:

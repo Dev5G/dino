@@ -8,7 +8,7 @@ const initialSuppliersState = {
     suppliers: null,
     supplierForEdit: undefined,
     lastError: null
-};
+}; 
 export const callTypes = {
     list: "list",
     action: "action"
@@ -19,7 +19,7 @@ export const suppliersSlice = createSlice({
     initialState: initialSuppliersState,
     reducers: {
         catchError: (state, action) => {
-            state.error = `${action.type}: ${action.payload.error}`;
+            state.error = action.payload.error;
             if (action.payload.callType === callTypes.list) {
                 state.listLoading = false;
             } else {
@@ -55,8 +55,8 @@ export const suppliersSlice = createSlice({
         supplierCreated: (state, action) => {
             state.actionsLoading = false;
             state.error = null;
+            state.entities.push(action.payload.supplier);
             if (state.suppliers) {
-                state.entities.push(action.payload.supplier);
                 state.suppliers.push(action.payload.supplier);
             }
         },
@@ -70,18 +70,28 @@ export const suppliersSlice = createSlice({
                 }
                 return entity;
             });
+            state.suppliers = state.suppliers.map(entity => {
+                if (entity.id === action.payload.supplier.id) {
+                    return action.payload.supplier;
+                }
+                return entity;
+            });
         },
         // deleteSupplier
         supplierDeleted: (state, action) => {
             state.error = null;
             state.actionsLoading = false;
             state.entities = state.entities.filter(el => el.id !== action.payload.id);
+            state.suppliers = state.suppliers.filter(el => el.id !== action.payload.id);
         },
         // deleteSuppliers
         suppliersDeleted: (state, action) => {
             state.error = null;
             state.actionsLoading = false;
             state.entities = state.entities.filter(
+                el => !action.payload.ids.includes(el.id)
+            );
+            state.suppliers = state.suppliers.filter(
                 el => !action.payload.ids.includes(el.id)
             );
         },
@@ -91,6 +101,12 @@ export const suppliersSlice = createSlice({
             state.error = null;
             const { ids, status } = action.payload;
             state.entities = state.entities.map(entity => {
+                if (ids.findIndex(id => id === entity.id) > -1) {
+                    entity.status = status;
+                }
+                return entity;
+            });
+            state.suppliers = state.suppliers.map(entity => {
                 if (ids.findIndex(id => id === entity.id) > -1) {
                     entity.status = status;
                 }

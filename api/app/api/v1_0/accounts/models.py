@@ -123,6 +123,7 @@ class SupplierCashAccounts(Base):
 
 	supplier = db.relationship('User', backref='cash_accounts_as_supplier',uselist=False)
 
+
 class SupplierGoldAccounts(Base):
 	__tablename__ = 'tbl_supplier_gold_accounts'
 
@@ -132,7 +133,27 @@ class SupplierGoldAccounts(Base):
 	
 	supplier = db.relationship('User', backref='gold_accounts_as_supplier',uselist=False)
 
+
+class CustomerCashAccounts(Base):
+	__tablename__ = 'tbl_customer_cash_accounts'
+
+	account_id = db.Column(db.Integer, db.ForeignKey('tbl_account_cash.id'), nullable=False)
+	customer_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
+	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
+
+	customer = db.relationship('User', backref='cash_accounts_as_customer',uselist=False)
+
+
+class CustomerGoldAccounts(Base):
+	__tablename__ = 'tbl_customer_gold_accounts'
+
+	account_id = db.Column(db.Integer, db.ForeignKey('tbl_account_gold.id'), nullable=False)
+	customer_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
+	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
 	
+	customer = db.relationship('User', backref='gold_accounts_as_customer',uselist=False)
+
+
 class AccountCash(Base, AccountMethods):
 	__tablename__ = 'tbl_account_cash'
 

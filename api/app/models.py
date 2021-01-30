@@ -9,13 +9,13 @@ from datetime import datetime, date, timedelta
 import uuid
 import hashlib
 from flask import flash, current_app, request
-from . import db, login_manager
-from flask_login import UserMixin, AnonymousUserMixin
+from . import db#, login_manager
+#from flask_login import UserMixin, AnonymousUserMixin
 from .utils import extract_max, generate_invoice_no
 
-@login_manager.user_loader
-def load_user(user_id):
-	return User.query.get(int(user_id))
+# @login_manager.user_loader
+# def load_user(user_id):
+# 	return User.query.get(int(user_id))
 
 #-------------------Base and default
 class GUID(TypeDecorator):

@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
-import  email_validator
+#from flask_login import LoginManager
+#import  email_validator
 from config import config
 #from flask_debugtoolbar import DebugToolbarExtension
 from flask_jwt_extended import JWTManager
@@ -13,17 +13,17 @@ mail = Mail()
 db = SQLAlchemy()
 jwt = JWTManager()
 cors = CORS()
-login_manager = LoginManager()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
-login_manager.login_message_category = 'alert alert-outline-info'
+#login_manager = LoginManager()
+#login_manager.session_protection = 'strong'
+#login_manager.login_view = 'auth.login'
+#login_manager.login_message_category = 'alert alert-outline-info'
 def create_app(config_name:str):
 	app = Flask(__name__)
 	app.config.from_object(config[config_name])
 	config[config_name].init_app(app)
 	#toolbar = DebugToolbarExtension(app)
 	with app.app_context():
-		login_manager.init_app(app)
+		#login_manager.init_app(app)
 		mail.init_app(app)
 		db.init_app(app)
 		jwt.init_app(app)

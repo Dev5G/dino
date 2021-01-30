@@ -49,7 +49,7 @@ export function MixedWidget14({ className }) {
       <div className="card-header border-0 pt-5">
         <h3 className="card-title font-weight-bolder ">Account activation</h3>
               <div className="card-toolbar">
-                  <p>Demo Account</p>
+                  <p>Account activate progress</p>
                   {/*<Dropdown className="dropdown-inline" drop="down" alignRight>
             <Dropdown.Toggle
                 as={DropdownCustomToggler}

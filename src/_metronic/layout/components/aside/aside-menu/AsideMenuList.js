@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import SVG from "react-inlinesvg";
 import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
-import { EssentialsMenu, ProductsMenu } from "./menu";
+import { EssentialsMenu, ProductsMenu/*, ElementsMenu*/ } from "./menu";
 
 export function AsideMenuList({ layoutProps }) {
 	const location = useLocation();
@@ -41,19 +41,19 @@ export function AsideMenuList({ layoutProps }) {
 				{/* Manage -- Farm settings */}
 				<EssentialsMenu
 					getMenuItemActive={getMenuItemActive} />
-				
+
 				<ProductsMenu
 					getMenuItemActive={getMenuItemActive} />
-				{/* Applications */}
-				{/* begin::section */}
+
+				{/*<ElementsMenu
+					getMenuItemActive={getMenuItemActive} />*/}
+
+					{/** 
 				<li className="menu-section ">
 					<h4 className="menu-text">Application</h4>
 					<i className="menu-icon flaticon-more-v2"></i>
 				</li>
-				{/* end:: section */}
-
-				{/* eCommerce */}
-				{/*begin::1 Level*/}
+			
 				<li
 					className={`menu-item menu-item-submenu ${getMenuItemActive(
 						"/e-commerce", true
@@ -75,7 +75,7 @@ export function AsideMenuList({ layoutProps }) {
 									<span className="menu-text">eCommerce</span>
 								</span>
 							</li>
-							{/*begin::2 Level*/}
+							
 							<li
 								className={`menu-item ${getMenuItemActive(
 									"/e-commerce/customers"
@@ -89,9 +89,7 @@ export function AsideMenuList({ layoutProps }) {
 									<span className="menu-text">Customers</span>
 								</NavLink>
 							</li>
-							{/*end::2 Level*/}
-							
-							{/*begin::4 Level*/}
+
 							<li
 								className={`menu-item ${getMenuItemActive(
 									"/e-commerce/salesmen"
@@ -105,8 +103,7 @@ export function AsideMenuList({ layoutProps }) {
 									<span className="menu-text">Salesmen</span>
 								</NavLink>
 							</li>
-							{/*end::4 Level*/}
-							{/*begin::5 Level*/}
+
 							<li
 								className={`menu-item ${getMenuItemActive(
 									"/e-commerce/sales"
@@ -120,8 +117,7 @@ export function AsideMenuList({ layoutProps }) {
 									<span className="menu-text">Sales</span>
 								</NavLink>
 							</li>
-							{/*end::5 Level*/}
-							{/*begin::6 Level*/}
+							
 							<li
 								className={`menu-item ${getMenuItemActive(
 									"/e-commerce/dealings/suppliers"
@@ -135,8 +131,7 @@ export function AsideMenuList({ layoutProps }) {
 									<span className="menu-text">Supplier Dealings</span>
 								</NavLink>
 							</li>
-							{/*end::6 Level*/}
-							{/*begin::7 Level*/}
+							
 							<li
 								className={`menu-item ${getMenuItemActive(
 									"/e-commerce/gps"
@@ -150,20 +145,16 @@ export function AsideMenuList({ layoutProps }) {
 									<span className="menu-text">Gold Purchase</span>
 								</NavLink>
 							</li>
-							{/*end::7 Level*/}
+							
 						</ul>
 					</div>
 				</li>
-				{/*end::1 Level*/}
-				{/* Settings */}
-				{/* begin::section */}
+				
 				<li className="menu-section ">
 					<h4 className="menu-text">Gallery</h4>
 					<i className="menu-icon flaticon-more-v2"></i>
 				</li>
-				{/* end:: section */}
-
-				{/*begin::1 Level*/}
+				
 				<li
 					className={`menu-item ${getMenuItemActive("/images/by/tag", false)}`}
 					aria-haspopup="true"
@@ -175,17 +166,12 @@ export function AsideMenuList({ layoutProps }) {
 						<span className="menu-text">Images by tag</span>
 					</NavLink>
 				</li>
-				{/*end::1 Level*/}
-
-				{/* Settings */}
-				{/* begin::section */}
+				
 				<li className="menu-section ">
 					<h4 className="menu-text">Settings</h4>
 					<i className="menu-icon flaticon-more-v2"></i>
 				</li>
-				{/* end:: section */}
-
-				{/*begin::1 Level*/}
+				
 				<li
 					className={`menu-item ${getMenuItemActive("/settings", false)}`}
 					aria-haspopup="true"
@@ -197,7 +183,7 @@ export function AsideMenuList({ layoutProps }) {
 						<span className="menu-text">Settings</span>
 					</NavLink>
 				</li>
-				{/*end::1 Level*/}
+				*/}
 
 			</ul>
 

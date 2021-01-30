@@ -64,7 +64,7 @@ export function StatsWidget11({ className }) {
           </div>
           <span className="symbol symbol-light-success symbol-45">
             <span className="symbol-label font-weight-bolder font-size-h6">
-              +57
+              +0
             </span>
           </span>
         </div>
@@ -83,7 +83,7 @@ function getChartOption(layoutProps) {
     series: [
       {
         name: "Net Profit",
-        data: [30, 45, 32, 70, 40]
+        data: [0, 0, 0, 0, 0]
       }
     ],
     chart: {

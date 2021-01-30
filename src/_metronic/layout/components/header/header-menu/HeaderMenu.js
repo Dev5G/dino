@@ -32,23 +32,20 @@ export function HeaderMenu({ layoutProps }) {
                     {layoutProps.rootArrowEnabled && (<i className="menu-arrow" />)}
                 </NavLink>
             </li>
-            {/*end::1 Level*/}
-            {/*begin::1 Level*/}
+            {/*
             <li className={`menu-item menu-item-rel ${getMenuItemActive('/manage/p/products/new')}`}>
                 <NavLink className="menu-link" to="/manage/p/products/new">
                     <span className="menu-text">POS</span>
                     {layoutProps.rootArrowEnabled && (<i className="menu-arrow" />)}
                 </NavLink>
             </li>
-            {/*end::1 Level*/}
-            {/*begin::1 Level*/}
             <li className={`menu-item menu-item-rel ${getMenuItemActive('/manage/p/products/new')}`}>
                 <NavLink className="menu-link" to="/manage/p/products/new">
                     <span className="menu-text">Create Product</span>
                     {layoutProps.rootArrowEnabled && (<i className="menu-arrow" />)}
                 </NavLink>
             </li>
-            {/*end::1 Level*/}
+            */}
         </ul>
         {/*end::Header Nav*/}
     </div>;

@@ -1,4 +1,4 @@
-from flask_login import current_user
+#from flask_login import current_user
 from flask import current_app, render_template, jsonify
 import re
 import  secrets

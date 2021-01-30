@@ -60,7 +60,7 @@ export const EssentialsMenu = ({ getMenuItemActive}) => {
 							</NavLink>
 						</li>
 						{/*end::2 Level*/}
-						{/*begin::3 Level*/}
+						{/*begin::Suppliers*/}
 						<li
 							className={`menu-item ${getMenuItemActive(
 								"/manage/e/suppliers"
@@ -74,7 +74,22 @@ export const EssentialsMenu = ({ getMenuItemActive}) => {
 								<span className="menu-text">Suppliers</span>
 							</NavLink>
 						</li>
-						{/*end::3 Level*/}
+						{/*end::Suppliers*/}
+						{/*begin::Customers*/}
+						<li
+							className={`menu-item ${getMenuItemActive(
+								"/manage/e/customers"
+							)}`}
+							aria-haspopup="true"
+						>
+							<NavLink className="menu-link" to="/manage/e/customers">
+								<i className="menu-bullet menu-bullet-dot">
+									<span />
+								</i>
+								<span className="menu-text">Customers</span>
+							</NavLink>
+						</li>
+						{/*end::Customers*/}
 					</ul>
 				</div>
 			</li>

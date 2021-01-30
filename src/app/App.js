@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { Provider, connect } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
-import { Routes } from "../app/Routes";
+import { Routes } from "./Routes";
 import { I18nProvider } from "../_metronic/i18n";
 import { LayoutSplashScreen, MaterialThemeProvider } from "../_metronic/layout";
 

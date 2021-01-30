@@ -66,7 +66,7 @@ export function StatsWidget12({ className }) {
           </span>
           <div className="d-flex flex-column text-right">
             <span className="text-dark-75 font-weight-bolder font-size-h3">
-              +6,5K
+              +0K
             </span>
             <span className="text-muted font-weight-bold mt-2">New Users</span>
           </div>
@@ -86,7 +86,7 @@ function getChartOption(layoutProps) {
     series: [
       {
         name: "Net Profit",
-        data: [40, 40, 30, 30, 35, 35, 50]
+        data: [0 , 0, 0, 0, 0, 0, 0]
       }
     ],
     chart: {

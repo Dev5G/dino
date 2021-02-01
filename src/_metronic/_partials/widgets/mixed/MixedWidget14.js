@@ -83,7 +83,7 @@ export function MixedWidget14({ className }) {
 
 function getChartOptions(layoutProps, height) {
   const options = {
-    series: [26],
+    series: [39],
     chart: {
       height: height,
       type: 'radialBar',

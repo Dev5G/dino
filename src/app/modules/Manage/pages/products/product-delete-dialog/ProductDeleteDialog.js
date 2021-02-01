@@ -38,7 +38,7 @@ export function ProductDeleteDialog({ id, show, onHide }) {
     // server request for deleting product by id
     dispatch(actions.deleteProduct(id)).then(() => {
       // refresh list after deletion
-      dispatch(actions.fetchProducts(productsUIProps.queryParams));
+      //dispatch(actions.fetchProducts(productsUIProps.queryParams));
       // clear selections list
       productsUIProps.setIds([]);
       // closing delete modal

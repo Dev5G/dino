@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import SVG from "react-inlinesvg";
 import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
-import { EssentialsMenu, ProductsMenu/*, ElementsMenu*/ } from "./menu";
+import { EssentialsMenu, ProductsMenu,ElementsMenu} from "./menu";
 
 export function AsideMenuList({ layoutProps }) {
 	const location = useLocation();
@@ -45,9 +45,9 @@ export function AsideMenuList({ layoutProps }) {
 				<ProductsMenu
 					getMenuItemActive={getMenuItemActive} />
 
-				{/*<ElementsMenu
-					getMenuItemActive={getMenuItemActive} />*/}
-
+				<ElementsMenu
+					getMenuItemActive={getMenuItemActive} />
+				
 					{/** 
 				<li className="menu-section ">
 					<h4 className="menu-text">Application</h4>

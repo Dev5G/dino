@@ -66,6 +66,9 @@ class supplier(MethodView):
 		#return success
 		status,user  = Provider.create_new_supplier(first_name=fname,last_name=lname,phone=phone,address=address,password=password,hen_id=hen_id,gid=gid)
 		if not status:
+			if user:
+				print('status',status,user)	
+				return response_error (title='Request Failed',msg=user), 400
 			return response_error (title='Request Failed',msg='There was some problem creating the supplier, please check all fields!'), 400
 		return {'supplier':user.json()} , 200
 

@@ -12,7 +12,7 @@ class all_hens(MethodView):
 		status,p = Provider.find_all_hens(gid)
 		if not status:
 			if	p:
-				return {'error': 'Error','msg':p}
+				return {'error': 'Error','msg':p}, 400
 			return jsonify({'error':'Error','msg':'This farm needs a few hens!'}), 404
 		return jsonify({'entities':p}) , 200
 

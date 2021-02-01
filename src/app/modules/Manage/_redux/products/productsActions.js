@@ -33,10 +33,9 @@ export const filterProducts = (entities, queryParams) => dispatch => {
 
             dispatch(actions.productsFetched({ totalCount, entities, totalWeight }));
         })
-    //.catch(error => {
-    //    error.clientMessage = "Can't find products";
-    //    dispatch(actions.catchError({ error, callType: callTypes.list }));
-    //});
+    .catch(({data}) => {
+       dispatch(actions.catchError({ error:data, callType: callTypes.list }));
+    });
 }
 
 export const fetchProduct = id => dispatch => {
@@ -51,9 +50,8 @@ export const fetchProduct = id => dispatch => {
             const { product } = response.data;
             dispatch(actions.productFetched({ productForEdit: product }));
         })
-        .catch(error => {
-            error.clientMessage = "Can't find product";
-            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        .catch(({data}) => {
+            dispatch(actions.catchError({ error:data, callType: callTypes.action }));
         });
 };
 
@@ -93,9 +91,8 @@ export const updateProduct = product => dispatch => {
             const { product } = r.data
             dispatch(actions.productUpdated({ product }));
         })
-        .catch(error => {
-            error.clientMessage = "Can't update product";
-            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        .catch(({data}) => {
+            dispatch(actions.catchError({ error:data, callType: callTypes.action }));
         });
 };
 
@@ -106,9 +103,8 @@ export const updateProductsStatus = (ids, status) => dispatch => {
         .then(() => {
             dispatch(actions.productsStatusUpdated({ ids, status }));
         })
-        .catch(error => {
-            error.clientMessage = "Can't update products status";
-            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        .catch(({data}) => {
+            dispatch(actions.catchError({ error:data, callType: callTypes.action }));
         });
 };
 
@@ -119,8 +115,7 @@ export const deleteProducts = ids => dispatch => {
         .then(() => {
             dispatch(actions.productsDeleted({ ids }));
         })
-        .catch(error => {
-            error.clientMessage = "Can't delete products";
-            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        .catch(({data}) => {
+            dispatch(actions.catchError({ error:data, callType: callTypes.action }));
         });
 };

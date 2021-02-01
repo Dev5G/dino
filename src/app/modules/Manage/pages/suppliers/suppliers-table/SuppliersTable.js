@@ -46,7 +46,7 @@ export function SuppliersTable() {
         suppliersUIProps.setIds([]);
         // clear selections list
         if (suppliers) {
-            //console.log(productsUIProps.queryParams)
+            console.log(suppliersUIProps.queryParams)
             dispatch(actions.filterSuppliers(suppliers, suppliersUIProps.queryParams));
         } else {
             // server call by queryParams

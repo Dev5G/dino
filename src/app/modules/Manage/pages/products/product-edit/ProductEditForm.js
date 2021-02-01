@@ -6,8 +6,11 @@ import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { generateCode } from "../../../../../../_utils/ProductUtils";
 import { evaluate } from 'mathjs'
 import imageCompression from 'browser-image-compression'
+import {DatePickerField} from '../../../../../../_metronic/_partials/controls/forms/DatePickerField'
+
 //import { uploadToCloudSigned } from '../../../../../../_utils/cloudinary'
 import { ProgressBar } from "react-bootstrap";
+import { fromPairs } from "lodash";
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
     metal_id: Yup.string()
@@ -215,14 +218,23 @@ export const ProductEditForm = forwardRef(({
                 validationSchema={ProductEditSchema}
                 onSubmit={(values) => {
                     saveProduct(values);
-                    HandleWeight(0)
-                    weightRef.current.focus()
+                    HandleWeight(0);
+                    weightRef.current.focus();
                 }}
             >
 
                 {({ handleSubmit }) => (
                     <>
                         <Form className="form form-label-right">
+                            <div className="form-group row">
+                            <div className="col-lg-4">
+                                    <DatePickerField
+                                        name="created_date"
+                                        placeholder="Date"
+                                        label="Date"
+                                    />
+                                </div>
+                            </div>
                             <div className="form-group row">
                                 <div className="col-lg-4">
                                     <Select name="category_id" onChange={(e) => categoryHandler(e.target.value)} label="Category">

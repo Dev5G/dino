@@ -17,6 +17,8 @@ import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls
 import { RemarksUIProvider } from "../supplier-remarks/RemarksUIContext";
 import { Remarks } from "../supplier-remarks/Remarks";
 import { generatePassword } from "../../../../../../_utils/UserUtils";
+import {Snackbar} from '../../../../../../_enzayco/_partials/feedback'
+
 
 const initSupplier = {
 	id: undefined,
@@ -50,6 +52,30 @@ export function SupplierEdit({
 		}),
 		shallowEqual
 	);
+	
+	const [open, setOpen] = useState(false)
+	const [message, setMessage] = useState('')
+	const [variant, setVariat] = useState('success')
+	const setSnackbar = (variant, msg) => {
+		setMessage(m => msg)
+		setVariat(v => variant)
+		setOpen(true)
+	}
+	const { error, success } = useSelector(
+		(state) => ({
+			success: state.suppliers.success,
+			error: state.suppliers.error,
+		}),
+		shallowEqual
+	);
+	useEffect(() => {
+		if (success !== null && success !== undefined) {
+			setSnackbar('success', success.msg)
+		}
+		if (error !== null && error !== undefined) {
+			setSnackbar('error', error.msg)
+		}
+	}, [success, error])
 
 	useEffect(() => {
 		dispatch(actions.fetchSupplier(id));
@@ -68,7 +94,9 @@ export function SupplierEdit({
 
 	const saveSupplier = (values) => {
 		if (!id) {
-			dispatch(actions.createSupplier(values)).then(() => backToSuppliersList());
+			dispatch(actions.createSupplier(values)).then(() => {
+				console.log('With or Without error')
+			});
 		} else {
 			dispatch(actions.updateSupplier(values)).then(() => backToSuppliersList());
 		}
@@ -151,6 +179,12 @@ export function SupplierEdit({
 						</>
 					)}
 				</ul>
+				<Snackbar
+					show={open}
+					msg={message}
+					variant={variant}
+					onClose={() => setOpen(false)}
+				/>
 				<div className="mt-5">
 					{tab === "basic" && (
 						<SupplierEditForm

@@ -51,9 +51,8 @@ export const fetchSupplier = id => dispatch => {
 			const supplier = r.data;
 			dispatch(actions.customerFetched({ supplierForEdit: supplier }));
 		})
-		.catch(error => {
-			error.clientMessage = "Can't find supplier";
-			dispatch(actions.catchError({ error, callType: callTypes.action }));
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.action }));
 		});
 };
 
@@ -64,9 +63,8 @@ export const deleteSupplier = id => dispatch => {
 		.then(response => {
 			dispatch(actions.supplierDeleted({ id }));
 		})
-		.catch(error => {
-			error.clientMessage = "Can't delete supplier";
-			dispatch(actions.catchError({ error, callType: callTypes.action }));
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.action }));
 		});
 };
 
@@ -91,9 +89,8 @@ export const updateSupplier = supplier => dispatch => {
 		.then(() => {
 			dispatch(actions.supplierUpdated({ supplier }));
 		})
-		.catch(error => {
-			error.clientMessage = "Can't update supplier";
-			dispatch(actions.catchError({ error, callType: callTypes.action }));
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.action }));
 		});
 };
 
@@ -104,9 +101,8 @@ export const updateSuppliersStatus = (ids, status) => dispatch => {
 		.then(() => {
 			dispatch(actions.suppliersStatusUpdated({ ids, status }));
 		})
-		.catch(error => {
-			error.clientMessage = "Can't update suppliers status";
-			dispatch(actions.catchError({ error, callType: callTypes.action }));
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.action }));
 		});
 };
 
@@ -117,8 +113,7 @@ export const deleteSuppliers = ids => dispatch => {
 		.then(() => {
 			dispatch(actions.suppliersDeleted({ ids }));
 		})
-		.catch(error => {
-			error.clientMessage = "Can't delete suppliers";
-			dispatch(actions.catchError({ error, callType: callTypes.action }));
+		.catch(({data}) => {
+			dispatch(actions.catchError({ error:data, callType: callTypes.action }));
 		});
 };

@@ -1,4 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
+import { isNull } from "lodash";
 
 const initialCountersState = {
   listLoading: false,
@@ -6,7 +7,8 @@ const initialCountersState = {
   totalCount: 0,
   entities: [],
   counterForEdit: undefined,
-  lastError: null
+  error:null,
+  success:null,
 };
 export const callTypes = {
   list: "list",
@@ -18,7 +20,8 @@ export const countersSlice = createSlice({
   initialState: initialCountersState,
   reducers: {
     catchError: (state, action) => {
-      state.error = `${action.type}: ${action.payload.error}`;
+      state.error = action.payload.error;
+      state.success  = null;
       if (action.payload.callType === callTypes.list) {
         state.listLoading = false;
       } else {
@@ -27,6 +30,7 @@ export const countersSlice = createSlice({
     },
     startCall: (state, action) => {
       state.error = null;
+      state.success = null;
       if (action.payload.callType === callTypes.list) {
         state.listLoading = true;
       } else {
@@ -36,6 +40,7 @@ export const countersSlice = createSlice({
     // getCounterById
     counterFetched: (state, action) => {
       state.actionsLoading = false;
+      state.success = true;
       state.counterForEdit = action.payload.counterForEdit;
       state.error = null;
     },
@@ -44,18 +49,25 @@ export const countersSlice = createSlice({
       const { totalCount, entities } = action.payload;
       state.listLoading = false;
       state.error = null;
+      if (totalCount > 0){
+        state.success =  {msg:`${totalCount} Counters Fetched`} 
+      } else {
+        state.success = null; 
+      }
       state.entities = entities;
       state.totalCount = totalCount;
     },
     // createCounter
     counterCreated: (state, action) => {
       state.actionsLoading = false;
+      state.success = {msg:'Counter added successfully'};
       state.error = null;
       state.entities.push(action.payload.counter);
-    },
+    },  
     // updateCounter
     counterUpdated: (state, action) => {
       state.error = null;
+      state.success = {msg:'Counter updated successfully'};
       state.actionsLoading = false;
       state.entities = state.entities.map(entity => {
         if (entity.id === action.payload.counter.id) {
@@ -67,12 +79,14 @@ export const countersSlice = createSlice({
     // deleteCounter
     counterDeleted: (state, action) => {
       state.error = null;
+      state.success = {msg:'Counter deleted successfully'};
       state.actionsLoading = false;
       state.entities = state.entities.filter(el => el.id !== action.payload.id);
     },
     // deleteCounters
     countersDeleted: (state, action) => {
       state.error = null;
+      state.success = {msg:'Counters deleted successfully'};
       state.actionsLoading = false;
       state.entities = state.entities.filter(
         el => !action.payload.ids.includes(el.id)
@@ -81,6 +95,7 @@ export const countersSlice = createSlice({
     // countersUpdateState
     countersStatusUpdated: (state, action) => {
       state.actionsLoading = false;
+      state.success = {msg:'Counters status updated  successfully'};
       state.error = null;
       const { ids, status } = action.payload;
       state.entities = state.entities.map(entity => {

@@ -123,6 +123,16 @@ class SupplierCashAccounts(Base):
 
 	supplier = db.relationship('User', backref='cash_accounts_as_supplier',uselist=False)
 
+	@classmethod
+	def find_account(cls, supplier_id,hen_id):
+		try:
+			o = cls.query.filter_by(supplier_id=supplier_id).filter_by(hen_id=hen_id).first()
+			if o:
+				return True, o
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, str(e)
 
 class SupplierGoldAccounts(Base):
 	__tablename__ = 'tbl_supplier_gold_accounts'
@@ -131,8 +141,22 @@ class SupplierGoldAccounts(Base):
 	supplier_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
 	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
 	
-	supplier = db.relationship('User', backref='gold_accounts_as_supplier',uselist=False)
 
+	supplier = db.relationship('User', backref='gold_accounts_as_supplier',uselist=False)
+	account = db.relationship('AccountGold', backref='gold_account_as_supplier',uselist=False)
+	
+	@classmethod
+	def find_account(cls,supplier_id,hen_id,carat_id):
+		try:
+			o = cls.query.filter_by(supplier_id=supplier_id).filter_by(hen_id=hen_id).all()
+			if o:
+				for i in range(len(o)):
+					if o[i].account.carat_id == carat_id:
+						return True, o[i]
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, str(e)
 
 class CustomerCashAccounts(Base):
 	__tablename__ = 'tbl_customer_cash_accounts'
@@ -143,6 +167,16 @@ class CustomerCashAccounts(Base):
 
 	customer = db.relationship('User', backref='cash_accounts_as_customer',uselist=False)
 
+	@classmethod
+	def find_account(cls, customer_id,hen_id):
+		try:
+			o = cls.query.filter_by(customer_id=customer_id).filter_by(hen_id=hen_id).first()
+			if o:
+				return True, o
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, str(e)
 
 class CustomerGoldAccounts(Base):
 	__tablename__ = 'tbl_customer_gold_accounts'
@@ -152,7 +186,20 @@ class CustomerGoldAccounts(Base):
 	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
 	
 	customer = db.relationship('User', backref='gold_accounts_as_customer',uselist=False)
-
+	account = db.relationship('AccountGold', backref='gold_accounts_as_customer',uselist=False)
+	
+	@classmethod
+	def find_account(cls,customer_id,hen_id,carat_id):
+		try:
+			o = cls.query.filter_by(customer_id=customer_id).filter_by(hen_id=hen_id).all()
+			if o:
+				for i in range(len(o)):
+					if o[i].account.carat_id == carat_id:
+						return True, o[i]
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, str(e)
 
 class AccountCash(Base, AccountMethods):
 	__tablename__ = 'tbl_account_cash'

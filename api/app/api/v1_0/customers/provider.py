@@ -51,6 +51,9 @@ class Provider():
 			if	user:
 				status,_ = Accounts.add_customer_accounts(user,hen_id)
 			if status:
-				keeper.nest.customers.append(user)
-				return True,user
+				if not keeper.nest.customers.filter_by(id=user.id).first():
+					keeper.nest.customers.append(user)
+					return True,user
+				else:
+					return False, 'Customer with that number already exists!'
 		return False, 'There was some problem creating customer!'

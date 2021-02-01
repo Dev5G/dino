@@ -19,7 +19,6 @@ import {
 import * as columnFormatters from "./column-formatters";
 import { Pagination } from "../../../../../../_metronic/_partials/controls";
 import { useProductsUIContext } from "../ProductsUIContext";
-import { Alert } from "react-bootstrap";
 
 export function ProductsTable() {
 	// Products UI Context
@@ -34,28 +33,12 @@ export function ProductsTable() {
 			openDeleteProductDialog: productsUIContext.openDeleteProductDialog,
 		};
 	}, [productsUIContext]);
-	const alertStart = { show: false, header: '', msg: '', variant: 'success' }
-	const [alert, setAlert] = useState(alertStart);
-	const setAlertMsg = (variant, header, msg) => {
-		let al = { ...alert }
-		al.msg = msg
-		al.header = header
-		al.variant = variant
-		al.show = true
-		setAlert(al)
-	 }
 	 
 	// Getting curret state of products list from store (Redux)
 	const { currentState:{ totalCount, products, entities, listLoading} } = useSelector(
 		(state) => ({ currentState: state.products }),
 		shallowEqual
 	);
-	useEffect(()=> {
-		if (error !== null && error !== undefined){
-			setAlertMsg('warning',error.title,error.msg)
-		}
-	},[error])
-	const {  error } = useSelector((state) => ({ error: state.products.error }));
 	
 	// Products Redux state
 	const dispatch = useDispatch();
@@ -148,16 +131,6 @@ export function ProductsTable() {
 	};
 	return (
 		<>
-		{alert.show && (
-					<div className="mt-5">
-						<Alert variant={alert.variant} onClose={() => setAlert(alertStart)} dismissible>
-							<Alert.Heading>{alert.header}</Alert.Heading>
-							<p>
-								{alert.msg}
-							</p>
-						</Alert>
-					</div>
-				)}
 			<PaginationProvider pagination={paginationFactory(paginationOptions)}>
 				{({ paginationProps, paginationTableProps }) => {
 					return (

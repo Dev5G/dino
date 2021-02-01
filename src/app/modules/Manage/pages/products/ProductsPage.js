@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { ProductsLoadingDialog } from "./products-loading-dialog/ProductsLoadingDialog";
 import { ProductDeleteDialog } from "./product-delete-dialog/ProductDeleteDialog";
@@ -7,6 +7,9 @@ import { ProductsFetchDialog } from "./products-fetch-dialog/ProductsFetchDialog
 import { ProductsUpdateStatusDialog } from "./products-update-status-dialog/ProductsUpdateStatusDialog";
 import { ProductsCard } from "./ProductsCard";
 import { ProductsUIProvider } from "./ProductsUIContext";
+import {Snackbar} from '../../../../../_enzayco/_partials/feedback'
+import { shallowEqual, useSelector } from "react-redux";
+
 
 export function ProductsPage({ history }) {
   const productsUIEvents = {
@@ -29,9 +32,37 @@ export function ProductsPage({ history }) {
       history.push("/manage/p/products/updateStatus");
     },
   };
-
+  const[open , setOpen] = useState(false)
+	const[message , setMessage] = useState('')
+	const[variant , setVariat] = useState('success')
+	const setSnackbar=(variant , msg) =>{
+		setMessage(m => msg)
+		setVariat(v => variant)
+		setOpen(true)
+	}
+	const {error,success } = useSelector(
+		(state) => ({
+		  success: state.products.success,
+		  error: state.products.error,
+		}),
+		shallowEqual
+	 );
+	useEffect(() =>{
+		if (success !== null && success !== undefined){
+			setSnackbar('success',success.msg)
+		 }
+		 if (error !== null && error !== undefined){
+			setSnackbar('error',error.msg)
+		 }
+	},[success,error])
   return (
     <ProductsUIProvider productsUIEvents={productsUIEvents}>
+      <Snackbar 
+				show={open}
+				msg={message}
+				variant={variant}
+				onClose={()=>setOpen(false)}
+			/>
       <ProductsLoadingDialog />
       <Route path="/manage/p/products/deleteProducts">
         {({ history, match }) => (

@@ -56,7 +56,9 @@ class Provider():
 			if	user:
 				status,_ = Accounts.add_supplier_accounts(user,hen_id)
 			if status:
-				print('adding prin')
-				keeper.nest.suppliers.append(user)
-				return True,user
+				if not keeper.nest.suppliers.filter_by(id=user.id).first():
+					keeper.nest.suppliers.append(user)
+					return True,user
+				else:
+					return False, 'Supplier with that number already exists!'
 		return False, 'There was some problem creating supplier!'

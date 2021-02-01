@@ -30,57 +30,65 @@ class Accounts:
 	@staticmethod
 	def add_supplier_accounts(supplier,hen_id,opening_cash=0,opening_gold=0,opening_gold24=0):
 		try:
+			cash_status,cashA = SupplierCashAccounts.find_account(supplier_id=supplier.id,hen_id=hen_id)
+			gold_status,goldA = SupplierGoldAccounts.find_account(supplier_id=supplier.id,hen_id=hen_id,carat_id=21)
+			gold24_status,gold24A = SupplierGoldAccounts.find_account(supplier_id=supplier.id,hen_id=hen_id,carat_id=24)
+			
 			cash, gold, gold24 = Accounts.create_cash_and_gold(opening_cash=opening_cash,
-													   opening_gold=opening_gold,
-													   opening_gold24=opening_gold24)
-			cashA = SupplierCashAccounts(account_id=cash.id,supplier_id=supplier.id,hen_id=hen_id)
-			goldA = SupplierGoldAccounts(account_id=gold.id,supplier_id=supplier.id,hen_id=hen_id)
-			gold24A = SupplierGoldAccounts(account_id=gold24.id,supplier_id=supplier.id,hen_id=hen_id)
-			if	cashA.add_to_nest():
-				if goldA.add_to_nest():
-					if gold24A.add_to_nest():
-						return True, 'Supplier accounts added'
-			if cash:
+														opening_gold=opening_gold,
+														opening_gold24=opening_gold24)
+			#TODO:// separate account creation and improve adding of account so 
+			# that we can check each account if it 
+			# exist or not and then 
+			# create a new otherwise none and return old
+			if not cash_status:
+				cashA = SupplierCashAccounts(account_id=cash.id,supplier_id=supplier.id,hen_id=hen_id)
+				cashA.add_to_nest()
+			else:
 				cash.delete_from_db()
-				if gold:
-					gold.delete_from_db()
-					if gold24:
-						gold24.delete_from_db()
-						if cashA:
-							cashA.delete_from_db()
-							if goldA:
-								goldA.delete_from_db()
-								if gold24A:
-									gold24A.delete_from_db()
-			return False, 'Accounts could not be added'
+			if not gold_status:
+				goldA = SupplierGoldAccounts(account_id=gold.id,supplier_id=supplier.id,hen_id=hen_id)
+				goldA.add_to_nest()
+			else:
+				gold.delete_from_db()
+			if not gold24_status:
+				gold24A = SupplierGoldAccounts(account_id=gold24.id,supplier_id=supplier.id,hen_id=hen_id)
+				gold24A.add_to_nest()
+			else:
+				gold24.delete_from_db()
+			return True, 'Supplier accounts added'
 		except Exception as e:
 			return False, 'Supplier accounts could not be added!'+ str(e)
 
 	@staticmethod
 	def add_customer_accounts(customer,hen_id,opening_cash=0,opening_gold=0,opening_gold24=0):
 		try:
+			cash_status,cashA = CustomerCashAccounts.find_account(customer_id=customer.id,hen_id=hen_id)
+			gold_status,goldA = CustomerGoldAccounts.find_account(customer_id=customer.id,hen_id=hen_id,carat_id=21)
+			gold24_status,gold24A = CustomerGoldAccounts.find_account(customer_id=customer.id,hen_id=hen_id,carat_id=24)
+			
 			cash, gold, gold24 = Accounts.create_cash_and_gold(opening_cash=opening_cash,
-													   opening_gold=opening_gold,
-													   opening_gold24=opening_gold24)
-			cashA = CustomerCashAccounts(account_id=cash.id,customer_id=customer.id,hen_id=hen_id)
-			goldA = CustomerGoldAccounts(account_id=gold.id,customer_id=customer.id,hen_id=hen_id)
-			gold24A = CustomerGoldAccounts(account_id=gold24.id,customer_id=customer.id,hen_id=hen_id)
-			if	cashA.add_to_nest():
-				if goldA.add_to_nest():
-					if gold24A.add_to_nest():
-						return True, 'Customers accounts added'
-			if cash:
+														opening_gold=opening_gold,
+														opening_gold24=opening_gold24)
+			#TODO:// separate account creation and improve adding of account so 
+			# that we can check each account if it 
+			# exist or not and then 
+			# create a new otherwise none and return old
+			if not cash_status:
+				cashA = CustomerCashAccounts(account_id=cash.id,customer_id=customer.id,hen_id=hen_id)
+				cashA.add_to_nest()
+			else:
 				cash.delete_from_db()
-				if gold:
-					gold.delete_from_db()
-					if gold24:
-						gold24.delete_from_db()
-						if cashA:
-							cashA.delete_from_db()
-							if goldA:
-								goldA.delete_from_db()
-								if gold24A:
-									gold24A.delete_from_db()
-			return False, 'Accounts could not be added'
+			if not gold_status:
+				goldA = SupplierGoldAccounts(account_id=gold.id,customer_id=customer.id,hen_id=hen_id)
+				goldA.add_to_nest()
+			else:
+				gold.delete_from_db()
+			if not gold24_status:
+				gold24A = SupplierGoldAccounts(account_id=gold24.id,customer=customer.id,hen_id=hen_id)
+				gold24A.add_to_nest()
+			else:
+				gold24.delete_from_db()
+			return True, 'Supplier accounts added'
 		except Exception as e:
-			return False, 'Customer accounts could not be added!'+ str(e)
+			return False, 'Supplier accounts could not be added!'+ str(e)

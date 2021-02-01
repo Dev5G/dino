@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
     Card,
     CardBody,
@@ -18,8 +18,10 @@ export function CountersCard() {
             newCounterButtonClick: countersUIContext.newCounterButtonClick,
         };
     }, [countersUIContext]);
+    
 
     return (
+        <>
         <Card>
             <CardHeader title="Counters list">
                 <CardHeaderToolbar>
@@ -38,5 +40,6 @@ export function CountersCard() {
                 <CountersTable />
             </CardBody>
         </Card>
+        </>
     );
 }

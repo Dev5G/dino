@@ -69,7 +69,7 @@ export function MixedWidget14({ className }) {
         </div>
         <div className="pt-5">
           <p className="text-center font-weight-normal font-size-lg pb-7">
-            Note: It may take 1 to 2 weeks<br/>
+            Note: With change in our policies, It may take 1 to 2 business weeks<br/>
             to completely activate your account!
           </p>
                   {/* <a href="#" className="btn btn-success btn-shadow-hover font-weight-bolder w-100 py-3">Generate Report</a>*/}

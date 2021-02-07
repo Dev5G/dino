@@ -44,7 +44,7 @@ class Provider():
 		if status:
 			status,p = Product.find_all_by_hens(u.hens,True,True)
 			if status:
-				p = p.limit(100).all()
+				p = p.limit(120).all()
 				p = jsonList(p)
 		return status,p
 

@@ -109,9 +109,13 @@ class Product(Base):
 	@classmethod
 	def find_by_code_and_nest(cls, code,nest_id):
 		try:
-			return cls.query.filter_by(product_code=code.upper()).filter_by(nest_id=nest_id).first()
+			o =	cls.query.filter_by(product_code=code.upper()).filter_by(nest_id=nest_id).first()
+			if o:
+				return True, o
+			return False, None
 		except Exception as e:
-			return None
+			print(str(e))
+			return False, None
 
 	#@classmethod
 	#def find_by_uuid_and_nest(cls, _uuid,_nest_id):
@@ -119,7 +123,9 @@ class Product(Base):
 	#		return cls.query.filter_by(uuid=_uuid).filter_by(nest_id=_nest_id).first()
 	#	except Exception as e:
 	#		return None
-
+	@classmethod
+	def find_all_limited(lim = 100):
+		o = cls.query.filter_by()
 
 	@classmethod
 	def generate_code(cls,nest_id,category_id):

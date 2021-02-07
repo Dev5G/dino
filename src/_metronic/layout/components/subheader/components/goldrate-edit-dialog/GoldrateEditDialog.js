@@ -25,7 +25,6 @@ export function GoldrateEditDialog({ goldrateToday, show, onHide }) {
     //  // server call for getting Goldrate by id
     //  dispatch(actions.fetchGoldrate(id));
     //}, [id, dispatch]);
-
     // server request for saving goldrate
     const saveGoldrate = (goldrate) => {
         if (!goldrateToday) {

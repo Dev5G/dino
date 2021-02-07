@@ -87,6 +87,25 @@ class Base(db.Model):
 			db.session.rollback()
 			print(str(e))
 			return False
+	
+	def add_to_session(self):
+		try:
+			db.session.add(self)
+			return True
+		except Exception as e:
+			db.session.rollback()
+			print(str(e))
+			return False
+			
+	@staticmethod
+	def commit_session():
+		try:
+			db.session.commit()
+			return True
+		except Exception as e:
+			db.session.rollback()
+			print(str(e))
+			return False
 	#-------------------Delete method-----------@
 	def delete_from_db(self):
 		try:

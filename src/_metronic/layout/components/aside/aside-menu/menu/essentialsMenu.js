@@ -4,9 +4,16 @@ import SVG from "react-inlinesvg";
 import { toAbsoluteUrl } from "../../../../../_helpers";
 
 
-export const EssentialsMenu = ({ getMenuItemActive}) => {
-    return (
-        <>
+export const EssentialsMenu = ({ getMenuItemActive }) => {
+	return (
+		<>
+			{/* Manage */}
+			{/* begin::section */}
+			<li className="menu-section ">
+				<h4 className="menu-text">Manage</h4>
+				<i className="menu-icon flaticon-more-v2"></i>
+			</li>
+			{/* end:: section */}
 			{/* Manage -- Farm settings */}
 			{/*begin::1 Level*/}
 			<li
@@ -94,6 +101,6 @@ export const EssentialsMenu = ({ getMenuItemActive}) => {
 				</div>
 			</li>
 			{/*end::1 Level*/}
-        </>
-    )
+		</>
+	)
 }

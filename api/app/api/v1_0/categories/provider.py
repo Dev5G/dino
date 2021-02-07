@@ -8,7 +8,14 @@ class Provider:
 	def find_by_id(id):
 		"""return [bool, val]"""
 		return Category.find_by_id(id)
-
+	
+	@staticmethod
+	def find_product_category_by_code(gid,product_code):
+		status,u = User.find_by_gid(gid)
+		if status:
+			return Category.find_product_category_by_code(product_code,u.nest.id)
+		return False, None
+		
 	@staticmethod
 	def find_all(gid):
 		"""Return [bool, value]"""

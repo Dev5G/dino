@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, json
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from ....models import Nest
@@ -7,6 +7,10 @@ from ....utils import jsonList
 from . import nest_api
 from .provider import Provider, UserProvider
 from .utils import sign_cloudinary
+from ..products.provider import Provider as Product
+from ..categories.provider import Provider as Category
+from ..user.provider import Provider as User
+from datetime import datetime
 
 class sign_cloudinary(MethodView):
 	@jwt_required
@@ -92,3 +96,51 @@ class get_carats(MethodView):
 
 
 nest_api.add_url_rule('/carats', view_func=get_carats.as_view('get_carats_api'))
+
+
+class import_data(MethodView):
+	@jwt_required
+	def post(self):
+		try:
+			gid = get_jwt_identity()
+			file = request.files['file']
+			_,u = User.find_by_gid(gid)
+			if file:
+				data = json.load(file)
+				for x in data: 
+					status,p = Product.find_product_by_code(gid,x['productCode'])
+					if not status:
+						p = Product.init()
+					p.carat_id				= x['carrat'] 
+					p.product_code			= x['productCode'] 
+					status, cat = Category.find_product_category_by_code(gid,x['productCode'])
+					p.category_id		= cat.id if cat else 1
+					p.description		= x['narration']
+					date = None
+					try:
+						date = datetime.strptime(x['dateAdded'],'%d-%m-%Y %H:%M:%S %p')
+					except:
+						date = None
+					if date:
+						p.created_date		= date
+					p.metal_id			= 1
+					p.qty					= x['qty']
+					p.ratti				= x['ratti']
+					p.ratti_method_id	= 1
+					p.supplier_id		= 7
+					p.waste				= x['waste']
+					p.weight				= x['weight']
+					p.pure_weight		= x['pureWeight']
+					p.weight_gm			= x['wasteInGm']
+					p.hen_id				= 2
+					p.user_id			= u.id
+					print(p.product_code)
+					p.add_to_session()
+				Product.commit()
+			return {'msg':'Successfully imported data!'}
+		except Exception as e:
+			print(str(e))
+			return {'msg':'Error: incorrect file or json format'}
+
+nest_api.add_url_rule('/import-data', view_func=import_data.as_view('import_data_api'))
+

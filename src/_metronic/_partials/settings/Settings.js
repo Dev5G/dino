@@ -6,6 +6,7 @@ import {FormHelperText, Switch} from "@material-ui/core";
 import clsx from "clsx";
 import {useHtmlClassService, setLayoutConfig, getInitLayoutConfig} from "../../layout";
 import { Notice} from "../controls";
+import axios from 'axios'
 
 const localStorageActiveTabKey = "SettingsActiveTab";
 
@@ -27,7 +28,18 @@ export function Settings() {
     const saveCurrentTab = (_tab) => {
         localStorage.setItem(localStorageActiveTabKey, _tab);
     }
-
+    const handleData = (e) => {
+        const file = e.target.files[0]
+        const data = new FormData()
+        data.append('file',file)
+        axios.post('/api/v1.0/nest/import-data',data)
+        .then(r => {
+            console.log('Response',r.data)
+        })
+        .catch(e => {
+            console.log(e.data)
+        })
+    }
     return (
         <>
             <Notice svg="/media/svg/icons/General/Smile.svg">
@@ -115,6 +127,18 @@ export function Settings() {
                                             }}
                                         >
                                             Footer
+                                        </a>
+                                    </li>
+                                    <li className="nav-item">
+                                        <a
+                                            className={`nav-link ${key === 5 ? "active" : ""}`}
+                                            data-toggle="tab"
+                                            onClick={() => {
+                                                setKey(5);
+                                                saveCurrentTab(5);
+                                            }}
+                                        >
+                                            Database
                                         </a>
                                     </li>
                                 </ul>
@@ -484,9 +508,45 @@ export function Settings() {
                                             </div>
 
                                         </div>
+                                        <div className={`tab-pane ${key === 5 ? "active" : ""}`}>
+                                            <div className="form-group row">
+                                                <label className="col-lg-3 col-form-label text-lg-right">
+                                                    Export Data:
+                                                </label>
+                                                <div className="col-lg-9 col-xl-4">
+                                                <button
+                                                type="button"
+                                                onClick={handleSubmit}
+                                                className={`btn btn-secondary font-weight-bold mr-2`}
+                                            >
+                                                <i className="la la-down"/> Export
+                                            </button>
+
+                                                    <FormHelperText>Export Data in "json" file.</FormHelperText>
+                                                </div>
+                                            </div>
+
+                                            <div className="form-group row">
+                                                <label className="col-lg-3 col-form-label text-lg-right">
+                                                    Import Data:
+                                                </label>
+                                                <div className="col-lg-9 col-xl-4">
+                                                    <input
+                                                        className="form-control form-control-solid"
+                                                        type="file"
+                                                        onChange={handleData}
+                                                    />
+                                                    <FormHelperText>
+                                                        Import "json" File Data
+                                                    </FormHelperText>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    
                                     </div>
                                 </div>
-
+                                {key !== 5 && (
                                 <div className="card-footer">
                                     <div className="row">
                                         <div className="col-lg-3"></div>
@@ -515,6 +575,7 @@ export function Settings() {
                                         </div>
                                     </div>
                                 </div>
+                                )}
                             </div>
                         </div>
                     </>

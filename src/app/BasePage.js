@@ -26,11 +26,9 @@ const ManagementPage = lazy(() =>
 export default function BasePage() {
     const dispatch = useDispatch()
     useEffect(() => {
-
         dispatch(fetchSuppliers())
         dispatch(fetchCounters())
         dispatch(fetchCategories())
-
     }, []) // [] - is required if you need only one call
     //const [loaded, setLoaded] = useState(false)
     //if (!loaded) {

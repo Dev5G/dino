@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import SVG from "react-inlinesvg";
 import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
-import { EssentialsMenu, ProductsMenu,ElementsMenu} from "./menu";
+import { EssentialsMenu, ProductsMenu/*,ElementsMenu*/, GoldMenu} from "./menu";
 
 export function AsideMenuList({ layoutProps }) {
 	const location = useLocation();
@@ -31,22 +31,17 @@ export function AsideMenuList({ layoutProps }) {
 					</NavLink>
 				</li>
 				{/*end::1 Level*/}
-				{/* Manage */}
-				{/* begin::section */}
-				<li className="menu-section ">
-					<h4 className="menu-text">Manage</h4>
-					<i className="menu-icon flaticon-more-v2"></i>
-				</li>
-				{/* end:: section */}
+				
 				{/* Manage -- Farm settings */}
 				<EssentialsMenu
 					getMenuItemActive={getMenuItemActive} />
 
 				<ProductsMenu
 					getMenuItemActive={getMenuItemActive} />
-
-				<ElementsMenu
+				<GoldMenu
 					getMenuItemActive={getMenuItemActive} />
+				{/*<ElementsMenu
+					getMenuItemActive={getMenuItemActive} />*/}
 				
 					{/** 
 				<li className="menu-section ">
@@ -171,7 +166,11 @@ export function AsideMenuList({ layoutProps }) {
 					<h4 className="menu-text">Settings</h4>
 					<i className="menu-icon flaticon-more-v2"></i>
 				</li>
-				
+				*/}
+				<li className="menu-section ">
+					<h4 className="menu-text">Settings</h4>
+					<i className="menu-icon flaticon-more-v2"></i>
+				</li>
 				<li
 					className={`menu-item ${getMenuItemActive("/settings", false)}`}
 					aria-haspopup="true"
@@ -183,7 +182,7 @@ export function AsideMenuList({ layoutProps }) {
 						<span className="menu-text">Settings</span>
 					</NavLink>
 				</li>
-				*/}
+				
 
 			</ul>
 

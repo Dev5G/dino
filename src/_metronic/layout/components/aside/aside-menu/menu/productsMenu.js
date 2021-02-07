@@ -7,6 +7,11 @@ import { toAbsoluteUrl } from "../../../../../_helpers";
 export const ProductsMenu = ({ getMenuItemActive}) => {
     return (
         <>
+		  {/* begin::section */}
+			<li className="menu-section ">
+				<h4 className="menu-text">Products</h4>
+				<i className="menu-icon flaticon-more-v2"></i>
+			</li>
 			{/*begin::Products*/}
 			<li
 				className={`menu-item menu-item-submenu ${getMenuItemActive(

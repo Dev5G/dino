@@ -21,6 +21,21 @@ class Category(Base):
 		}
 	
 	@classmethod
+	def find_product_category_by_code(cls,product_code,nest_id):
+		try:
+			abr = ''
+			for a in product_code:
+				if(a.isalpha()) == True:
+					abr +=a
+			o = cls.query.filter_by(abr=abr).filter_by(nest_id=nest_id).first()
+			if o:
+				return True, o
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, None
+
+	@classmethod
 	def get_max(cls,id):
 		try:
 			try:

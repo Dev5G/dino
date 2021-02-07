@@ -1,18 +1,29 @@
 from ..user.provider import Provider as User
 from .models import Product, DeletedProducts
 from ....utils import jsonList
+
 class Provider():
-	
+	@staticmethod
+	def init() -> Product:
+		return Product()
 
 	@staticmethod
-	def find_product_by_code(gid,code):
+	def commit():
+		return Product.commit_session()
+
+	@staticmethod
+	def find_product_by_code(gid, code):
 		"""Find product by id"""
-		user = User.find_by_gid(identity)
-		if user:
-			p = Product.find_by_code_and_nest(code,user.nest.id)
-			if p:
-				return p
-		return None
+		status,user = User.find_by_gid(gid)
+		if status:
+			status, p = Product.find_all_by_hens(user.hens,True,True)
+			if status:
+				one_p = p.filter_by(product_code=code).first()
+				if one_p:
+					return True, one_p
+			return False, None
+		return False, 'Operation not allowed!'
+
 
 	@staticmethod
 	def find_product(gid,id):
@@ -31,8 +42,9 @@ class Provider():
 		status,u = User.find_by_gid(gid)
 		p = None
 		if status:
-			status,p = Product.find_all_by_hens(u.hens,True)
+			status,p = Product.find_all_by_hens(u.hens,True,True)
 			if status:
+				p = p.limit(100).all()
 				p = jsonList(p)
 		return status,p
 

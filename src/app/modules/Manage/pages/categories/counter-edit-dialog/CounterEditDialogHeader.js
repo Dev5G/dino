@@ -16,9 +16,9 @@ export function CounterEditDialogHeader({ id }) {
   const [title, setTitle] = useState("");
   // Title couting
   useEffect(() => {
-    let _title = id ? "" : "New Counter";
+    let _title = id ? "" : "New Categories";
     if (counterForEdit && id) {
-      _title = `Edit counter '${counterForEdit.firstName} ${counterForEdit.lastName}'`;
+      _title = `Edit categories '${counterForEdit.firstName} ${counterForEdit.lastName}'`;
     }
 
     setTitle(_title);

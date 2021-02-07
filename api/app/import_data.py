@@ -1,6 +1,6 @@
 from flask import json
-from api.v1_0.products.provider import Provider as Product
-from api.v1_0.categories.provider import Provider as Category
+from app.api.v1_0.products.provider import Provider as Product
+from app.api.v1_0.categories.provider import Provider as Category
 from datetime import datetime
 
 def im_data(u, path):

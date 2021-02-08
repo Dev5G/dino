@@ -27,8 +27,9 @@ class Product(Base):
 
 
 	#Relationships
-	deleted_products = db.relationship('DeletedProducts', backref='product', cascade='all, delete-orphan')
+	deleted_products = db.relationship('DeletedProducts',backref=db.backref('sale_detail',uselist=False),uselist=False,cascade='all, delete-orphan')
 	#images  = db.relationship('ProductImages', backref='product')
+	#sale_details = db.relationship('SalesDetails', backref='product', cascade='all, delete-orphan')
 	#stones  = db.relationship('ProductStones', backref='product')
 
 	#Not complete
@@ -123,9 +124,6 @@ class Product(Base):
 	#		return cls.query.filter_by(uuid=_uuid).filter_by(nest_id=_nest_id).first()
 	#	except Exception as e:
 	#		return None
-	@classmethod
-	def find_all_limited(lim = 100):
-		o = cls.query.filter_by()
 
 	@classmethod
 	def generate_code(cls,nest_id,category_id):

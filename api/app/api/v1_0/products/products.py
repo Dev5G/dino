@@ -9,11 +9,15 @@ from .provider import Provider
 class products(MethodView):
 	@jwt_required
 	def post(self):
+		if not request.is_json:
+			return no_json_error(), 400
 		gid  = get_jwt_identity()
-		status,p = Provider.find_products(gid)
+		query = request.json.get('queryParams',None)
+		print(query)
+		status,p = Provider.find_products(gid,query)
 		if not status:
 			return jsonify({'title':'Got nothing!','msg':'Oops! You need to add some products!'}), 404
-		return jsonify({'entities':p}) , 200
+		return jsonify(p) , 200
 
 products_api.add_url_rule('/find', view_func=products.as_view('products_api'))
 

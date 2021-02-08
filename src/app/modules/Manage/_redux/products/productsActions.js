@@ -12,8 +12,7 @@ export const fetchProducts = queryParams => dispatch => {
     return requestFromServer
         .findProducts(queryParams)
         .then(r => {
-            const { entities, } = r.data;
-            const totalCount = entities.length
+            const { totalCount,entities, } = r.data;
             let totalWeight = 0
             if (entities) {
                 const getTotalWeight = () => entities.reduce((acc, cur) => acc + cur.weight, 0)

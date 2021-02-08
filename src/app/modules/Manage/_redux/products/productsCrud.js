@@ -4,7 +4,7 @@ const url = '/api/v1.0/products'
 const PRODUCTS_URL = ''
 // CREATE =>  POST: add a new product to the server
 export function createProduct(product) {
-    return axios.post(`${url}/new`,  product );
+  return axios.post(`${url}/new`, product);
 }
 
 // READ
@@ -19,12 +19,13 @@ export function getProductById(productId) {
 // Method from server should return QueryResultsModel(items: any[], totalsCount: number)
 // items => filtered/sorted result
 export function findProducts(queryParams) {
-    return axios.post(`${url}/find`, { queryParams });
+  console.log(queryParams)
+  return axios.post(`${url}/find`, { queryParams });
 }
 
 // UPDATE => PUT: update the procuct on the server
 export function updateProduct(product) {
-  return axios.put(`${url}/${product.id}`,  product );
+  return axios.put(`${url}/${product.id}`, product);
 }
 
 // UPDATE Status

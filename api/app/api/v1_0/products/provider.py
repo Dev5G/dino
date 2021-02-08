@@ -1,6 +1,7 @@
 from ..user.provider import Provider as User
 from .models import Product, DeletedProducts
 from ....utils import jsonList
+from sqlalchemy import desc, asc
 
 class Provider():
 	@staticmethod
@@ -37,16 +38,54 @@ class Provider():
 		return False,None
 
 	@staticmethod
-	def find_products(gid) -> list:
+	def find_products(gid, query) -> list:
 		"""Return [bool, list:dict | str:error]"""
 		status,u = User.find_by_gid(gid)
 		p = None
+		totalCount = 0
 		if status:
 			status,p = Product.find_all_by_hens(u.hens,True,True)
 			if status:
-				p = p.limit(120).all()
-				p = jsonList(p)
-		return status,p
+				if query:
+					filter = query.get('filter',None)
+					supplier = filter.get('supplier', None)
+					if supplier:
+						p = p.filter_by(supplier_id=supplier)
+					product_code = filter.get('product_code', None)
+					if product_code:
+						p = p.filter(Product.product_code.like(f'{product_code}%'))
+					weightFilter = query.get('weightFilter',None)
+					if weightFilter:
+						min = weightFilter.get('min',None)
+						if min:
+							p=p.filter(Product.weight>=min)
+						max = weightFilter.get('max',None)
+						if max:
+							p=p.filter(Product.weight<=max)
+					product_status = filter.get('status', None)
+					if product_status:
+					# 	from ..sales.models import SalesDetails
+						if product_status == 'Deleted':
+							p = p.outerjoin(DeletedProducts).filter(DeletedProducts.product_id!=None)
+						else:
+							p = p.outerjoin(DeletedProducts).filter(DeletedProducts.product_id==None)
+					
+					# 	if product_status == 'Available':
+					# 		print('available products')
+					# 		print(dir(p))
+					# 		p = p.join(SalesDetails, Product.id ==SalesDetails.product_id).filter(	SalesDetails.product_id == None)
+					sortOrder	= query.get('sortOrder',None)
+					if sortOrder:
+						sortField = query.get('sortField',None)
+						if not sortField =='id' or not sortField =='product_code':
+							sortField = 'product_code'
+						p=p.order_by(desc(sortField) if sortOrder == 'desc' else asc(sortField))
+					totalCount = p.count()
+					pageNumber  = query.get('pageNumber',None)
+					pageSize = query.get('pageSize',None)
+					p=p.paginate(pageNumber, pageSize, False).items
+					p:list = jsonList(p)
+		return status,{'entities':p, 'totalCount': totalCount}
 
 	@staticmethod
 	def save_product(gid,**kwargs) -> Product:

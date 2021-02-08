@@ -146,7 +146,7 @@ class SalesDetails(Base):
 	gross_amount = db.Column(db.Float(precision=3)) #actual price  (calculated on the total weight after applying waste in percentage)
 	net_amount = db.Column(db.Float(precision=3)) #net price after discount
 	
-	product = db.relationship('Product',  backref='sale_details')
+	product = db.relationship('Product',  backref=db.backref('sale_detail',uselist=False),uselist=False)
 
 	#--------------Save method-----------------@
 	def save_to_db(self):

@@ -1,11 +1,12 @@
 // React bootstrap table next =>
 // DOCS: https://react-bootstrap-table.github.io/react-bootstrap-table2/docs/
 // STORYBOOK: https://react-bootstrap-table.github.io/react-bootstrap-table2/storybook/index.html
-import React, { useEffect, useMemo,useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory, {
 	PaginationProvider,
 } from "react-bootstrap-table2-paginator";
+//import paginationFactory, { PaginationProvider, PaginationTotalStandalone, PaginationListStandalone } from 'react-bootstrap-table2-paginator';
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import * as actions from "../../../_redux/products/productsActions";
 import * as uiHelpers from "../ProductsUIHelpers";
@@ -33,25 +34,26 @@ export function ProductsTable() {
 			openDeleteProductDialog: productsUIContext.openDeleteProductDialog,
 		};
 	}, [productsUIContext]);
-	 
+
 	// Getting curret state of products list from store (Redux)
-	const { currentState:{ totalCount, products, entities, listLoading} } = useSelector(
+	const { currentState: { totalCount, products, entities, listLoading } } = useSelector(
 		(state) => ({ currentState: state.products }),
 		shallowEqual
 	);
-	
+
 	// Products Redux state
 	const dispatch = useDispatch();
 	useEffect(() => {
 		// clear selections list
 		productsUIProps.setIds([]);
+		dispatch(actions.fetchProducts(productsUIProps.queryParams));
 		// server call by queryParams only if there are products
-		if (products) {
-			//console.log(productsUIProps.queryParams)
-			dispatch(actions.filterProducts(products, productsUIProps.queryParams));
-		} else {
-			dispatch(actions.fetchProducts(productsUIProps.queryParams));
-		}
+		// if (products) {
+		// 	//console.log(productsUIProps.queryParams)
+		// 	dispatch(actions.filterProducts(products, productsUIProps.queryParams));
+		// } else {
+		// }
+
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [productsUIProps.queryParams, dispatch]);
 	// Table columns
@@ -61,6 +63,10 @@ export function ProductsTable() {
 			text: "ID",
 			sort: true,
 			sortCaret: sortCaret,
+			formatter: (cellContent, row, index) => {
+				console.log(row)
+				return ((index +1)+productsUIProps.queryParams.pageSize * (productsUIProps.queryParams.pageNumber-1)) 
+			},
 		},
 		{
 			dataField: "product_code",
@@ -119,15 +125,15 @@ export function ProductsTable() {
 			style: {
 				minWidth: "100px",
 			},
-		},
+		}
 	];
 	// Table pagination properties
 	const paginationOptions = {
 		custom: true,
-		totalSize: totalCount !== undefined ? totalCount: 0,
+		totalSize: totalCount !== undefined ? totalCount : 0,
 		sizePerPageList: uiHelpers.sizePerPageList,
 		sizePerPage: productsUIProps.queryParams.pageSize,
-		page: productsUIProps.queryParams.pageNumber,
+		page: productsUIProps.queryParams.pageNumber
 	};
 	return (
 		<>
@@ -150,12 +156,12 @@ export function ProductsTable() {
 								defaultSorted={uiHelpers.defaultSorted}
 								onTableChange={getHandlerTableChange(
 									productsUIProps.setQueryParams
-								)}
-								selectRow={getSelectRow({
-									entities,
-									ids: productsUIProps.ids,
-									setIds: productsUIProps.setIds,
-								})}
+							  )}
+							  selectRow={getSelectRow({
+								entities,
+								ids: productsUIProps.ids,
+								setIds: productsUIProps.setIds,
+						  })}
 								{...paginationTableProps}
 							>
 								<PleaseWaitMessage entities={entities} />

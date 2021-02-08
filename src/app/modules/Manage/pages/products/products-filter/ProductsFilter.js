@@ -105,7 +105,7 @@ export function ProductsFilter({ listLoading }) {
                                     >
                                         <option value="">All</option>
                                         {suppliers && suppliers.map(c => (
-                                            <option key={c.id} value={c.fullName}>
+                                            <option key={c.id} value={c.id}>
                                                 {c.fullName}
                                             </option>
                                         ))}

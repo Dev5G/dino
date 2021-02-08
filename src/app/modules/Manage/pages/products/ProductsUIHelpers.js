@@ -2,11 +2,12 @@ export const ProductStatusCssClasses = ["info", "","", "", "success"];
 export const ProductStatusTitles = ["Sold", "Deleted","Damaged", "Missing", "Available"];
 export const ProductConditionCssClasses = ["success", "danger", ""];
 export const ProductConditionTitles = ["New", "Used"];
-export const defaultSorted = [{ dataField: "id", order: "desc" }];
+export const defaultSorted = [{ dataField: "id", order: "asc" }];
 export const sizePerPageList = [
-    { text: "3", value: 3 },
-    { text: "5", value: 5 },
-    { text: "10", value: 10 }
+    { text: "10", value: 10 },
+    { text: "15", value: 15 },
+    { text: "20", value: 20 },
+    { text: "25", value: 25 }
 ];
 export const initialFilter = {
     filter: {
@@ -14,7 +15,7 @@ export const initialFilter = {
         category: "",
         weight: ""
     },
-    sortOrder: "desc", // asc||desc
+    sortOrder: "asc", // asc||desc
     sortField: "id",
     pageNumber: 1,
     pageSize: 10

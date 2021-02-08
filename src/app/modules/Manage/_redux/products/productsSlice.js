@@ -58,11 +58,6 @@ export const productsSlice = createSlice({
             if (!state.products) {
                 state.products = entities
             }
-            if (totalCount > 0) {
-                state.success = { msg: `Total ${totalCount} products found` }
-            } else {
-                state.success = null;
-            }
             state.totalCount = totalCount;
             state.totalWeight = totalWeight;
         },

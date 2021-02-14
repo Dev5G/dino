@@ -1,11 +1,11 @@
 import * as requestFromServer from "./customersCrud";
-import {customersSlice, callTypes} from "./salesmensSlice";
+import {salesmenSlice, callTypes} from "./salesmensSlice";
 import { FilterEntites } from "../../../_utils/filters";
 
 
-const {actions} = customersSlice;
+const {actions} = salesmenSlice;
 
-export const fetchCustomers = queryParams => dispatch => {
+export const fetchSalesmen = queryParams => dispatch => {
   dispatch(actions.startCall({ callType: callTypes.list }));
   return requestFromServer
     .findCustomers(queryParams)

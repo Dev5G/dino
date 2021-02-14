@@ -28,7 +28,7 @@ export function CustomersCard() {
             className="btn btn-primary"
             onClick={customersUIProps.newCustomerButtonClick}
           >
-            New Customer
+            New Saleman
           </button>
         </CardHeaderToolbar>
       </CardHeader>

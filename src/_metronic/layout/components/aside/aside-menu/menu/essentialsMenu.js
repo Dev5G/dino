@@ -97,6 +97,21 @@ export const EssentialsMenu = ({ getMenuItemActive }) => {
 							</NavLink>
 						</li>
 						{/*end::Customers*/}
+						{/*begin::Salesman*/}
+						<li
+							className={`menu-item ${getMenuItemActive(
+								"/manage/e/customers"
+							)}`}
+							aria-haspopup="true"
+						>
+							<NavLink className="menu-link" to="/manage/e/salesmen">
+								<i className="menu-bullet menu-bullet-dot">
+									<span />
+								</i>
+								<span className="menu-text">Salesman</span>
+							</NavLink>
+						</li>
+						{/*end::Salesman*/}
 					</ul>
 				</div>
 			</li>

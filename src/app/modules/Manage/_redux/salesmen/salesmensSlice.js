@@ -14,7 +14,7 @@ export const callTypes = {
   action: "action"
 };
 
-export const customersSlice = createSlice({
+export const salesmenSlice = createSlice({
   name: "salesmen",
   initialState: initialCustomersState,
   reducers: {

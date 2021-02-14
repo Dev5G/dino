@@ -20,10 +20,10 @@ const ProductEditSchema = Yup.object().shape({
     counter_id: Yup.string()
         .min(1, "Supplier is required")
         .required("Supplier is required"),
-    net_amount: Yup.number()
-        .required("net amount is required"),
-    total_amount: Yup.number()
-        .required("Total amount is required"),
+    //net_amount: Yup.number()
+     //   .required("net amount is required"),
+    //total_amount: Yup.number()
+     //   .required("Total amount is required"),
 });
 
 export function SaleBillForm({
@@ -52,7 +52,8 @@ export function SaleBillForm({
             goldrateToday: goldrates.goldrateToday,
         }), shallowEqual
     )
-    const [weight, setWeight] = useState(0.0)
+    const [netAmount, setNetAmount] = useState(0.0)
+    const [totalAmount, setTotalAmount] = useState(0.0)
     const [saleInit, setSaleInit] = useState(sale)
     const [waste, setWaste] = useState(0.0)
     const [isSplit, setIsSplit] = useState(false)
@@ -109,25 +110,22 @@ export function SaleBillForm({
                     onSubmit={(values) => {
                         const details = {
                             //TODO: change product code to id
-                            code: values.product_code,
-                            id: values.id,
-                            gross: values.gross,
-                            net: values.net,
-                            split: isSplit,
-                            order: isOrder,
-                            split_weight: values.split_weight
+                            products: productDetails,
+                            net_amount: netAmount,
+                            total: totalAmount
                         }
+                        
                         //saveSale(values);
-                        resetSaleInit()
-                        //console.log('details', details, 'values', values)
-                        setProductDetails(details)
+                        //resetSaleInit()
+                        console.log('details', details, 'values', values)
+                        //setProductDetails(details)
                         //if (previewSrc) {
                         //    UploadImage(previewSrc)
                         //}
                     }}
                 >
 
-                    {({ handleSubmit }) => (
+                    {({ handleSubmit,setFieldValue }) => (
                         <>
                             <Form className="form form-label-right">
                                 <div className="form-group row">
@@ -191,6 +189,7 @@ export function SaleBillForm({
                                             readOnly
                                             placeholder="Net amount"
                                             label="Net amount"
+                                            onChange={(e)=>setNetAmount(v => e.target.value)}
                                             withFeedbackLabel={false}
                                         />
                                     </div>
@@ -201,6 +200,10 @@ export function SaleBillForm({
                                             component={Input}
                                             placeholder="Total amount"
                                             label="Total amount"
+                                            onChange={(e)=>{
+                                                setTotalAmount(v => e.target.value)
+                                                setFieldValue(e.target.name,e.target.value)
+                                            }}
                                             withFeedbackLabel={false}
                                         />
                                     </div>
@@ -208,7 +211,7 @@ export function SaleBillForm({
                                 <button
                                     type="submit"
                                     className="btn btn-primary ml-2"
-                                    style={{ display: "none" }}
+                                   // style={{ display: "none" }}
                                     ref={btnRef}
                                     onSubmit={() => handleSubmit()}
                                 >Sale</button>

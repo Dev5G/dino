@@ -7,7 +7,7 @@ import paginationFactory, {
   PaginationProvider,
 } from "react-bootstrap-table2-paginator";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as actions from "../../../_redux/customers/customersActions";
+import * as actions from "../../../_redux/salesmen/customersActions";
 import {
   getSelectRow,
   getHandlerTableChange,
@@ -48,8 +48,7 @@ export function CustomersTable() {
     customersUIProps.setIds([]);
     // clear selections list
       // server call by queryParams
-      dispatch(actions.fetchCustomers(customersUIProps.queryParams));
-
+      dispatch(actions.fetchSalesmen(customersUIProps.queryParams));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customersUIProps.queryParams, dispatch]);
   // Table columns

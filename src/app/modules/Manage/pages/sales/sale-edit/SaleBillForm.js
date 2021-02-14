@@ -10,32 +10,20 @@ import { ProgressBar, Card, ListGroup } from "react-bootstrap";
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
-    metal_id: Yup.string()
+    customer_id: Yup.string()
         .required("Metal is required"),
-    ratti_method_id: Yup.string()
+    care_of_id: Yup.string()
         .required("Ratti Method is required"),
-    category_id: Yup.string()
+    salesman_id: Yup.string()
         .min(1, "Category is required")
         .required("Category is required"),
-    carat_id: Yup.string()
-        .required("Carat is required"),
-    supplier_id: Yup.string()
+    counter_id: Yup.string()
         .min(1, "Supplier is required")
         .required("Supplier is required"),
-    qty: Yup.number()
-        .min(1, "Minimum 1 qty required")
-        .max(30, "Maximum 30 qty allowed")
-        .required("Qty is required"),
-    product_code: Yup.string()
-        .required("Product code is required"),
-    weight: Yup.number()
-        .min(0.02, "0.02g is minimum")
-        .max(600, "600g is maximum")
-        .required("weight is required"),
-    waste: Yup.number()
-        .required("waste is required"),
-    ratti: Yup.number()
-        .required("Price is required"),
+    net_amount: Yup.number()
+        .required("net amount is required"),
+    total_amount: Yup.number()
+        .required("Total amount is required"),
 });
 
 export function SaleBillForm({
@@ -48,25 +36,19 @@ export function SaleBillForm({
 }) {
     //States
     const {
-        categories,
-        carats,
         salesmen,
         suppliers,
-        metals,
-        rattiMethods,
+        counters,
         customers,
         productForSale,
         goldrateToday,
     } = useSelector(
-        ({ store, salesmen, customers, suppliers, sales, goldrates }) => ({
+        ({ store, salesmen,counters, customers, sales, goldrates }) => ({
             categories: store.categories,
             productForSale: sales.productForSale,
-            carats: store.carats,
             salesmen: salesmen.entities,
-            suppliers: suppliers.entities,
             customers: customers.entities,
-            metals: store.metals,
-            rattiMethods: store.rattiMethods,
+            counters: counters.entities,
             goldrateToday: goldrates.goldrateToday,
         }), shallowEqual
     )
@@ -121,47 +103,6 @@ export function SaleBillForm({
             <div className="col-lg-8">
                 <Formik
                     enableReinitialize={true}
-                    initialValues={{ product_code: "" }}
-                    validationSchema={Yup.object().shape({
-                        product_code: Yup.string()
-                            .min(5, "Product code is min 5 chars")
-                            .max(10, "Product code is max 10 chars")
-                            .required("Please enter product code to search")
-                    })}
-                    onSubmit={(values) => {
-                        //saveSale(values);
-                        dispatch(actions.fetchProductForSale(values))
-                        //if (previewSrc) {
-                        //    UploadImage(previewSrc)
-                        //}
-                    }}
-                >{({ handleSubmit }) => (
-                    <Form className="form form-label-right">
-                        <div className="form-group row">
-                            <div className="col-lg-4">
-                                <Field
-                                    name="product_code"
-                                    component={Input}
-                                    type="text"
-                                    placeholder="Product Code"
-                                    withFeedbackLabel={false}
-                                />
-                            </div>
-                            <div className="col-lg-4">
-                                <button
-                                    type="submit"
-                                    className="btn btn-primary ml-2"
-                                    onSubmit={() => handleSubmit()}
-                                >
-                                    Search
-									</button>
-                            </div>
-                        </div>
-                    </Form>
-                )}
-                </Formik>
-                <Formik
-                    enableReinitialize={true}
                     innerRef={formikRef}
                     initialValues={saleInit}
                     validationSchema={ProductEditSchema}
@@ -189,159 +130,94 @@ export function SaleBillForm({
                     {({ handleSubmit }) => (
                         <>
                             <Form className="form form-label-right">
-
                                 <div className="form-group row">
                                     <div className="col-lg-4">
-                                        <Field
-                                            name="product_code"
-                                            component={Input}
-                                            placeholder="Product Code"
-                                            readOnly
-                                            withFeedbackLabel={false}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group row">
-                                    <div className="col-lg-4">
-                                        <Select name="category_id" disabled label="Category">
+                                        <Select name="customer_id"  label="Customer">
                                             <option key="0" value="0">
                                                 Please Select
 										</option>
-                                            {categories && categories.map(c => (
+                                            {customers && customers.map(c => (
                                                 <option key={c.id} value={c.id}>
-                                                    {c.name} - {c.abr}
+                                                    {c.fullName}
                                                 </option>
                                             ))}
                                         </Select>
                                     </div>
                                     <div className="col-lg-4">
-                                        <Select name="carat_id" disabled label="Carat">
-                                            {carats ? carats.map(c => (
-                                                <option key={c.id} value={c.id}>
-                                                    {c.value}
-                                                </option>
-                                            )) : []}
-                                        </Select>
-                                    </div>
-                                    <div className="col-lg-4">
-                                        <Select name="supplier_id" disabled label="Supplier">
+                                        <Select name="care_of_id"  label="Care of">
                                             <option key="0" value="0">
                                                 Please Select
 										</option>
-                                            {suppliers ? suppliers.map(s => (
-                                                <option key={s.id} value={s.id}>
-                                                    {s.details.firstName}{' '}{s.details.lastName}
+                                            {customers && customers.map(c => (
+                                                <option key={c.id} value={c.id}>
+                                                    {c.fullName}
                                                 </option>
-                                            )) : []}
+                                            ))}
+                                            </Select>
+                                    </div>
+                                    <div className="col-lg-4">
+                                        <Select name="salesman_id" label="Salesman">
+                                            <option key="0" value="0">
+                                                Please Select
+										</option>
+                                            {salesmen && salesmen.map(s => (
+                                                <option key={s.id} value={s.id}>
+                                                    {s.fullName}
+                                                </option>
+                                            ))}
                                         </Select>
                                     </div>
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-lg-4">
-                                        <Field
-                                            name="weight"
-                                            type="number"
-                                            component={Input}
-                                            readOnly
-                                            placeholder="Weight"
-                                            label="Weight"
-                                        />
-                                    </div>
-                                    <div className="col-lg-4">
-                                        <Field
-                                            name="waste"
-                                            type="number"
-                                            component={Input}
-                                            onChange={(e) => HandleWaste(e)}
-                                            placeholder="Waste (%)"
-                                            label="Waste (%)"
-                                        />
-                                    </div>
-                                    <div className="col-lg-4">
-                                        <Field
-                                            name="weight_gm"
-                                            type="number"
-                                            component={Input}
-                                            readOnly
-                                            placeholder="Waste (gm)"
-                                            label="Waste (gm)"
-                                        />
-                                    </div>
-                                </div>
+                                    <Select name="counter_id" label="Counter">
+                                            <option key="0" value="0">
+                                                Please Select
+										</option>
+                                            {counters && counters.map(s => (
+                                                <option key={s.id} value={s.id}>
+                                                    {s.name}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    </div> </div>
 
                                 <div className="form-group row">
                                     <div className="col-lg-4">
                                         <Field
-                                            name="gross"
+                                            name="net_amount"
                                             type="number"
                                             component={Input}
                                             readOnly
-                                            placeholder="Gross Value"
-                                            label="Gross Value"
+                                            placeholder="Net amount"
+                                            label="Net amount"
                                             withFeedbackLabel={false}
                                         />
                                     </div>
                                     <div className="col-lg-4">
                                         <Field
-                                            name="net"
+                                            name="total_amount"
                                             type="number"
                                             component={Input}
-                                            placeholder="Net"
-                                            label="Net"
+                                            placeholder="Total amount"
+                                            label="Total amount"
                                             withFeedbackLabel={false}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <div className="col-lg-4">
-                                        <Checkbox
-                                            name="is_split"
-                                            value={isSplit}
-                                            checked={isSplit}
-                                            onChange={() => setIsSplit(s => !s)}
-                                            label="Is this split sale?  "
-                                        />
-                                    </div>
-                                </div>
-                                {isSplit && (
-                                    <div className="form-group">
-                                        <div className="col-lg-4">
-                                            <Field
-                                                name="split_weight"
-                                                type="number"
-                                                component={Input}
-                                                placeholder="Split Weight"
-                                                label="Split Weight"
-                                                withFeedbackLabel={false}
-                                            />
-                                        </div>
-                                    </div>
-                                )
-                                }
-                                <div className="form-group">
-                                    <div className="col-lg-4">
-                                        <Checkbox
-                                            name="is_order"
-                                            value={isOrder}
-                                            checked={isOrder}
-                                            onChange={() => setIsOrder(o => !o)}
-                                            label="Is this order sale?  "
                                         />
                                     </div>
                                 </div>
                                 <button
                                     type="submit"
                                     className="btn btn-primary ml-2"
-                                    //style={{ display: "none" }}
+                                    style={{ display: "none" }}
                                     ref={btnRef}
                                     onSubmit={() => handleSubmit()}
-                                >Add</button>
+                                >Sale</button>
                             </Form>
                         </>
                     )}
                 </Formik>
             </div>
-            {productDetails && (
+            {productDetails ? (
                 <div className="col-lg-4">
                     <ListGroup>
                         {productDetails.map(p => (
@@ -349,7 +225,7 @@ export function SaleBillForm({
                         ))}
                     </ListGroup>
                 </div>
-            )}
+            ) : <p>Please add some products to sale</p>}
 
         </div>
     );

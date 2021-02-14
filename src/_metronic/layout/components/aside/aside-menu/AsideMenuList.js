@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import SVG from "react-inlinesvg";
 import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
-import { EssentialsMenu, ProductsMenu/*,ElementsMenu*/, GoldMenu} from "./menu";
+import { EssentialsMenu, ProductsMenu/*,ElementsMenu*/, SalesMenu, GoldMenu } from "./menu";
 
 export function AsideMenuList({ layoutProps }) {
 	const location = useLocation();
@@ -31,7 +31,7 @@ export function AsideMenuList({ layoutProps }) {
 					</NavLink>
 				</li>
 				{/*end::1 Level*/}
-				
+
 				{/* Manage -- Farm settings */}
 				<EssentialsMenu
 					getMenuItemActive={getMenuItemActive} />
@@ -40,10 +40,12 @@ export function AsideMenuList({ layoutProps }) {
 					getMenuItemActive={getMenuItemActive} />
 				<GoldMenu
 					getMenuItemActive={getMenuItemActive} />
+				<SalesMenu
+					getMenuItemActive={getMenuItemActive} />
 				{/*<ElementsMenu
 					getMenuItemActive={getMenuItemActive} />*/}
-				
-					{/** 
+
+				{/** 
 				<li className="menu-section ">
 					<h4 className="menu-text">Application</h4>
 					<i className="menu-icon flaticon-more-v2"></i>
@@ -182,7 +184,7 @@ export function AsideMenuList({ layoutProps }) {
 						<span className="menu-text">Settings</span>
 					</NavLink>
 				</li>
-				
+
 
 			</ul>
 

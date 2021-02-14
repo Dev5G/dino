@@ -1,103 +1,103 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { SalesmenLoadingDialog } from "./salesmen-loading-dialog/SalesmenLoadingDialog";
-import { SalesmanEditDialog } from "./salesman-edit-dialog/SalesmanEditDialog";
-import { SalesmanDeleteDialog } from "./salesman-delete-dialog/SalesmanDeleteDialog";
-import { SalesmenDeleteDialog } from "./salesmen-delete-dialog/SalesmenDeleteDialog";
-import { SalesmenFetchDialog } from "./salesmen-fetch-dialog/SalesmenFetchDialog";
-import { SalesmenUpdateStateDialog } from "./salesmen-update-status-dialog/SalesmenUpdateStateDialog";
-import { SalesmenUIProvider } from "./SalesmenUIContext";
-import { SalesmenCard } from "./SalesmenCard";
+import { CustomersLoadingDialog } from "./customers-loading-dialog/CustomersLoadingDialog";
+import { CustomerEditDialog } from "./customer-edit-dialog/CustomerEditDialog";
+import { CustomerDeleteDialog } from "./customer-delete-dialog/CustomerDeleteDialog";
+import { CustomersDeleteDialog } from "./customers-delete-dialog/CustomersDeleteDialog";
+import { CustomersFetchDialog } from "./customers-fetch-dialog/CustomersFetchDialog";
+import { CustomersUpdateStateDialog } from "./customers-update-status-dialog/CustomersUpdateStateDialog";
+import { CustomersUIProvider } from "./CustomersUIContext";
+import { CustomersCard } from "./CustomersCard";
 
 export function SalesmenPage({ history }) {
 			
-	const salesmenUIEvents = {
-		newSalesmanButtonClick: () => {
-			history.push("/e-commerce/salesmen/new");
+	const customersUIEvents = {
+		newCustomerButtonClick: () => {
+			history.push("/manage/e/salesmen/new");
 		},
-		openEditSalesmanDialog: (id) => {
-			history.push(`/e-commerce/salesmen/${id}/edit`);
+		openEditCustomerDialog: (id) => {
+			history.push(`/manage/e/salesmen/${id}/edit`);
 		},
-		openDeleteSalesmanDialog: (id) => {
-			history.push(`/e-commerce/salesmen/${id}/delete`);
+		openDeleteCustomerDialog: (id) => {
+			history.push(`/manage/e/salesmen/${id}/delete`);
 		},
-		openDeleteSalesmenDialog: () => {
-			history.push(`/e-commerce/salesmen/deleteSalesmen`);
+		openDeleteCustomersDialog: () => {
+			history.push(`/manage/e/salesmen/deleteCustomers`);
 		},
-		openFetchSalesmenDialog: () => {
-			history.push(`/e-commerce/salesmen/fetch`);
+		openFetchCustomersDialog: () => {
+			history.push(`/manage/e/salesmen/fetch`);
 		},
-		openUpdateSalesmenStatusDialog: () => {
-			history.push("/e-commerce/salesmen/updateStatus");
+		openUpdateCustomersStatusDialog: () => {
+			history.push("/manage/e/salesmen/updateStatus");
 		}
 	}
 
 	return (
-		<SalesmenUIProvider salesmenUIEvents={salesmenUIEvents}>
-			<SalesmenLoadingDialog />
-			<Route path="/e-commerce/salesmen/new">
+		<CustomersUIProvider customersUIEvents={customersUIEvents}>
+			<CustomersLoadingDialog />
+			<Route path="/manage/e/salesmen/new">
 				{({ history, match }) => (
-					<SalesmanEditDialog
+					<CustomerEditDialog
 						show={match != null}
 						onHide={() => {
-							history.push("/e-commerce/salesmen");
+							history.push("/manage/e/salesmen");
 						}}
 					/>
 				)}
 			</Route>
-			<Route path="/e-commerce/salesmen/:id/edit">
+			<Route path="/manage/e/salesmen/:id/edit">
 				{({ history, match }) => (
-					<SalesmanEditDialog
-						show={match != null}
-						id={match && match.params.id}
-						onHide={() => {
-							history.push("/e-commerce/salesmen");
-						}}
-					/>
-				)}
-			</Route>
-			<Route path="/e-commerce/salesmen/deleteSalesmen">
-				{({ history, match }) => (
-					<SalesmenDeleteDialog
-						show={match != null}
-						onHide={() => {
-							history.push("/e-commerce/salesmen");
-						}}
-					/>
-				)}
-			</Route>
-			<Route path="/e-commerce/salesmen/:id/delete">
-				{({ history, match }) => (
-					<SalesmanDeleteDialog
+					<CustomerEditDialog
 						show={match != null}
 						id={match && match.params.id}
 						onHide={() => {
-							history.push("/e-commerce/salesmen");
+							history.push("/manage/e/salesmen");
 						}}
 					/>
 				)}
 			</Route>
-			<Route path="/e-commerce/salesmen/fetch">
+			<Route path="/manage/e/salesmen/deleteCustomers">
 				{({ history, match }) => (
-					<SalesmenFetchDialog
+					<CustomersDeleteDialog
 						show={match != null}
 						onHide={() => {
-							history.push("/e-commerce/salesmen");
+							history.push("/manage/e/salesmen");
 						}}
 					/>
 				)}
 			</Route>
-			<Route path="/e-commerce/salesmen/updateStatus">
+			<Route path="/manage/e/salesmen/:id/delete">
 				{({ history, match }) => (
-					<SalesmenUpdateStateDialog
+					<CustomerDeleteDialog
+						show={match != null}
+						id={match && match.params.id}
+						onHide={() => {
+							history.push("/manage/e/salesmen");
+						}}
+					/>
+				)}
+			</Route>
+			<Route path="/manage/e/salesmen/fetch">
+				{({ history, match }) => (
+					<CustomersFetchDialog
 						show={match != null}
 						onHide={() => {
-							history.push("/e-commerce/salesmen");
+							history.push("/manage/e/salesmen");
 						}}
 					/>
 				)}
 			</Route>
-			<SalesmenCard />
-		</SalesmenUIProvider>
+			<Route path="/manage/e/salesmen/updateStatus">
+				{({ history, match }) => (
+					<CustomersUpdateStateDialog
+						show={match != null}
+						onHide={() => {
+							history.push("/manage/e/salesmen");
+						}}
+					/>
+				)}
+			</Route>
+			<CustomersCard />
+		</CustomersUIProvider>
 	);
 }

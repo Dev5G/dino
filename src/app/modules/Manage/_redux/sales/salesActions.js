@@ -35,7 +35,6 @@ export const fetchProductForSale = ({ product_code }) => dispatch => {
     if (!product_code) {
         return dispatch(actions.saleFetched({ saleForEdit: undefined }));
     }
-    console.log(product_code)
     dispatch(actions.startCall({ callType: callTypes.action }));
     return requestFromServer
         .getProductByCode(product_code)

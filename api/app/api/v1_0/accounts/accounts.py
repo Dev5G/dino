@@ -2,7 +2,10 @@ from .models import (AccountCash, AccountGold,
 							SupplierCashAccounts,
 							SupplierGoldAccounts,
 							CustomerCashAccounts,
-							CustomerGoldAccounts)
+							CustomerGoldAccounts,
+							SalesmanCashAccounts,
+							SalesmanGoldAccounts,
+							)
 
 class Accounts:
 	@staticmethod
@@ -59,6 +62,40 @@ class Accounts:
 			return True, 'Supplier accounts added'
 		except Exception as e:
 			return False, 'Supplier accounts could not be added!'+ str(e)
+
+	@staticmethod
+	def add_salesman_accounts(salesman,hen_id,opening_cash=0,opening_gold=0,opening_gold24=0):
+		try:
+			cash_status,cashA = SalesmanCashAccounts.find_account(salesman_id=salesman.id,hen_id=hen_id)
+			gold_status,goldA = SalesmanGoldAccounts.find_account(salesman_id=salesman.id,hen_id=hen_id,carat_id=21)
+			gold24_status,gold24A = SalesmanGoldAccounts.find_account(salesman_id=salesman.id,hen_id=hen_id,carat_id=24)
+			
+			cash, gold, gold24 = Accounts.create_cash_and_gold(opening_cash=opening_cash,
+														opening_gold=opening_gold,
+														opening_gold24=opening_gold24)
+			#TODO:// separate account creation and improve adding of account so 
+			# that we can check each account if it 
+			# exist or not and then 
+			# create a new otherwise none and return old
+			if not cash_status:
+				cashA = SalesmanCashAccounts(account_id=cash.id,salesman_id=salesman.id,hen_id=hen_id)
+				cashA.add_to_nest()
+			else:
+				cash.delete_from_db()
+			if not gold_status:
+				goldA = SalesmanGoldAccounts(account_id=gold.id,salesman_id=salesman.id,hen_id=hen_id)
+				goldA.add_to_nest()
+			else:
+				gold.delete_from_db()
+			if not gold24_status:
+				gold24A = SalesmanGoldAccounts(account_id=gold24.id,salesman_id=salesman.id,hen_id=hen_id)
+				gold24A.add_to_nest()
+			else:
+				gold24.delete_from_db()
+			return True, 'Supplier accounts added'
+		except Exception as e:
+			return False, 'Supplier accounts could not be added!'+ str(e)
+
 
 	@staticmethod
 	def add_customer_accounts(customer,hen_id,opening_cash=0,opening_gold=0,opening_gold24=0):

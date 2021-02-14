@@ -19,7 +19,7 @@ class Provider():
 		if status:
 			status, p = Product.find_all_by_hens(user.hens,True,True)
 			if status:
-				one_p = p.filter_by(product_code=code).first()
+				one_p = p.filter_by(product_code=code.upper()).first()
 				if one_p:
 					return True, one_p
 			return False, None
@@ -69,7 +69,7 @@ class Provider():
 							p = p.outerjoin(DeletedProducts).filter(DeletedProducts.product_id!=None)
 						else:
 							p = p.outerjoin(DeletedProducts).filter(DeletedProducts.product_id==None)
-					
+				
 					# 	if product_status == 'Available':
 					# 		print('available products')
 					# 		print(dir(p))

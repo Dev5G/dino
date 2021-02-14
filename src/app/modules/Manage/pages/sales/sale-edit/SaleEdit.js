@@ -21,9 +21,9 @@ import { Alert } from "react-bootstrap";
 
 const initProduct = {
 	id: undefined,
-	category_id: "",
+	category_id: 0,
 	carat_id: 1,
-	supplier_id: "",
+	supplier_id: 0,
 	metal_id: 1,
 	ratti_method_id: 1,
 	design_no: "",
@@ -138,7 +138,7 @@ export function SaleEdit({
 	};
 
 	const backToSalesList = () => {
-		history.push(`/e-commerce/sales`);
+		history.push(`/manage/s/sales`);
 	};
 
 	return (
@@ -208,16 +208,6 @@ export function SaleEdit({
 						</>
 					)}
 				</ul>
-				{alert.show && (
-					<div className="mt-5">
-						<Alert variant={alert.variant} onClose={() => setAlert(alertStart)} dismissible>
-							<Alert.Heading>{alert.header}</Alert.Heading>
-							<p>
-								{alert.msg}
-							</p>
-						</Alert>
-					</div>
-				)}
 				<div className="mt-5">
 					{tab === "basic" && (
 						<SaleEditForm

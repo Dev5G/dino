@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { fetchSuppliers } from "./modules/Manage/_redux/suppliers/actions";
 import { fetchCounters } from "./modules/Manage/_redux/counters/countersActions";
 import { fetchCategories } from "./modules/Manage/_redux/categories/categoriesActions";
+import { fetchCustomers } from "./modules/Manage/_redux/customers/customersActions";
 const GoogleMaterialPage = lazy(() =>
   import("./modules/GoogleMaterialExamples/GoogleMaterialPage")
 );
@@ -29,6 +30,7 @@ export default function BasePage() {
         dispatch(fetchSuppliers())
         dispatch(fetchCounters())
         dispatch(fetchCategories())
+        dispatch(fetchCustomers())
     }, []) // [] - is required if you need only one call
     //const [loaded, setLoaded] = useState(false)
     //if (!loaded) {

@@ -3,7 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import * as actions from '../../../_redux/sales/salesActions'
 import * as supplierActions from '../../../_redux/suppliers/actions'
-import { Input, Select, CardHeader, CardHeaderToolbar, Checkbox } from "../../../../../../_metronic/_partials/controls";
+import { Input, Select, CardHeader, CardHeaderToolbar, Checkbox, InputGroupCheckBox } from "../../../../../../_metronic/_partials/controls";
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { generateCode } from "../../../../../../_utils/SaleUtils";
 import { ProgressBar, Card, ListGroup } from "react-bootstrap";
@@ -58,8 +58,8 @@ export function SaleEditForm({
         productForSale,
         goldrateToday,
     } = useSelector(
-        ({ store, salesmen, customers, suppliers, sales, goldrates }) => ({
-            categories: store.categories,
+        ({ store, salesmen, categories, customers, suppliers, sales, goldrates }) => ({
+            categories: categories.entities,
             productForSale: sales.productForSale,
             carats: store.carats,
             salesmen: salesmen.entities,
@@ -70,9 +70,10 @@ export function SaleEditForm({
             goldrateToday: goldrates.goldrateToday,
         }), shallowEqual
     )
-    const [weight, setWeight] = useState(0.0)
     const [saleInit, setSaleInit] = useState(sale)
     const [waste, setWaste] = useState(0.0)
+    const [weightGMwaste, setWeightGMwaste] = useState(sale.weight_gm)
+    const [gramWasteEditable, setGramWasteEditable] = useState(false)
     const [isSplit, setIsSplit] = useState(false)
     const [isOrder, setIsOrder] = useState(false)
     //Refs
@@ -91,10 +92,20 @@ export function SaleEditForm({
                 net: gross,
                 split_weight: 0.0
             }
-            setSaleInit(value)
+            setSaleInit(prevStat => value)
+            setWeightGMwaste(prevState => productForSale.weight_gm)
             //console.log("Product",productForSale)
         }
     }, [productForSale])
+
+    useEffect(() => {
+        if (gramWasteEditable && saleInit.weight !== 0) {
+            let percent_waste = (100 * weightGMwaste / saleInit.weight).toFixed(3)
+            formikRef.current.setFieldValue('waste', percent_waste)
+            setWaste(state => percent_waste)
+        }   
+    }, [weightGMwaste])
+
     useEffect(() => {
         if (!suppliers) {
             dispatch(supplierActions.fetchSuppliers())
@@ -109,6 +120,16 @@ export function SaleEditForm({
         } else {
             formikRef.current.setFieldValue(e.target.name, 0)
             setWaste(0.0)
+        }
+    }
+    const HandlGrameWaste = (e) => {
+        const value = parseFloat(e.target.value)
+        if (value) {
+            formikRef.current.setFieldValue(e.target.name, value)
+            setWeightGMwaste(value)
+        } else {
+            formikRef.current.setFieldValue(e.target.name, '')
+            setWeightGMwaste(0)
         }
     }
     const resetSaleInit = () => {
@@ -174,7 +195,8 @@ export function SaleEditForm({
                             net: values.net,
                             split: isSplit,
                             order: isOrder,
-                            split_weight: values.split_weight
+                            split_weight: values.split_weight,
+                            weight_gm_waste: weightGMwaste,
                         }
                         //saveSale(values);
                         resetSaleInit()
@@ -230,7 +252,7 @@ export function SaleEditForm({
 										</option>
                                             {suppliers ? suppliers.map(s => (
                                                 <option key={s.id} value={s.id}>
-                                                    {s.details.firstName}{' '}{s.details.lastName}
+                                                    {s.fullName}
                                                 </option>
                                             )) : []}
                                         </Select>
@@ -260,10 +282,14 @@ export function SaleEditForm({
                                     <div className="col-lg-4">
                                         <Field
                                             name="weight_gm"
-                                            type="number"
-                                            component={Input}
                                             readOnly
-                                            placeholder="Waste (gm)"
+                                            type="number"
+                                            component={InputGroupCheckBox}
+                                            isSelected={gramWasteEditable}
+                                            checkBoxOnChange={() => setGramWasteEditable(state => !state)}
+                                            readOnly={!gramWasteEditable}
+                                            onChange={(e) => HandlGrameWaste(e)}
+                                            placeholder="Gram Waste"
                                             label="Waste (gm)"
                                         />
                                     </div>

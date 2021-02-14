@@ -11,65 +11,65 @@ import { SalesUIProvider } from "./SalesUIContext";
 export function SalesPage({ history }) {
   const salesUIEvents = {
     newSaleButtonClick: () => {
-      history.push("/e-commerce/sales/new");
+      history.push("/manage/s/sales/new");
     },
     openEditSalePage: (id) => {
-      history.push(`/e-commerce/sales/${id}/edit`);
+      history.push(`/manage/s/sales/${id}/edit`);
     },
     openDeleteSaleDialog: (id) => {
-      history.push(`/e-commerce/sales/${id}/delete`);
+      history.push(`/manage/s/sales/${id}/delete`);
     },
     openDeleteSalesDialog: () => {
-      history.push(`/e-commerce/sales/deleteSales`);
+      history.push(`/manage/s/sales/deleteSales`);
     },
     openFetchSalesDialog: () => {
-      history.push(`/e-commerce/sales/fetch`);
+      history.push(`/manage/s/sales/fetch`);
     },
     openUpdateSalesStatusDialog: () => {
-      history.push("/e-commerce/sales/updateStatus");
+      history.push("/manage/s/sales/updateStatus");
     },
   };
 
   return (
     <SalesUIProvider salesUIEvents={salesUIEvents}>
       <SalesLoadingDialog />
-      <Route path="/e-commerce/sales/deleteSales">
+      <Route path="/manage/s/sales/deleteSales">
         {({ history, match }) => (
           <SalesDeleteDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/sales");
+              history.push("/manage/s/sales");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/sales/:id/delete">
+      <Route path="/manage/s/sales/:id/delete">
         {({ history, match }) => (
           <SaleDeleteDialog
             show={match != null}
             id={match && match.params.id}
             onHide={() => {
-              history.push("/e-commerce/sales");
+              history.push("/manage/s/sales");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/sales/fetch">
+      <Route path="/manage/s/sales/fetch">
         {({ history, match }) => (
           <SalesFetchDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/sales");
+              history.push("/manage/s/sales");
             }}
           />
         )}
       </Route>
-      <Route path="/e-commerce/sales/updateStatus">
+      <Route path="/manage/s/sales/updateStatus">
         {({ history, match }) => (
           <SalesUpdateStatusDialog
             show={match != null}
             onHide={() => {
-              history.push("/e-commerce/sales");
+              history.push("/manage/s/sales");
             }}
           />
         )}

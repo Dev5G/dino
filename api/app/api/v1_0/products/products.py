@@ -21,6 +21,33 @@ class products(MethodView):
 
 products_api.add_url_rule('/find', view_func=products.as_view('products_api'))
 
+class Search(MethodView):
+	@jwt_required
+	def get(self):
+		args = request.args
+		by = args.get('by',None)
+		joined = args.get('joined',None)
+		value = args.get('v',None)
+		gid  = get_jwt_identity()
+		p = None
+		if not by:
+			return {'msg':'No search field specified!'} , 400
+		if not id:
+				return {'msg':'Value paramter "v" is required!'} , 400
+		if by == 'id':
+			status,p = Provider.find_product(gid,value)
+			if not status:
+				return {'msg':'Product not found!'}, 404
+		if by == 'code':
+			status,p = Provider.find_product_by_code(gid,value)
+			if not status:
+				return {'msg':'Product not found!'}, 404
+		if joined:
+			return jsonify({'product':p.json()}) , 200
+		return jsonify({'product':p.toJson()}) , 200
+
+products_api.add_url_rule('/search', view_func=Search.as_view('search_api'))
+
 
 class create_product(MethodView):
 	@jwt_required

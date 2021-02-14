@@ -1,10 +1,7 @@
 import axios from "axios";
-import { apiUrl } from '../../../../config'
-const url = {
-    saleUrl: apiUrl.BASE_URL + apiUrl.apiPath + apiUrl.version + apiUrl.salePath,
-    salesUrl: apiUrl.BASE_URL + apiUrl.apiPath + apiUrl.version + apiUrl.salesPath,
-    productByCodeUrl: apiUrl.BASE_URL + apiUrl.apiPath + apiUrl.version + apiUrl.productByCodePath,
-}
+
+const url = '/api/v1.0/sales'
+const url_product = '/api/v1.0/products'
 const PRODUCTS_URL = ''
 // CREATE =>  POST: add a new sale to the server
 export function createSale(sale) {
@@ -12,7 +9,7 @@ export function createSale(sale) {
 }
 
 export function getProductByCode(code) {
-    return axios.get(`${url.productByCodeUrl}/${code}`);
+    return axios.get(`${url_product}/search?v=${code}&by=code`);
 }
 // READ
 export function getAllSales() {

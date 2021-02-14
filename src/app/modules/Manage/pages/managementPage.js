@@ -45,9 +45,11 @@ export default function managementPage() {
 				<ContentRoute path="/manage/e/counters" component={CountersPage} />
 				<ContentRoute path="/manage/e/categories" component={CategoriesPage} />
 				<ContentRoute path="/manage/e/customers" component={CustomersPage} />
+				<ContentRoute path="/manage/e/salesmen" component={SalesmenPage} />
 				<ContentRoute path="/manage/g/gold-purchase" component={GoldPurchasesPage} />
 				<ContentRoute path="/manage/e/suppliers/new" component={SupplierEdit} />
 				<ContentRoute path="/manage/p/products/new" component={ProductEdit} />
+				<ContentRoute path="/manage/s/sales/new" component={SaleEdit} />
 				<ContentRoute
 					path="/manage/e/suppliers/:id/edit"
 					component={SupplierEdit}
@@ -58,12 +60,10 @@ export default function managementPage() {
 				/>
 				<ContentRoute path="/manage/e/suppliers" component={SuppliersPage} />
 				<ContentRoute path="/manage/p/products" component={ProductsPage} />
+				<ContentRoute path="/manage/s/sales" component={SalesPage} />
 				<Redirect to="/error/404" />
 				{/*<ContentRoute path="/e-commerce/gps" component={GpsPage} />
-				<ContentRoute path="/e-commerce/salesmen" component={SalesmenPage} />
-				<ContentRoute path="/e-commerce/sales/new" component={SaleEdit} />
 
-				<ContentRoute path="/e-commerce/sales" component={SalesPage} />
 				*/}
 			</Switch>
 		</Suspense>

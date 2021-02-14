@@ -114,6 +114,53 @@ class AccountMethods:
 	pass
 
 
+
+class SalesmanCashAccounts(Base):
+	__tablename__ = 'tbl_salesman_cash_accounts'
+
+	account_id = db.Column(db.Integer, db.ForeignKey('tbl_account_cash.id'), nullable=False)
+	salesman_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
+	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
+
+	salesman = db.relationship('User', backref='cash_accounts_as_salesman',uselist=False)
+
+	@classmethod
+	def find_account(cls, salesman_id,hen_id):
+		try:
+			o = cls.query.filter_by(salesman_id=salesman_id).filter_by(hen_id=hen_id).first()
+			if o:
+				return True, o
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, str(e)
+
+class SalesmanGoldAccounts(Base):
+	__tablename__ = 'tbl_salesman_gold_accounts'
+
+	account_id = db.Column(db.Integer, db.ForeignKey('tbl_account_gold.id'), nullable=False)
+	salesman_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
+	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
+	
+
+	salesman = db.relationship('User', backref='gold_accounts_as_salesman',uselist=False)
+	account = db.relationship('AccountGold', backref='gold_account_as_salesman',uselist=False)
+	
+	@classmethod
+	def find_account(cls,salesman_id,hen_id,carat_id):
+		try:
+			o = cls.query.filter_by(salesman_id=salesman_id).filter_by(hen_id=hen_id).all()
+			if o:
+				for i in range(len(o)):
+					if o[i].account.carat_id == carat_id:
+						return True, o[i]
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, str(e)
+
+
+
 class SupplierCashAccounts(Base):
 	__tablename__ = 'tbl_supplier_cash_accounts'
 

@@ -18,7 +18,7 @@ suppliers_table=db.Table('tbl_suppliers',
 #--------Salesman relationship------
 salesman_table=db.Table('tbl_salesman',
 						db.Column('user_id',db.Integer,db.ForeignKey('tbl_users.id'), nullable=False),
-						db.Column('hen_id',db.Integer,db.ForeignKey('tbl_hens.id'), nullable=False),
+						db.Column('nest_id',db.Integer,db.ForeignKey('tbl_nests.id'), nullable=False),
 						)
 #-------Customer relationship-----
 customers_table=db.Table('tbl_customers',
@@ -48,8 +48,8 @@ class User(Base):
 	nest = db.relationship('Nest',secondary=nest_keeper_table, backref=db.backref('keepers',lazy='dynamic'),uselist=False)
 	nests_as_customer = db.relationship('Nest',secondary=customers_table, backref=db.backref('customers',lazy='dynamic'))
 	nests_as_supplier = db.relationship('Nest',secondary=suppliers_table, backref=db.backref('suppliers',lazy='dynamic'))
-	hens_as_salesman = db.relationship('Hens',secondary=salesman_table, backref=db.backref('salesmen',lazy='dynamic'))
-	#salesman_nests = db.relationship('Nest',secondary=salesman_table, backref=db.backref('salesmen',lazy='dynamic'))
+	hens_as_salesman = db.relationship('Nest',secondary=salesman_table, backref=db.backref('salesmen',lazy='dynamic'))
+	
 	def __repr__(self):
 
 		 return f'<User-{self.id}: gid {self.gid}  last_seen {self.last_seen} confirmed {self.confirmed}>'

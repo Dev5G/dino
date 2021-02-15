@@ -4,7 +4,6 @@ from .... import db
 class Sales(Base):
 	__tablename__	= 'tbl_sales'
 
-	voucherType_id = db.Column(db.Integer, db.ForeignKey('tbl_voucherType.id'), nullable=False)
 	customer_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
 	salesman_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
 	cash_account_id = db.Column(db.Integer, db.ForeignKey('tbl_account_cash.id'), nullable=False)
@@ -12,19 +11,19 @@ class Sales(Base):
 	hen_id = db.Column(db.Integer, db.ForeignKey('tbl_hens.id'), nullable=False)
 	description = db.Column(db.String(120))#add an automated desc to keep track of to whom the gold was sold , record the tags, name and gid
 	total_amount = db.Column(db.Float(precision=3))
-	grand_amount = db.Column(db.Float(precision=3))
+	net_amount = db.Column(db.Float(precision=3))
 	discount_amount = db.Column(db.Float(precision=3))
 	balance_amount = db.Column(db.Float(precision=3))
 	user_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
-
+	
 	sale_details = db.relationship('SalesDetails', backref='sale',cascade='all, delete',passive_deletes=True)
 
 	def __init__(self, **kwargs):
 		super(Sales, self).__init__(**kwargs)
-		voucherType = VoucherType.find_active_by_name('Sales Invoice')
-		_i	= generate_invoice_no(prefix=voucherType.prefix,num=Sales.get_max_invoice_without_store() )
-		self.invoiceNo = _i
-		self.voucherType_id = voucherType.id
+		#voucherType = VoucherType.find_active_by_name('Sales Invoice')
+		#_i	= generate_invoice_no(prefix=voucherType.prefix,num=Sales.get_max_invoice_without_store() )
+		#self.invoiceNo = _i
+		#self.voucherType_id = voucherType.id
 		
 
 	##Not complete
@@ -143,9 +142,10 @@ class SalesDetails(Base):
 
 	product_id = db.Column(db.Integer, db.ForeignKey('tbl_products.id'), nullable=False)
 	sale_id = db.Column(db.Integer, db.ForeignKey('tbl_sales.id'), nullable=False)
-	gross_amount = db.Column(db.Float(precision=3)) #actual price  (calculated on the total weight after applying waste in percentage)
+	total_amount = db.Column(db.Float(precision=3)) #actual price  (calculated on the total weight after applying waste in percentage)
 	net_amount = db.Column(db.Float(precision=3)) #net price after discount
-	
+	waste_in_gram = db.Column(db.Float(precision=3))
+
 	product = db.relationship('Product',  backref=db.backref('sale_detail',uselist=False),uselist=False)
 
 	#--------------Save method-----------------@

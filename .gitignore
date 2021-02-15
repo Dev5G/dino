@@ -10,6 +10,8 @@ node_modules/
 /coverage
 # redactor
 /.idea
+/.vs
+.vs/
 elementsMenu.js
 # assets
 #/public/media

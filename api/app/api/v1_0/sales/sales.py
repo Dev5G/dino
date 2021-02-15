@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from ....errors import  no_json_error, missing_param_error, response_error
 from . import sales_api	
+from .provider import Provider
 from flask import request, jsonify
 #from .provider import Provider
 
@@ -56,6 +57,31 @@ class Create_sale(MethodView):
 			return no_json_error(), 400
 		#add validations 
 		gid = get_jwt_identity()
+		jsn = request.json
+		customer_id = jsn.get('customer_id', None)
+		salesman_id = jsn.get('salesman_id',None)
+		cash_account_id = jsn.get('cash_account_id',None)
+		care_of_id = jsn.get('care_of_id',None)
+		hen_id = jsn.get('hen_id',None)
+		description = jsn.get('description',None)
+		total_amount = jsn.get('total_amount',None)
+		net_amount = jsn.get('net_amount',None)
+		discount_amount = jsn.get('discount_amount',None)
+		balance_amount = jsn.get('balance_amount',None)
+		products = jsn.get('products',None)
+		if products:
+				status, sale = Provider.add_sale(gid=gid,customer_id=customer_id,
+							   salesman_id=salesman_id,
+							   cash_account_id=cash_account_id,
+							   care_of_id=care_of_id,
+							   hen_id=hen_id,
+							   description=description,
+							   total_amount=total_amount,
+							   net_amount=net_amount,
+							   discount_amount=discount_amount,
+							   balance_amount=balance_amount,
+							   products=products
+							   )
 		status,p = None, None#Provider.save_product(gid=gid,**request.json)
 		try:
 			from ..categories.provider import Provider as Category

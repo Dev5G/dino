@@ -98,6 +98,7 @@ class Provider():
 							   net_amount=net_amount,
 							   discount_amount=discount_amount,
 							   balance_amount=balance_amount,
+							   waste_in_gram=waste_in_gram,
 							   products=products) -> Sales:
 		status,u = User.find_by_gid(gid)
 		if status:
@@ -112,10 +113,17 @@ class Provider():
 							   total_amount=total_amount,
 							   net_amount=net_amount,
 							   discount_amount=discount_amount,
-							   balance_amount=balance_amount,)
+							   balance_amount=balance_amount)
 				s.user_id=u.id
-				p.save_to_db()
-				return True,p
+				if s.save_to_db():
+					for p in products:
+						sd = SalesDetails(product_id=p['id'],
+											sale_id=s.id,
+											total_amount=total_amount,
+											net_amount=net_amount,
+											waste_in_gram=waste_in_gram)
+						#check if is order and or is split
+				return True,s
 			except Exception as e:
 				print(str(e))
 				return False, str(e)

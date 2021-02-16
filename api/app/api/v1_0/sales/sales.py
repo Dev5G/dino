@@ -66,9 +66,11 @@ class Create_sale(MethodView):
 		description = jsn.get('description',None)
 		total_amount = jsn.get('total_amount',None)
 		net_amount = jsn.get('net_amount',None)
+		waste_in_gram = jsn.get('waste_in_gram',None)
 		discount_amount = jsn.get('discount_amount',None)
 		balance_amount = jsn.get('balance_amount',None)
 		products = jsn.get('products',None)
+		status, sale = None, None
 		if products:
 				status, sale = Provider.add_sale(gid=gid,customer_id=customer_id,
 							   salesman_id=salesman_id,
@@ -80,9 +82,10 @@ class Create_sale(MethodView):
 							   net_amount=net_amount,
 							   discount_amount=discount_amount,
 							   balance_amount=balance_amount,
+							   waste_in_gram=waste_in_gram,
 							   products=products
 							   )
-		status,p = None, None#Provider.save_product(gid=gid,**request.json)
+		#status,p = None, None#Provider.save_product(gid=gid,**request.json)
 		try:
 			from ..categories.provider import Provider as Category
 		except Exception as e:

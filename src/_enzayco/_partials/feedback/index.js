@@ -1,1 +1,0 @@
-export {CustomizedSnackbars as Snackbar} from './snackbar/Snackbar.jsx'

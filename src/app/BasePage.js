@@ -11,6 +11,7 @@ import { fetchCounters } from "./modules/Manage/_redux/counters/countersActions"
 import { fetchCategories } from "./modules/Manage/_redux/categories/categoriesActions";
 import { fetchCustomers } from "./modules/Manage/_redux/customers/customersActions";
 import { fetchSalesmen } from "./modules/Manage/_redux/salesmen/customersActions";
+import InvoiceBasic from "./modules/Invoices/invoiceBasic";
 const GoogleMaterialPage = lazy(() =>
   import("./modules/GoogleMaterialExamples/GoogleMaterialPage")
 );
@@ -46,7 +47,7 @@ export default function BasePage() {
                     <Redirect exact from="/" to="/dashboard"/>
                 }
 
-                <ContentRoute path="/test" component={QrWithInfo} />
+                <ContentRoute path="/invoices/sale/:id" component={InvoiceBasic} />
                 <ContentRoute path="/dashboard" component={DashboardPage}/>
                 <ContentRoute path="/builder" component={BuilderPage}/>
                 <ContentRoute path="/settings" component={SettingsPage}/>

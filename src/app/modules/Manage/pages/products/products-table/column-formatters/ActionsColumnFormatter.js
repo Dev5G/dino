@@ -11,7 +11,7 @@ export const ActionsColumnFormatter = (
   { openEditProductPage, openDeleteProductDialog }
 ) => (
   <>
-  {row.status !== "Deleted" && (
+  {(row.status !== "Deleted" && row.status !== "Sold") && (
     <>
     <OverlayTrigger
       overlay={<Tooltip id="products-edit-tooltip">Edit product</Tooltip>}

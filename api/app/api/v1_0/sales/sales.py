@@ -47,7 +47,7 @@ class Search(MethodView):
 			return jsonify({'product':p.json()}) , 200
 		return jsonify({'product':p.toJson()}) , 200
 
-sales_api.add_url_rule('/search', view_func=Search.as_view('sales_search_api'))
+sales_api.add_url_rule('/search', view_func=Search.as_view('search_sale_api'))
 
 
 class Create_sale(MethodView):
@@ -71,8 +71,9 @@ class Create_sale(MethodView):
 		balance_amount = jsn.get('balance_amount',None)
 		products = jsn.get('products',None)
 		status, sale = None, None
+		print(jsn)
 		if products:
-				status, sale = Provider.add_sale(gid=gid,customer_id=customer_id,
+			status, sale = Provider.add_sale(gid=gid,customer_id=customer_id,
 							   salesman_id=salesman_id,
 							   cash_account_id=cash_account_id,
 							   care_of_id=care_of_id,
@@ -85,17 +86,13 @@ class Create_sale(MethodView):
 							   waste_in_gram=waste_in_gram,
 							   products=products
 							   )
-		#status,p = None, None#Provider.save_product(gid=gid,**request.json)
-		try:
-			from ..categories.provider import Provider as Category
-		except Exception as e:
-			print(str(e))
-		if not status:
-		    return response_error(title='Error accured',msg='There was a problem creating the product'), 400
-		status,c = Category.find_by_id(p.category_id)
-		return jsonify({'product':p.json(),'category': c.json()}), 200
+			if not status:
+				if sale:
+					return response_error(title='Error accured',msg=sale), 400
+				return response_error(title='Error accured',msg='Could not sale products'), 400
+		return jsonify({'sale':sale.json()}), 200
 
-sales_api.add_url_rule('/new', view_func=Create_sale.as_view('create_product_api'))
+sales_api.add_url_rule('/new', view_func=Create_sale.as_view('add_sale_api'))
 
 
 class edit_product(MethodView):
@@ -126,7 +123,7 @@ class edit_product(MethodView):
 		    return response_error(title='Error accured',msg='There was a problem creating the product'), 400
 		return jsonify({'product':p.toJson()}), 200
 
-products_api.add_url_rule('/<id>', view_func=edit_product.as_view('edit_product_api'))
+sales_api.add_url_rule('/<id>', view_func=edit_product.as_view('edit_product_api'))
 
 class product_by_code(MethodView):
 	"""Find product by product code
@@ -151,5 +148,5 @@ class product_by_code(MethodView):
 		    return response_error(title='Error accured',msg='Could not find the product: Error#2588'), 400
 		return jsonify({'product':p.toJson()}), 200
 
-products_api.add_url_rule('/product/by/code/<product_code>', view_func=product_by_code.as_view('product_by_code_api'))
+sales_api.add_url_rule('/product/by/code/<product_code>', view_func=product_by_code.as_view('product_by_code_api'))
 

@@ -359,7 +359,7 @@ export function SaleEditForm({
                                     type="submit"
                                     className="btn btn-primary ml-2"
                                     //style={{ display: "none" }}
-                                    ref={btnRef}
+                                    // ref={btnRef}
                                     onSubmit={() => handleSubmit()}
                                 >Add</button>
                             </Form>

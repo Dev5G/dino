@@ -34,22 +34,6 @@ class Sales(Base):
 	def json(self):
 		return {
 			'id'				:self.id,
-			'invoiceNo'			:self.invoiceNo,
-			'product_code'		:self.product_code,
-			'category'       :self.category.name,
-			'carat'			 :self.carat.value,
-			'supplier'		 :self.supplier.details.firstname + ' ' + self.supplier.details.lastname if (self.supplier and self.supplier.details) else self.supplier.gid,
-			'design_no'      :self.design_no,
-			'size'           :self.size,
-			'metal'			 :self.metal.name,
-			'qty'            :self.qty,
-			'ratti_method'	 :self.ratti_method.name,
-			'weight'         :self.weight,
-			'waste'          :self.waste,
-			'ratti'          :self.ratti,
-			'desc'			 :self.description,
-			'store'			 :self.store.name,
-			'operator'		 :self.user.details.firstname + ' ' + self.user.details.lastname if (self.user and self.user.details) else self.user.gid,
 			}
 
 	#--------------Save method-----------------@

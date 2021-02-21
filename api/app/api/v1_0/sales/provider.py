@@ -88,18 +88,18 @@ class Provider():
 		return status,{'entities':p, 'totalCount': totalCount}
 
 	@staticmethod
-	def add_sale(gid=gid,customer_id=customer_id,
-							   salesman_id=salesman_id,
-							   cash_account_id=cash_account_id,
-							   care_of_id=care_of_id,
-							   hen_id=hen_id,
-							   description=description,
-							   total_amount=total_amount,
-							   net_amount=net_amount,
-							   discount_amount=discount_amount,
-							   balance_amount=balance_amount,
-							   waste_in_gram=waste_in_gram,
-							   products=products) -> Sales:
+	def add_sale(gid,customer_id,
+							   salesman_id,
+							   cash_account_id,
+							   care_of_id,
+							   hen_id,
+							   description,
+							   total_amount,
+							   net_amount,
+							   discount_amount,
+							   balance_amount,
+							   waste_in_gram,
+							   products):
 		status,u = User.find_by_gid(gid)
 		if status:
 			try:
@@ -115,14 +115,17 @@ class Provider():
 							   discount_amount=discount_amount,
 							   balance_amount=balance_amount)
 				s.user_id=u.id
-				if s.save_to_db():
+				if s.add_to_session():
 					for p in products:
 						sd = SalesDetails(product_id=p['id'],
 											sale_id=s.id,
 											total_amount=total_amount,
 											net_amount=net_amount,
 											waste_in_gram=waste_in_gram)
-						#check if is order and or is split
+						#check if is order and or is split and add split and order
+						#add balance
+						sd.add_to_session()
+					s.commit_session()
 				return True,s
 			except Exception as e:
 				print(str(e))
@@ -130,7 +133,7 @@ class Provider():
 		return False, None
 
 	@staticmethod
-	def update_product(gid,id,**kwargs) -> Product:
+	def update_product(gid,id,**kwargs) :
 		status,u = User.find_by_gid(gid)
 		if status:
 			status,p = Provider.find_product(u.gid,id)

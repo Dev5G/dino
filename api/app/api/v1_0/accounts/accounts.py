@@ -8,6 +8,7 @@ from .models import (AccountCash, AccountGold,
 							)
 
 class Accounts:
+	
 	@staticmethod
 	def create_cash_and_gold(cash_title:str='Cash Account',
 						  gold_title:str='Gold Account',

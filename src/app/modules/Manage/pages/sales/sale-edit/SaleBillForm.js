@@ -21,9 +21,9 @@ const ProductEditSchema = Yup.object().shape({
         .min(1, "Supplier is required")
         .required("Supplier is required"),
     //net_amount: Yup.number()
-     //   .required("net amount is required"),
+    //   .required("net amount is required"),
     //total_amount: Yup.number()
-     //   .required("Total amount is required"),
+    //   .required("Total amount is required"),
 });
 
 export function SaleBillForm({
@@ -43,7 +43,7 @@ export function SaleBillForm({
         productForSale,
         goldrateToday,
     } = useSelector(
-        ({ store, salesmen,counters, customers, sales, goldrates }) => ({
+        ({ store, salesmen, counters, customers, sales, goldrates }) => ({
             categories: store.categories,
             productForSale: sales.productForSale,
             salesmen: salesmen.entities,
@@ -112,10 +112,13 @@ export function SaleBillForm({
                             //TODO: change product code to id
                             products: productDetails,
                             net_amount: netAmount,
-                            total: totalAmount
+                            total: totalAmount,
+                            customer_id: values.customer_id,
+                            care_of_id: values.care_of_id,
+                            salesman_id: values.salesman_id,
+                            hen_id: values.counter_id
                         }
-                        
-                        //saveSale(values);
+                        saveSale(details);
                         //resetSaleInit()
                         console.log('details', details, 'values', values)
                         //setProductDetails(details)
@@ -125,12 +128,12 @@ export function SaleBillForm({
                     }}
                 >
 
-                    {({ handleSubmit,setFieldValue }) => (
+                    {({ handleSubmit, setFieldValue }) => (
                         <>
                             <Form className="form form-label-right">
                                 <div className="form-group row">
                                     <div className="col-lg-4">
-                                        <Select name="customer_id"  label="Customer">
+                                        <Select name="customer_id" label="Customer">
                                             <option key="0" value="0">
                                                 Please Select
 										</option>
@@ -142,7 +145,7 @@ export function SaleBillForm({
                                         </Select>
                                     </div>
                                     <div className="col-lg-4">
-                                        <Select name="care_of_id"  label="Care of">
+                                        <Select name="care_of_id" label="Care of">
                                             <option key="0" value="0">
                                                 Please Select
 										</option>
@@ -151,7 +154,7 @@ export function SaleBillForm({
                                                     {c.fullName}
                                                 </option>
                                             ))}
-                                            </Select>
+                                        </Select>
                                     </div>
                                     <div className="col-lg-4">
                                         <Select name="salesman_id" label="Salesman">
@@ -168,7 +171,7 @@ export function SaleBillForm({
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-lg-4">
-                                    <Select name="counter_id" label="Counter">
+                                        <Select name="counter_id" onChange={} label="Counter">
                                             <option key="0" value="0">
                                                 Please Select
 										</option>
@@ -178,7 +181,20 @@ export function SaleBillForm({
                                                 </option>
                                             ))}
                                         </Select>
-                                    </div> </div>
+                                    </div>
+                                    <div className="col-lg-4">
+                                        <Select name="cash_account_id" label="Cash Account">
+                                            <option key="0" value="0">
+                                                Please Select
+										</option>
+                                            {counters && counters.map(s => (
+                                                <option key={s.id} value={s.id}>
+                                                    {s.name}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    </div>
+                                </div>
 
                                 <div className="form-group row">
                                     <div className="col-lg-4">
@@ -189,7 +205,7 @@ export function SaleBillForm({
                                             readOnly
                                             placeholder="Net amount"
                                             label="Net amount"
-                                            onChange={(e)=>setNetAmount(v => e.target.value)}
+                                            onChange={(e) => setNetAmount(v => e.target.value)}
                                             withFeedbackLabel={false}
                                         />
                                     </div>
@@ -200,9 +216,9 @@ export function SaleBillForm({
                                             component={Input}
                                             placeholder="Total amount"
                                             label="Total amount"
-                                            onChange={(e)=>{
+                                            onChange={(e) => {
                                                 setTotalAmount(v => e.target.value)
-                                                setFieldValue(e.target.name,e.target.value)
+                                                setFieldValue(e.target.name, e.target.value)
                                             }}
                                             withFeedbackLabel={false}
                                         />
@@ -211,7 +227,7 @@ export function SaleBillForm({
                                 <button
                                     type="submit"
                                     className="btn btn-primary ml-2"
-                                   // style={{ display: "none" }}
+                                    // style={{ display: "none" }}
                                     ref={btnRef}
                                     onSubmit={() => handleSubmit()}
                                 >Sale</button>

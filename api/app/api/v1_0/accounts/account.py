@@ -2,7 +2,7 @@ from flask.views import MethodView
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from ....errors import  no_json_error, missing_param_error, response_error
 from . import accounts_api	
-#from .accounts import Provider
+from .accounts import Accounts
 from flask import request, jsonify
 
 
@@ -20,7 +20,7 @@ class Search(MethodView):
 		if not id:
 				return {'msg':'Value paramter "v" is required!'} , 400
 		if by == 'id':
-			status,a = None,None#Provider.find_product(gid,value)
+			status,a = Accounts.fin(gid,value)
 			if not status:
 				return {'msg':'Product not found!'}, 404
 		if by == 'code':

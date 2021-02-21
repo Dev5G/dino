@@ -124,7 +124,10 @@ export function SaleEdit({
 
 	const saveSale = (values) => {
 		if (!id) {
-			dispatch(actions.createSale(values)).then(() => backToSalesList());
+			dispatch(actions.createSale(values)).then(() => {
+				console.log(values)
+				backToSalesList()
+			});
 		} else {
 			dispatch(actions.updateSale(values)).then(() => backToSalesList());
 		}

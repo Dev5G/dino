@@ -2,10 +2,14 @@ import axios from "axios";
 
 const url = '/api/v1.0/sales'
 const url_product = '/api/v1.0/products'
-const PRODUCTS_URL = ''
+const url_accounts = '/api/v1.0/accounts'
 // CREATE =>  POST: add a new sale to the server
 export function createSale(sale) {
-    return axios.post(url.saleUrl,  sale );
+    return axios.post(`${url}/new`,  sale );
+}
+
+export function fetchCashAccountsForHen(id) {
+  return axios.post(`${url_accounts}/search?v=${id}&by=id`);
 }
 
 export function getProductByCode(code) {

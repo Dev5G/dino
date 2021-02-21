@@ -51,6 +51,7 @@ def create_app(config_name:str):
 		from .api.v1_0.customers import customers_api
 		from .api.v1_0.salesmen import salesmen_api
 		from .api.v1_0.products import products_api
+		from .api.v1_0.sales import sales_api
 
 		app.register_blueprint(auth_api, url_prefix='/api/v1.0/auth')
 		app.register_blueprint(nest_api, url_prefix='/api/v1.0/nest')
@@ -62,6 +63,7 @@ def create_app(config_name:str):
 		app.register_blueprint(customers_api, url_prefix='/api/v1.0/customers')
 		app.register_blueprint(salesmen_api, url_prefix='/api/v1.0/salesmen')
 		app.register_blueprint(products_api, url_prefix='/api/v1.0/products')
+		app.register_blueprint(sales_api, url_prefix='/api/v1.0/sales')
 
 	return app
 

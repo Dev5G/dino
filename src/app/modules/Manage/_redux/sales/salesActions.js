@@ -67,6 +67,23 @@ export const fetchSale = id => dispatch => {
         });
 };
 
+export const fetchCashAccounts = id => dispatch => {
+    if (!id) {
+        return dispatch(actions.cashAccountFetched({ cashAccounts: undefined }));
+    }
+
+    dispatch(actions.startCall({ callType: callTypes.action }));
+    return requestFromServer
+        .fetchCashAccountsForHen(id)
+        .then(({cash_accounts}) => {
+            dispatch(actions.saleFetched({ cashAccounts: cash_accounts }));
+        })
+        .catch(error => {
+            error.clientMessage = "Can't find cashAccounts";
+            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        });
+};
+
 export const deleteSale = id => dispatch => {
     dispatch(actions.startCall({ callType: callTypes.action }));
     return requestFromServer

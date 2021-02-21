@@ -40,3 +40,32 @@ class add_hen(MethodView):
 		return jsonify({'counter':p.json()}) , 200
 
 hens_api.add_url_rule('/new', view_func=add_hen.as_view('add_hen_api'))
+
+
+class Search(MethodView):
+	@jwt_required
+	def get(self):
+		args = request.args
+		by = args.get('by',None)
+		joined = args.get('joined',None)
+		limit = args.get('limit',None)
+		value = args.get('v',None)
+		gid  = get_jwt_identity()
+		hen = None
+		if not by:
+			return {'msg':'No search field specified!'} , 400
+		if not id:
+				return {'msg':'Value paramter "v" is required!'} , 400
+		if by == 'id':
+			status,a = Provider.find_by_id(gid,value)
+			if not status:
+				return {'msg':'Product not found!'}, 404
+		if by == 'code':
+			status,a = None,None#Provider.find_product_by_code(gid,value)
+			if not status:
+				return {'msg':'Product not found!'}, 404
+		if joined:
+			return jsonify({'product':p.json()}) , 200
+		return jsonify({'product':p.toJson()}) , 200
+
+hens_api.add_url_rule('/search/accounts', view_func=Search.as_view('search_hen_accounts_api'))

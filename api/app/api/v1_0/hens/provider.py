@@ -5,6 +5,31 @@ from ....utils import  jsonList
 
 class Provider:
 	@staticmethod
+	def find_hen_accounts(gid,value,joined,limit):
+		'''		'''
+		status,u = User.find_by_gid(gid)
+		try:
+			if status:
+				hen  = Hens.find_by_id(value)
+				if not hen.id in u.hens:
+					return False, 'You are vialoating security rules, your account may get banned.'
+				accounts = None
+				if limit == 1:
+					accounts = hen.cash_accounts.first()
+					if joined == 'true':
+						accounts = accounts.json()
+					accounts = accounts.json() #TODO:// change to handle None joined toJSon() method
+				if limit == 'all':
+					accounts = hen.cash_accounts.all()
+					#TODO:// Handle join condition
+					accounts = jsonList(accounts)
+				return True,accounts
+			return False, None
+		except Exception as e:
+			print(str(e))
+			return False, str(e)
+
+	@staticmethod
 	def find_by_id(id):
 		"""return [bool, value]"""
 		return Hens.find_by_id(1)

@@ -274,8 +274,7 @@ class AccountCash(Base, AccountMethods):
 		account = {
 			'title'				: self.title,
 			'openining'			: self.opening_balance,
-			'remaining'			: self.remaining_balance,
-			'default'			: self.default,
+			'remaining'			: self.remaining_balance
 			}
 		return account
 				

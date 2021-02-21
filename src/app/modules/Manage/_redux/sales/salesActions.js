@@ -75,8 +75,9 @@ export const fetchCashAccounts = id => dispatch => {
     dispatch(actions.startCall({ callType: callTypes.action }));
     return requestFromServer
         .fetchCashAccountsForHen(id)
-        .then(({cash_accounts}) => {
-            dispatch(actions.saleFetched({ cashAccounts: cash_accounts }));
+        .then(({data:{accounts}}) => {
+            console.log(accounts)
+            dispatch(actions.cashAccountFetched({ cashAccounts: accounts }));
         })
         .catch(error => {
             error.clientMessage = "Can't find cashAccounts";

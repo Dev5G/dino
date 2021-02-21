@@ -41,11 +41,13 @@ export function SaleBillForm({
         counters,
         customers,
         productForSale,
+        cashAccounts,
         goldrateToday,
     } = useSelector(
         ({ store, salesmen, counters, customers, sales, goldrates }) => ({
             categories: store.categories,
             productForSale: sales.productForSale,
+            cashAccounts: sales.cashAccounts,
             salesmen: salesmen.entities,
             customers: customers.entities,
             counters: counters.entities,
@@ -84,20 +86,10 @@ export function SaleBillForm({
         }
     }, [suppliers, dispatch])
 
-    const HandleWaste = (e) => {
+    const HandleCounterChange = (e) => {
         const value = parseFloat(e.target.value)
-        if (value) {
-            formikRef.current.setFieldValue(e.target.name, value)
-            setWaste(value)
-        } else {
-            formikRef.current.setFieldValue(e.target.name, 0)
-            setWaste(0.0)
-        }
-    }
-    const resetSaleInit = () => {
-        setSaleInit(sale)
-        setIsOrder(false)
-        setIsSplit(false)
+        console.log('Counter value', value)
+        dispatch(actions.fetchCashAccounts(value))
     }
     return (
         <div className="row">
@@ -116,7 +108,8 @@ export function SaleBillForm({
                             customer_id: values.customer_id,
                             care_of_id: values.care_of_id,
                             salesman_id: values.salesman_id,
-                            hen_id: values.counter_id
+                            hen_id: values.counter_id,
+                            cash_account_id:values.cash_account_id
                         }
                         saveSale(details);
                         //resetSaleInit()
@@ -171,7 +164,10 @@ export function SaleBillForm({
                                 </div>
                                 <div className="form-group row">
                                     <div className="col-lg-4">
-                                        <Select name="counter_id" onChange={} label="Counter">
+                                        <Select name="counter_id" onChange={(e) => {
+                                            HandleCounterChange(e)
+                                            setFieldValue(e.target.name, e.target.value)
+                                        }} label="Counter">
                                             <option key="0" value="0">
                                                 Please Select
 										</option>
@@ -187,7 +183,7 @@ export function SaleBillForm({
                                             <option key="0" value="0">
                                                 Please Select
 										</option>
-                                            {counters && counters.map(s => (
+                                            {cashAccounts && cashAccounts.map(s => (
                                                 <option key={s.id} value={s.id}>
                                                     {s.name}
                                                 </option>

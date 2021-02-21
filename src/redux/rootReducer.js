@@ -10,7 +10,7 @@ import { gpsSlice } from "../app/modules/ECommerce/_redux/gps/gpsSlice";
 import { suppliersSlice } from "../app/modules/Manage/_redux/suppliers/suppliersSlice";
 import { goldratesSlice } from "../app/modules/ECommerce/_redux/goldrates/goldratesSlice";
 import { productsSlice } from "../app/modules/Manage/_redux/products/productsSlice";
-import { salesSlice } from "../app/modules/ECommerce/_redux/sales/salesSlice";
+import { salesSlice } from "../app/modules/Manage/_redux/sales/salesSlice";
 import { remarksSlice } from "../app/modules/ECommerce/_redux/remarks/remarksSlice";
 import { specificationsSlice } from "../app/modules/ECommerce/_redux/specifications/specificationsSlice";
 import { authReducer } from "../app/modules/Auth/_redux/reducer";

@@ -9,7 +9,7 @@ const initialSalesState = {
     saleForEdit: undefined,
     productForSale: undefined,
     lastError: null,
-    cashAccounts:null
+    cashAccounts:null,
 };
 export const callTypes = {
     list: "list",
@@ -50,7 +50,7 @@ export const salesSlice = createSlice({
         },
         cashAccountFetched: (state, action) => {
             state.actionsLoading = false;
-            state.saleForEdit = action.payload.cashAccounts;
+            state.cashAccounts = action.payload.cashAccounts;
             state.error = null;
         },
         // findSales

@@ -5,24 +5,29 @@ from ....utils import  jsonList
 
 class Provider:
 	@staticmethod
-	def find_hen_accounts(gid,value,joined,limit):
+	def find_hen_accounts(gid,value,joined,limit,by):
 		'''		'''
 		status,u = User.find_by_gid(gid)
 		try:
 			if status:
-				hen  = Hens.find_by_id(value)
-				if not hen.id in u.hens:
+				status ,hen  = Hens.find_by_id(value)
+				if not status:
+					return False, 'Could not find the specific hen!'
+				if not hen.id in [h.id for h in u.hens]:
+					print('hen id and u.hens',hen.id,u.hens)
 					return False, 'You are vialoating security rules, your account may get banned.'
 				accounts = None
-				if limit == 1:
-					accounts = hen.cash_accounts.first()
-					if joined == 'true':
-						accounts = accounts.json()
-					accounts = accounts.json() #TODO:// change to handle None joined toJSon() method
-				if limit == 'all':
+				if type(limit) == int:
+					accounts = hen.cash_accounts.limit(limit).all()
+				elif limit == 'all' or limit is None:
 					accounts = hen.cash_accounts.all()
 					#TODO:// Handle join condition
+				if joined == 'true' or joined is None:
 					accounts = jsonList(accounts)
+					print('joined',accounts)
+				elif joined == 'false':
+					accounts = jsonList(accounts) #TODO:// change to handle None joined toJSon() method
+				#TODO:// use the "by" parameter to check if it is an id or someother value to search by
 				return True,accounts
 			return False, None
 		except Exception as e:

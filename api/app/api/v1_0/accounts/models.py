@@ -272,9 +272,10 @@ class AccountCash(Base, AccountMethods):
 	#Return a json mapped representation
 	def json(self):
 		account = {
-			'title'				: self.title,
+			'id'					: self.id,
+			'name'				: self.title,
 			'openining'			: self.opening_balance,
-			'remaining'			: self.remaining_balance
+			'remaining'			: self.remaining_balance,
 			}
 		return account
 				

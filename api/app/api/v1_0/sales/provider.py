@@ -115,7 +115,7 @@ class Provider():
 							   discount_amount=discount_amount,
 							   balance_amount=balance_amount)
 				s.user_id=u.id
-				if s.add_to_session():
+				if s.add_to_nest():
 					for p in products:
 						sd = SalesDetails(product_id=p['id'],
 											sale_id=s.id,

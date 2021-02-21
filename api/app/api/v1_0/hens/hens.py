@@ -51,22 +51,19 @@ class search_accounts(MethodView):
 		limit = args.get('limit',None)
 		value = args.get('v',None)
 		gid  = get_jwt_identity()
-		status, hen_account = None,None
+		status, hen_accounts = None,None
 		if not by:
 			return {'msg':'No search field specified!'} , 400
 		if not id:
 				return {'msg':'Value paramter "v" is required!'} , 400
-		if by == 'id':
-			status,hen_account = Provider.find_hen_accounts(gid=gid
-														,value=value,joined=joined,limit=limit)
-			if not status:
-				return {'msg':'Accounts not found!'}, 404
-		if by == 'code':
-			status,a = None,None#Provider.find_product_by_code(gid,value)
-			if not status:
-				return {'msg':'Product not found!'}, 404
-		if joined:
-			return jsonify({'product':p.json()}) , 200
-		return jsonify({'product':p.toJson()}) , 200
+		status,hen_accounts = Provider.find_hen_accounts(gid=gid
+														,value=value,joined=joined,limit=limit,by=by)
+		print('Accounts',hen_accounts)
+		if not status:
+			if hen_accounts:
+				return {'msg':hen_accounts} , 400
+			return {'msg':'Accounts not found!'}, 404
+		print('acount found', hen_accounts)
+		return jsonify({'accounts':hen_accounts}) , 200
 
 hens_api.add_url_rule('/search/accounts', view_func=search_accounts.as_view('search_hen_accounts_api'))

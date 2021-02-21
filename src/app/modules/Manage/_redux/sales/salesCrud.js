@@ -2,14 +2,14 @@ import axios from "axios";
 
 const url = '/api/v1.0/sales'
 const url_product = '/api/v1.0/products'
-const url_accounts = '/api/v1.0/accounts'
+const url_hens = '/api/v1.0/hens'
 // CREATE =>  POST: add a new sale to the server
 export function createSale(sale) {
     return axios.post(`${url}/new`,  sale );
 }
 
 export function fetchCashAccountsForHen(id) {
-  return axios.post(`${url_accounts}/search?v=${id}&by=id`);
+  return axios.get(`${url_hens}/search/accounts?v=${id}&by=id`);
 }
 
 export function getProductByCode(code) {
@@ -17,7 +17,7 @@ export function getProductByCode(code) {
 }
 // READ
 export function getAllSales() {
-  return axios.get(PRODUCTS_URL);
+  return axios.get(url);
 }
 
 export function getSaleById(saleId) {
@@ -37,7 +37,7 @@ export function updateSale(sale) {
 
 // UPDATE Status
 export function updateStatusForSales(ids, status) {
-  return axios.post(`${PRODUCTS_URL}/updateStatusForSales`, {
+  return axios.post(`${url}/updateStatusForSales`, {
     ids,
     status
   });
@@ -45,10 +45,10 @@ export function updateStatusForSales(ids, status) {
 
 // DELETE => delete the sale from the server
 export function deleteSale(saleId) {
-  return axios.delete(`${PRODUCTS_URL}/${saleId}`);
+  return axios.delete(`${url}/${saleId}`);
 }
 
 // DELETE Sales by ids
 export function deleteSales(ids) {
-  return axios.post(`${PRODUCTS_URL}/deleteSales`, { ids });
+  return axios.post(`${url}/deleteSales`, { ids });
 }

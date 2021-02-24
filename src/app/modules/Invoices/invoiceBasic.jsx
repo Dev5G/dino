@@ -6,15 +6,18 @@ import { fetchSaleInvoice } from '../Manage/_redux/sales/salesActions';
 
 const InvoiceBasic = ({ match: { params: { id } } }) => {
 
-	
+	const { store, saleInvoice } = useSelector(({ store, sales }) => ({
+		saleInvoice: sales.saleInvoice,
+		store
+	}), shallowEqual
+	)
 	const componentRef = useRef()
 	const dispatch = useDispatch()
-	useEffect(()=>{
+	useEffect(() => {
 		dispatch(fetchSaleInvoice(id))
-	},[id])
-	const store = { name: 'Mughals' }
+	}, [id])
 	return (
-		<>
+		<>	{saleInvoice && (
 			<div className="container" id="printTable">
 				<div>
 					<div className="card" ref={componentRef}>
@@ -53,10 +56,10 @@ const InvoiceBasic = ({ match: { params: { id } } }) => {
 							<div className="row invoive-info">
 								<div className="col-md-4 col-xs-12 invoice-client-info">
 									<h6>Client Information :</h6>
-									<h6 className="m-0">Josephin Villa</h6>
-									<p className="m-0 m-t-10">1065 Mandan Road, Columbia MO, Missouri. (123)-65202</p>
-									<p className="m-0">(1234) - 567891</p>
-									<p><a className="text-secondary" href="mailto:demo@gmail.com" target="_top">demo@gmail.com</a></p>
+									<h6 className="m-0">{saleInvoice.customer.fullName}</h6>
+									<p className="m-0 m-t-10">{saleInvoice.customer.address}</p>
+									<p className="m-0">{saleInvoice.customer.phone}</p>
+									{/* <p><a className="text-secondary" href="mailto:demo@gmail.com" target="_top">demo@gmail.com</a></p> */}
 								</div>
 								<div className="col-md-4 col-sm-6">
 									<h6>Order Information :</h6>
@@ -95,12 +98,28 @@ const InvoiceBasic = ({ match: { params: { id } } }) => {
 											<thead>
 												<tr className="thead-default">
 													<th>Description</th>
-													<th>Quantity</th>
+													<th>Image</th>
+													<th>Waste</th>
+													<th>Weight</th>
 													<th>Amount</th>
-													<th>Total</th>
 												</tr>
 											</thead>
 											<tbody>
+												{saleInvoice.details && (
+													saleInvoice.details.map((d) => (
+														<tr>
+															<td>
+																<h6>{d.product.code}</h6>
+																{/* <p className="m-0">lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt </p> */}
+															</td>
+															<td><img src={d.product.url} style={{height:"90px"}}/></td>
+															<td>{d.product.waste_in_gm}</td>
+															<td>{d.product.weight}</td>
+															<td>{d.product.price}</td>
+														</tr>
+												))
+												)}
+
 												<tr>
 													<td>
 														<h6>Logo Design</h6>
@@ -139,7 +158,7 @@ const InvoiceBasic = ({ match: { params: { id } } }) => {
 										<tbody>
 											<tr>
 												<th>Sub Total :</th>
-												<td>$4725.00</td>
+												<td>{saleInvoice.total_amount}</td>
 											</tr>
 											<tr>
 												<th>Taxes (10%) :</th>
@@ -177,13 +196,14 @@ const InvoiceBasic = ({ match: { params: { id } } }) => {
 						<div className="col-sm-12 invoice-btn-group text-center">
 							<ReactToPrint
 								trigger={() => <button type="button" className="btn btn-primary btn-print-invoice m-b-10">Print</button>}
-								content={() => componentRef.current	}
+								content={() => componentRef.current}
 							/>
 							<button type="button" className="btn waves-effect waves-light btn-secondary m-b-10 ">Cancel</button>
 						</div>
 					</div>
 				</div>
 			</div>
+		)}
 		</>
 	);
 }

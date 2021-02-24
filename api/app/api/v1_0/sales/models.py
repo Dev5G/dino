@@ -37,7 +37,8 @@ class Sales(Base):
 		s= {
 			'id'				:self.id,
 			'customer'		:{'fullName': self.customer.details.full_name,'gid':self.customer.gid,
-									'address':self.customer.details.address} if self.customer else None,
+									'address':self.customer.details.address,
+									'phone' : self.customer.phones.filter_by(primary=True).first() if self.customer.phones.first() else None} if self.customer else None,
 			'total_amount'	:self.total_amount,
 			}
 		if self.sale_details:
@@ -138,10 +139,12 @@ class SalesDetails(Base):
 
 	def json(self):
 		sd = {
-			'product': {'id':self.product.id,'code':self.product.product_code,
-								'url':'https://some.com'} if self.product else None,
+			'product': {'id':self.product.id,
+								'code':self.product.product_code,
+								'weight':self.product.weight,
+								'url':'/media/products/1.png'} if self.product else None,
 			'sale_id': self.sale_id,
-			'product_price': self.total_amount,
+			'price': self.total_amount,
 			'waste_in_gm' : self.waste_in_gram,
 		}
 		return sd

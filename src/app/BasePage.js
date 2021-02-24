@@ -4,7 +4,6 @@ import {LayoutSplashScreen, ContentRoute} from "../_metronic/layout";
 import {BuilderPage} from "./pages/BuilderPage";
 import { SettingsPage } from "./pages/SettingsPage";
 import DashboardPage from "./pages/DashboardPage";
-import { QrWithInfo } from "./modules/qrcode";
 import { useDispatch } from "react-redux";
 import { fetchSuppliers } from "./modules/Manage/_redux/suppliers/actions";
 import { fetchCounters } from "./modules/Manage/_redux/counters/countersActions";
@@ -12,6 +11,7 @@ import { fetchCategories } from "./modules/Manage/_redux/categories/categoriesAc
 import { fetchCustomers } from "./modules/Manage/_redux/customers/customersActions";
 import { fetchSalesmen } from "./modules/Manage/_redux/salesmen/customersActions";
 import InvoiceBasic from "./modules/Invoices/invoiceBasic";
+import LabelPrinter from "./modules/qrcode/lablePrinter";
 const GoogleMaterialPage = lazy(() =>
   import("./modules/GoogleMaterialExamples/GoogleMaterialPage")
 );
@@ -49,6 +49,7 @@ export default function BasePage() {
 
                 <ContentRoute path="/invoices/sale/:id" component={InvoiceBasic} />
                 <ContentRoute path="/dashboard" component={DashboardPage}/>
+                
                 <ContentRoute path="/builder" component={BuilderPage}/>
                 <ContentRoute path="/settings" component={SettingsPage}/>
                 <Route path="/google-material" component={GoogleMaterialPage}/>

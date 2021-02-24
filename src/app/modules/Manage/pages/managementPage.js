@@ -13,6 +13,7 @@ import { SaleEdit } from "./sales/sale-edit/SaleEdit";
 import { CustomersPage } from "./customers/CustomersPage";
 import { GoldPurchasesPage } from "./goldpurchases/GoldPurchasesPage";
 import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
+import LabelPrinter from "../../qrcode/lablePrinter";
 
 export default function managementPage() {
 	return (
@@ -45,6 +46,7 @@ export default function managementPage() {
 				<ContentRoute path="/manage/e/counters" component={CountersPage} />
 				<ContentRoute path="/manage/e/categories" component={CategoriesPage} />
 				<ContentRoute path="/manage/e/customers" component={CustomersPage} />
+				<ContentRoute path="/manage/i/labels" component={LabelPrinter} />
 				<ContentRoute path="/manage/e/salesmen" component={SalesmenPage} />
 				<ContentRoute path="/manage/g/gold-purchase" component={GoldPurchasesPage} />
 				<ContentRoute path="/manage/e/suppliers/new" component={SupplierEdit} />

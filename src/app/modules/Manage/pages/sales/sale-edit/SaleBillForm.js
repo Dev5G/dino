@@ -57,7 +57,7 @@ export function SaleBillForm({
     const [netAmount, setNetAmount] = useState(0.0)
     const [totalAmount, setTotalAmount] = useState(0.0)
     const [saleInit, setSaleInit] = useState(sale)
-    const [waste, setWaste] = useState(0.0)
+    const [printInvoice, setPrintInvoice] = useState(true)
     const [isSplit, setIsSplit] = useState(false)
     const [isOrder, setIsOrder] = useState(false)
     //Refs
@@ -112,6 +112,9 @@ export function SaleBillForm({
                             cash_account_id:values.cash_account_id
                         }
                         saveSale(details);
+                        if(printInvoice){
+                            console.log('Printing invoice')
+                        }
                         //resetSaleInit()
                         console.log('details', details, 'values', values)
                         //setProductDetails(details)
@@ -217,6 +220,17 @@ export function SaleBillForm({
                                                 setFieldValue(e.target.name, e.target.value)
                                             }}
                                             withFeedbackLabel={false}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="form-group row">
+                                    <div className="col-lg-4">
+                                    <Checkbox
+                                            name="print_invoice"
+                                            value={printInvoice}
+                                            checked={printInvoice}
+                                            onChange={() => setPrintInvoice(o => !o)}
+                                            label="Print invoice after sale?  "
                                         />
                                     </div>
                                 </div>

@@ -48,6 +48,25 @@ export const fetchProductForSale = ({ product_code }) => dispatch => {
         });
 };
 
+
+export const fetchSaleInvoice = id => dispatch => {
+    if (!id) {
+        return dispatch(actions.saleFetched({ saleInvoice: undefined }));
+    }
+
+    dispatch(actions.startCall({ callType: callTypes.action }));
+    return requestFromServer
+        .fetchSaleInvoice(id)
+        .then(response => {
+            const { saleInvoice } = response.data;
+            dispatch(actions.saleInvoiceFetched({ saleInvoice}));
+        })
+        .catch(error => {
+            error.clientMessage = "Can't find sale";
+            dispatch(actions.catchError({ error, callType: callTypes.action }));
+        });
+};
+
 export const fetchSale = id => dispatch => {
     if (!id) {
         return dispatch(actions.saleFetched({ saleForEdit: undefined }));

@@ -1,5 +1,6 @@
 from flask.views import MethodView
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy.sql.expression import join
 from ....errors import  no_json_error, missing_param_error, response_error
 from . import sales_api	
 from .provider import Provider
@@ -30,22 +31,15 @@ class Search(MethodView):
 		joined = args.get('joined',None)
 		value = args.get('v',None)
 		gid  = get_jwt_identity()
-		p = None
 		if not by:
 			return {'msg':'No search field specified!'} , 400
 		if not id:
 				return {'msg':'Value paramter "v" is required!'} , 400
-		if by == 'id':
-			status,p = None,None#Provider.find_product(gid,value)
-			if not status:
-				return {'msg':'Product not found!'}, 404
-		if by == 'code':
-			status,p = None,None#Provider.find_product_by_code(gid,value)
-			if not status:
-				return {'msg':'Product not found!'}, 404
-		if joined:
-			return jsonify({'product':p.json()}) , 200
-		return jsonify({'product':p.toJson()}) , 200
+		status, s = Provider.search_sale(by=by,joined=joined,v=value,gid=gid)
+		if not status:
+			print('sstatus', status, s)
+			return {'msg': 'Sale not found!'}, 404
+		return jsonify({'saleInvoice':s}) , 200
 
 sales_api.add_url_rule('/search', view_func=Search.as_view('search_sale_api'))
 

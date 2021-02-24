@@ -1,3 +1,4 @@
+from sqlalchemy.orm import backref
 from ....models import Base
 from .... import db
 
@@ -17,6 +18,7 @@ class Sales(Base):
 	user_id = db.Column(db.Integer, db.ForeignKey('tbl_users.id'), nullable=False)
 	
 	sale_details = db.relationship('SalesDetails', backref='sale',cascade='all, delete',passive_deletes=True)
+	customer = db.relationship('User',backref='sale',foreign_keys=[customer_id])
 
 	def __init__(self, **kwargs):
 		super(Sales, self).__init__(**kwargs)
@@ -32,9 +34,16 @@ class Sales(Base):
 	#				Supplier {self.supplier.username} >'
 
 	def json(self):
-		return {
+		s= {
 			'id'				:self.id,
+			'customer'		:{'fullName': self.customer.details.full_name,'gid':self.customer.gid,
+									'address':self.customer.details.address} if self.customer else None,
+			'total_amount'	:self.total_amount,
 			}
+		if self.sale_details:
+			sd = [sd.json() for sd in self.sale_details]
+			s.update({'details':sd})
+		return s
 
 	#--------------Save method-----------------@
 	def save_to_db(self):
@@ -81,12 +90,7 @@ class Sales(Base):
 		except Exception as e:
 			return None
 
-	@classmethod
-	def find_by_id(cls, _id):
-		try:
-			return cls.query.filter_by(id=_id).first()
-		except Exception as e:
-			return None
+
 
 	@classmethod
 	def generate_code(cls,store_id):
@@ -132,6 +136,15 @@ class SalesDetails(Base):
 
 	product = db.relationship('Product',  backref=db.backref('sale_detail',uselist=False),uselist=False)
 
+	def json(self):
+		sd = {
+			'product': {'id':self.product.id,'code':self.product.product_code,
+								'url':'https://some.com'} if self.product else None,
+			'sale_id': self.sale_id,
+			'product_price': self.total_amount,
+			'waste_in_gm' : self.waste_in_gram,
+		}
+		return sd
 	#--------------Save method-----------------@
 	def save_to_db(self):
 		try:

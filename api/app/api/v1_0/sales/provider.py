@@ -10,7 +10,21 @@ class Provider():
 
 	@staticmethod
 	def commit():
-		return Sales.commit_session()
+		return Sales.commit_session()	
+
+	@staticmethod
+	def search_sale(by,joined,v,gid ):
+		'''Find sale'''
+		status, u = User.find_by_gid(gid)
+		if status:
+			if by:
+				status , s = None, None
+				if by == 'id':
+					status, s=Sales.find_by_id(v)
+				if joined == 'true' and status:
+					s = s.json()
+				return status,s
+		return False, None
 
 	@staticmethod
 	def find_product_by_code(gid, code):

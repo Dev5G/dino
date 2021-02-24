@@ -12,6 +12,11 @@ export function fetchCashAccountsForHen(id) {
   return axios.get(`${url_hens}/search/accounts?v=${id}&by=id`);
 }
 
+
+export function fetchSaleInvoice(id) {
+	return axios.get(`${url}/search?v=${id}&by=id&joined=true`);
+ }
+
 export function getProductByCode(code) {
     return axios.get(`${url_product}/search?v=${code}&by=code`);
 }
